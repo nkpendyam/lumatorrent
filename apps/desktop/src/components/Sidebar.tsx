@@ -12,18 +12,26 @@ const navItems: Array<{ view: AppView; label: string; icon: ReactNode }> = [
 
 export function Sidebar({
   activeView,
+  collapsed = false,
   onViewChange,
 }: {
   activeView: AppView;
+  collapsed?: boolean;
   onViewChange: (view: AppView) => void;
 }) {
   return (
-    <aside className="flex w-64 shrink-0 flex-col border-r border-[var(--lt-border-subtle)] bg-[var(--lt-surface-overlay)] p-4 backdrop-blur-xl">
+    <aside
+      className={`flex shrink-0 flex-col border-r border-[var(--lt-border-subtle)] bg-[var(--lt-surface-overlay)] p-3 backdrop-blur-xl transition-[width] duration-[var(--lt-duration-normal)] ease-[var(--lt-ease-standard)] sm:p-4 ${
+        collapsed ? "w-[76px]" : "w-64 max-[860px]:w-[76px]"
+      }`}
+      aria-label="App navigation"
+      data-collapsed={collapsed ? "true" : "false"}
+    >
       <div className="mb-8 flex items-center gap-3">
         <div className="grid h-10 w-10 place-items-center rounded-[var(--lt-radius-lg)] bg-[var(--lt-accent-soft)] text-[var(--lt-accent-strong)] shadow-[var(--lt-shadow-soft)]">
           <Sparkles size={20} aria-hidden />
         </div>
-        <div>
+        <div className={`${collapsed ? "hidden" : "block max-[860px]:hidden"}`}>
           <div className="text-lg font-semibold tracking-tight text-[var(--lt-text-primary)]">
             LumaTorrent
           </div>
@@ -48,15 +56,20 @@ export function Sidebar({
                   ? "bg-[var(--lt-surface-muted)] text-[var(--lt-text-primary)]"
                   : "text-[var(--lt-text-secondary)] hover:bg-[var(--lt-surface-muted)] hover:text-[var(--lt-text-primary)]"
               }`}
+              title={collapsed ? item.label : undefined}
             >
               {item.icon}
-              <span>{item.label}</span>
+              <span className={`${collapsed ? "hidden" : "block max-[860px]:hidden"}`}>
+                {item.label}
+              </span>
             </button>
           );
         })}
       </nav>
 
-      <Card className="mt-auto p-4 text-sm text-[var(--lt-text-secondary)]">
+      <Card
+        className={`mt-auto p-4 text-sm text-[var(--lt-text-secondary)] ${collapsed ? "hidden" : "block max-[860px]:hidden"}`}
+      >
         <div className="font-medium text-[var(--lt-text-primary)]">Smart Mode is on</div>
         <p className="mt-1 text-xs leading-5 text-[var(--lt-text-tertiary)]">
           Luma explains slow downloads and suggests safe fixes instead of hiding protocol details.

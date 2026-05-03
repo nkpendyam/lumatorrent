@@ -8,6 +8,7 @@ import { AddTorrentModal } from "../features/add-torrent/AddTorrentModal";
 import { DownloadDoctorPanel } from "../features/diagnostics/DownloadDoctorPanel";
 import { createMockTorrent, tickTorrent } from "../features/downloads/mockEngine";
 import { useReducedMotion } from "../hooks/useReducedMotion";
+import { useTheme } from "../hooks/useTheme";
 import { CommandPalette } from "../components/CommandPalette";
 import { EmptyState } from "../components/EmptyState";
 import { MetricCard } from "../components/MetricCard";
@@ -17,6 +18,8 @@ import { selectTorrent, type AppUiState } from "./productState";
 import { SettingsPage } from "../features/settings/SettingsPage";
 import { SafetyPage } from "../features/safety/SafetyPage";
 import { DiagnosticsPage } from "../features/diagnostics/DiagnosticsPage";
+import { getDownloadListMotion } from "./motion";
+import { getNextThemeMode } from "./theme";
 
 export function App() {
   const [torrents, setTorrents] = useState<TorrentSummary[]>([
@@ -32,8 +35,10 @@ export function App() {
   });
   const [isAdding, setAdding] = useState(false);
   const [commandOpen, setCommandOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [selectedDiagnostic, setSelectedDiagnostic] = useState<SpeedDiagnostic | null>(null);
   const reducedMotion = useReducedMotion();
+  const { mode: themeMode, resolvedTheme, setMode: setThemeMode } = useTheme();
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -55,12 +60,15 @@ export function App() {
     () => selectTorrent(torrents, ui.selectedTorrentId),
     [torrents, ui.selectedTorrentId],
   );
+  const downloadListMotion = useMemo(() => getDownloadListMotion(reducedMotion), [reducedMotion]);
   const activeCount = torrents.filter((t) => t.status === "downloading").length;
   const totalSpeed = torrents.reduce((sum, torrent) => sum + torrent.downloadSpeedBytes, 0);
 
   return (
     <AppShell
       activeView={ui.view}
+      resolvedTheme={resolvedTheme}
+      sidebarCollapsed={sidebarCollapsed}
       onViewChange={(view) => setUi((current) => ({ ...current, view }))}
     >
       {ui.view === "downloads" ? (
@@ -69,21 +77,25 @@ export function App() {
             title="Downloads"
             subtitle={`${activeCount} active · ${torrents.length} total`}
             density={ui.density}
+            themeMode={themeMode}
+            resolvedTheme={resolvedTheme}
             onToggleDensity={() =>
               setUi((current) => ({
                 ...current,
                 density: current.density === "cards" ? "table" : "cards",
               }))
             }
+            onToggleSidebar={() => setSidebarCollapsed((current) => !current)}
+            onToggleTheme={() => setThemeMode((current) => getNextThemeMode(current))}
             onCommand={() => setCommandOpen(true)}
             onAdd={() => setAdding(true)}
           />
-          <section className="min-h-0 flex-1 overflow-auto p-8">
+          <section className="min-h-0 flex-1 overflow-auto p-4 sm:p-6 lg:p-8">
             {torrents.length === 0 ? (
               <EmptyState onAdd={() => setAdding(true)} />
             ) : (
               <>
-                <div className="mb-6 grid grid-cols-3 gap-4">
+                <div className="mb-6 grid gap-4 md:grid-cols-3">
                   <MetricCard
                     label="Total speed"
                     value={`${(totalSpeed / 1024 / 1024).toFixed(1)} MB/s`}
@@ -102,11 +114,11 @@ export function App() {
                       {torrents.map((torrent) => (
                         <motion.div
                           key={torrent.id}
-                          layout={!reducedMotion}
-                          initial={reducedMotion ? false : { opacity: 0, y: 14 }}
-                          animate={reducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-                          exit={reducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.98 }}
-                          transition={{ duration: reducedMotion ? 0 : 0.22 }}
+                          layout={downloadListMotion.layout}
+                          initial={downloadListMotion.initial}
+                          animate={downloadListMotion.animate}
+                          exit={downloadListMotion.exit}
+                          transition={downloadListMotion.transition}
                         >
                           <DownloadCard
                             torrent={torrent}

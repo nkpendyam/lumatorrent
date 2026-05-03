@@ -1,11 +1,17 @@
 import type { TorrentSummary } from "@lumatorrent/shared";
 import { formatBytes, formatSpeed } from "../../lib/format";
 
-export function DownloadTable({ torrents, onSelect }: { torrents: TorrentSummary[]; onSelect: (id: string) => void }) {
+export function DownloadTable({
+  torrents,
+  onSelect,
+}: {
+  torrents: TorrentSummary[];
+  onSelect: (id: string) => void;
+}) {
   return (
-    <div className="overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03]">
+    <div className="overflow-x-auto rounded-[var(--lt-radius-card)] border border-[var(--lt-border-subtle)] bg-[var(--lt-surface-2)]">
       <table className="w-full text-left text-sm">
-        <thead className="bg-white/[0.04] text-xs uppercase tracking-wide text-slate-500">
+        <thead className="bg-[var(--lt-surface-muted)] text-xs uppercase tracking-wide text-[var(--lt-text-tertiary)]">
           <tr>
             <th className="px-4 py-3">Name</th>
             <th className="px-4 py-3">Progress</th>
@@ -16,10 +22,18 @@ export function DownloadTable({ torrents, onSelect }: { torrents: TorrentSummary
         </thead>
         <tbody>
           {torrents.map((torrent) => (
-            <tr key={torrent.id} className="border-t border-white/10 hover:bg-white/[0.04]">
+            <tr
+              key={torrent.id}
+              className="border-t border-[var(--lt-border-subtle)] hover:bg-[var(--lt-surface-muted)]"
+            >
               <td className="px-4 py-3">
-                <button className="text-left font-medium text-white hover:underline" onClick={() => onSelect(torrent.id)}>{torrent.name}</button>
-                <div className="text-xs text-slate-500">{torrent.status}</div>
+                <button
+                  className="lt-focus-ring text-left font-medium text-[var(--lt-text-primary)] hover:underline"
+                  onClick={() => onSelect(torrent.id)}
+                >
+                  {torrent.name}
+                </button>
+                <div className="text-xs text-[var(--lt-text-tertiary)]">{torrent.status}</div>
               </td>
               <td className="px-4 py-3">{Math.round(torrent.progress * 100)}%</td>
               <td className="px-4 py-3">{formatSpeed(torrent.downloadSpeedBytes)}</td>
