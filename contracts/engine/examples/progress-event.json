@@ -1,10 +1,12 @@
 {
   "type": "torrent.progress",
-  "timestamp": "2026-05-02T17:00:00.000Z",
-  "torrentId": "torrent_123",
+  "timestamp": "2026-05-03T00:00:01.000Z",
+  "sequence": 1,
+  "torrentId": "fixture-ubuntu",
   "payload": {
-    "progress": 0.72,
-    "downloadSpeed": 8808038,
-    "uploadSpeed": 420000
+    "progress": 0.42,
+    "downloadSpeedBytes": 1200000,
+    "uploadSpeedBytes": 200000,
+    "etaSeconds": 600
   }
 }

@@ -2,10 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "EngineEvent",
   "type": "object",
-  "required": [
-    "type",
-    "timestamp"
-  ],
+  "required": ["type", "timestamp", "sequence"],
   "properties": {
     "type": {
       "enum": [
@@ -16,11 +13,16 @@
         "torrent.paused",
         "torrent.error",
         "engine.restarted",
+        "engine.health",
+        "engine.crashed",
         "diagnostic.updated"
       ]
     },
     "timestamp": {
       "type": "string"
+    },
+    "sequence": {
+      "type": "number"
     },
     "torrentId": {
       "type": "string"

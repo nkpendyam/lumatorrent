@@ -1,6 +1,8 @@
 {
-  "status": "ok",
-  "version": "0.1.0",
-  "mode": "mock",
-  "apiVersion": "v1"
+  "ok": true,
+  "apiVersion": "v1",
+  "engineVersion": "0.1.0",
+  "torrentBackend": "mock",
+  "uptimeSeconds": 42,
+  "startedAtIso": "2026-05-03T00:00:00.000Z"
 }

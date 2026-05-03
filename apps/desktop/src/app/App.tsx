@@ -7,11 +7,7 @@ import { DownloadTable } from "../features/downloads/DownloadTable";
 import { DownloadInspector } from "../features/downloads/DownloadInspector";
 import { AddTorrentModal } from "../features/add-torrent/AddTorrentModal";
 import { DownloadDoctorPanel } from "../features/diagnostics/DownloadDoctorPanel";
-import {
-  createMockDashboardTorrents,
-  createMockTorrent,
-  tickTorrent,
-} from "../features/downloads/mockEngine";
+import { createMockEngineClient } from "../api/mockEngineClient";
 import { useReducedMotion } from "../hooks/useReducedMotion";
 import { useSettings } from "../hooks/useSettings";
 import { useSystemTheme } from "../hooks/useTheme";
@@ -35,7 +31,8 @@ import { getDownloadListMotion } from "./motion";
 import { getNextThemeMode, resolveThemeMode } from "./theme";
 
 export function App() {
-  const [torrents, setTorrents] = useState<TorrentSummary[]>(() => createMockDashboardTorrents());
+  const [engineClient] = useState(() => createMockEngineClient());
+  const [torrents, setTorrents] = useState<TorrentSummary[]>([]);
   const [ui, setUi] = useState<AppUiState>({
     view: "downloads",
     density: "cards",
@@ -65,9 +62,13 @@ export function App() {
   }, []);
 
   useEffect(() => {
-    const id = window.setInterval(() => setTorrents((items) => items.map(tickTorrent)), 1200);
+    void engineClient.listTorrents().then(setTorrents);
+  }, [engineClient]);
+
+  useEffect(() => {
+    const id = window.setInterval(() => setTorrents(engineClient.tick()), 1200);
     return () => window.clearInterval(id);
-  }, []);
+  }, [engineClient]);
 
   const selectedTorrent = useMemo(
     () => selectTorrent(torrents, ui.selectedTorrentId),
@@ -267,10 +268,14 @@ export function App() {
           <AddTorrentModal
             onClose={() => setAdding(false)}
             onAdd={(name) => {
-              setTorrents((items) => [
-                createMockTorrent(name || "New legal torrent", "checking", 0.0),
-                ...items,
-              ]);
+              const displayName = name || "New legal torrent";
+              void engineClient
+                .addMagnet({
+                  magnetUri: `magnet:?dn=${encodeURIComponent(displayName)}`,
+                  savePath: "~/Downloads/LumaTorrent",
+                })
+                .then(() => engineClient.listTorrents())
+                .then(setTorrents);
               setAdding(false);
             }}
           />

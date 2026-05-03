@@ -25,19 +25,66 @@
         "summary": "Engine health",
         "responses": {
           "200": {
-            "description": "healthy"
+            "description": "Engine health payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EngineHealth"
+                }
+              }
+            }
           }
         }
       }
     },
     "/torrents": {
       "get": {
-        "summary": "List torrents"
+        "summary": "List torrents",
+        "responses": {
+          "200": {
+            "description": "Torrent summaries",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TorrentSummary"
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/torrents/magnet": {
       "post": {
-        "summary": "Add magnet"
+        "summary": "Add magnet",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddTorrentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Magnet accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddTorrentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/EngineError"
+          }
+        }
       }
     },
     "/torrents/file": {
@@ -60,6 +107,11 @@
         "summary": "Remove torrent"
       }
     },
+    "/torrents/{id}/recheck": {
+      "post": {
+        "summary": "Recheck torrent"
+      }
+    },
     "/torrents/{id}/diagnose": {
       "post": {
         "summary": "Run diagnostics"
@@ -67,7 +119,12 @@
     },
     "/events": {
       "get": {
-        "summary": "Event stream"
+        "summary": "Event stream",
+        "responses": {
+          "200": {
+            "description": "Server-sent EngineEvent stream"
+          }
+        }
       }
     }
   },
@@ -77,6 +134,170 @@
         "type": "apiKey",
         "in": "header",
         "name": "X-Luma-Engine-Token"
+      }
+    },
+    "responses": {
+      "EngineError": {
+        "description": "Engine error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/EngineError"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "EngineHealth": {
+        "type": "object",
+        "required": ["ok", "apiVersion", "engineVersion", "torrentBackend", "uptimeSeconds"],
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "apiVersion": {
+            "const": "v1"
+          },
+          "engineVersion": {
+            "type": "string"
+          },
+          "torrentBackend": {
+            "enum": ["mock", "stub", "libtorrent"]
+          },
+          "uptimeSeconds": {
+            "type": "number"
+          },
+          "startedAtIso": {
+            "type": "string"
+          }
+        }
+      },
+      "TorrentSummary": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "status",
+          "progress",
+          "downloadSpeedBytes",
+          "uploadSpeedBytes",
+          "etaSeconds",
+          "health",
+          "healthConfidence",
+          "seeders",
+          "peers",
+          "sizeBytes",
+          "downloadedBytes",
+          "uploadedBytes",
+          "savePath",
+          "addedAtIso"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "checking",
+              "metadata",
+              "downloading",
+              "paused",
+              "completed",
+              "seeding",
+              "error"
+            ]
+          },
+          "progress": {
+            "type": "number"
+          },
+          "downloadSpeedBytes": {
+            "type": "number"
+          },
+          "uploadSpeedBytes": {
+            "type": "number"
+          },
+          "etaSeconds": {
+            "type": ["number", "null"]
+          },
+          "health": {
+            "enum": ["checking", "excellent", "good", "weak", "dead"]
+          },
+          "healthConfidence": {
+            "type": "number"
+          },
+          "seeders": {
+            "type": "number"
+          },
+          "peers": {
+            "type": "number"
+          },
+          "sizeBytes": {
+            "type": "number"
+          },
+          "downloadedBytes": {
+            "type": "number"
+          },
+          "uploadedBytes": {
+            "type": "number"
+          },
+          "savePath": {
+            "type": "string"
+          },
+          "addedAtIso": {
+            "type": "string"
+          }
+        }
+      },
+      "AddTorrentRequest": {
+        "type": "object",
+        "required": ["magnetUri", "savePath"],
+        "properties": {
+          "magnetUri": {
+            "type": "string"
+          },
+          "savePath": {
+            "type": "string"
+          },
+          "selectedFiles": {
+            "type": ["array", "null"],
+            "items": {
+              "type": "string"
+            }
+          },
+          "startPaused": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AddTorrentResponse": {
+        "type": "object",
+        "required": ["torrentId", "status"],
+        "properties": {
+          "torrentId": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "checking",
+              "metadata",
+              "downloading",
+              "paused",
+              "completed",
+              "seeding",
+              "error"
+            ]
+          }
+        }
+      },
+      "EngineError": {
+        "$ref": "./errors.schema.json"
+      },
+      "EngineEvent": {
+        "$ref": "./events.schema.json"
       }
     }
   }
