@@ -36,6 +36,7 @@
     "verify:v8": "node scripts/verify-v8-senior-scaffold.mjs",
     "audit:v8": "node scripts/audit-v8-package.mjs",
     "test:contracts": "node scripts/test-engine-contracts.mjs",
+    "test:engine:sidecar": "node scripts/test-mock-sidecar-health.mjs",
     "test:a11y:plan": "node scripts/a11y-audit-plan.mjs",
     "bench:budget": "node scripts/performance-budget-check.mjs",
     "fixtures:legal": "node scripts/create-legal-fixtures.mjs",

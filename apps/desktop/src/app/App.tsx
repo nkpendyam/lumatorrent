@@ -54,7 +54,14 @@ export function App() {
   const systemTheme = useSystemTheme();
   const reducedMotion = useReducedMotion(settings.appearance.reducedMotion);
   const resolvedTheme = resolveThemeMode(settings.appearance.theme, systemTheme);
-  const engineNotice = engineLifecycle ? getEngineLifecycleNotice(engineLifecycle) : null;
+  const engineNotice =
+    engineLifecycle?.status === "unavailable" ? getEngineLifecycleNotice(engineLifecycle) : null;
+  const engineStatusLabel =
+    engineLifecycle?.status === "unavailable"
+      ? null
+      : engineLifecycle
+        ? getEngineLifecycleNotice(engineLifecycle)
+        : "Engine starting";
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -137,12 +144,34 @@ export function App() {
             onAdd={() => setAdding(true)}
           />
           <section className="min-h-0 flex-1 overflow-auto p-4 sm:p-6 lg:p-8">
+            {engineStatusLabel ? (
+              <div
+                className="mb-4 rounded-[var(--lt-radius-card)] border border-[var(--lt-border-subtle)] bg-[var(--lt-surface-2)] px-4 py-3 text-sm text-[var(--lt-text-secondary)]"
+                role="status"
+              >
+                {engineStatusLabel}
+              </div>
+            ) : null}
             {engineNotice ? (
               <div
                 className="mb-4 rounded-[var(--lt-radius-card)] border border-[var(--lt-status-warning-border)] bg-[var(--lt-status-warning-bg)] px-4 py-3 text-sm text-[var(--lt-status-warning-text)]"
                 role="status"
               >
-                {engineNotice}
+                <span>{engineNotice}</span>
+                <button
+                  type="button"
+                  className="lt-focus-ring ml-3 rounded-[var(--lt-radius-control)] border border-current px-2 py-1 text-xs font-medium"
+                  onClick={() => {
+                    setEngineLifecycle(null);
+                    setTorrents([]);
+                    void initializeEngineLifecycle().then((nextLifecycle) => {
+                      setEngineLifecycle(nextLifecycle);
+                      void nextLifecycle.client.listTorrents().then(setTorrents);
+                    });
+                  }}
+                >
+                  Retry
+                </button>
               </div>
             ) : null}
             {torrents.length === 0 ? (
