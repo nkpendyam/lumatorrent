@@ -1,20 +1,138 @@
 {
+  "color": {
+    "surface": {
+      "canvas": {
+        "light": "#f6f8fb",
+        "dark": "#090b10"
+      },
+      "base": {
+        "light": "#ffffff",
+        "dark": "#0f131d"
+      },
+      "raised": {
+        "light": "#fdfefe",
+        "dark": "#151a26"
+      },
+      "muted": {
+        "light": "#eef2f7",
+        "dark": "rgba(255, 255, 255, 0.055)"
+      },
+      "overlay": {
+        "light": "rgba(255, 255, 255, 0.82)",
+        "dark": "rgba(13, 17, 24, 0.92)"
+      },
+      "border": {
+        "light": "rgba(15, 23, 42, 0.10)",
+        "dark": "rgba(255, 255, 255, 0.10)"
+      }
+    },
+    "text": {
+      "primary": {
+        "light": "#101828",
+        "dark": "#f8fafc"
+      },
+      "secondary": {
+        "light": "#475467",
+        "dark": "#a6b0c3"
+      },
+      "tertiary": {
+        "light": "#667085",
+        "dark": "#758197"
+      },
+      "inverse": "#ffffff"
+    },
+    "accent": {
+      "base": "#3b82f6",
+      "strong": "#2563eb",
+      "soft": "rgba(59, 130, 246, 0.14)"
+    },
+    "semantic": {
+      "success": {
+        "surface": "rgba(16, 185, 129, 0.14)",
+        "text": "#047857",
+        "textDark": "#a7f3d0",
+        "border": "rgba(16, 185, 129, 0.25)"
+      },
+      "warning": {
+        "surface": "rgba(245, 158, 11, 0.15)",
+        "text": "#b45309",
+        "textDark": "#fde68a",
+        "border": "rgba(245, 158, 11, 0.28)"
+      },
+      "danger": {
+        "surface": "rgba(239, 68, 68, 0.14)",
+        "text": "#b91c1c",
+        "textDark": "#fecaca",
+        "border": "rgba(239, 68, 68, 0.25)"
+      },
+      "info": {
+        "surface": "rgba(59, 130, 246, 0.14)",
+        "text": "#1d4ed8",
+        "textDark": "#bfdbfe",
+        "border": "rgba(59, 130, 246, 0.25)"
+      }
+    }
+  },
+  "spacing": {
+    "0": "0",
+    "1": "4px",
+    "2": "8px",
+    "3": "12px",
+    "4": "16px",
+    "5": "20px",
+    "6": "24px",
+    "8": "32px",
+    "10": "40px",
+    "12": "48px",
+    "16": "64px"
+  },
   "radius": {
-    "card": "32px",
-    "control": "16px",
+    "xs": "8px",
+    "sm": "10px",
+    "md": "14px",
+    "lg": "18px",
+    "xl": "24px",
+    "card": "28px",
+    "control": "14px",
     "pill": "999px"
+  },
+  "shadow": {
+    "soft": "0 18px 60px rgba(15, 23, 42, 0.10)",
+    "panel": "0 24px 90px rgba(2, 6, 23, 0.18)",
+    "darkSoft": "0 24px 80px rgba(0, 0, 0, 0.32)"
   },
   "motion": {
     "fast": "120ms",
     "normal": "220ms",
-    "slow": "420ms",
+    "slow": "320ms",
     "spring": {
       "damping": 28,
       "stiffness": 240
     }
   },
   "typography": {
-    "family": "-apple-system, BlinkMacSystemFont, Segoe UI, Inter, system-ui, sans-serif"
+    "family": "-apple-system, BlinkMacSystemFont, Segoe UI, Inter, system-ui, sans-serif",
+    "scale": {
+      "caption": { "size": "12px", "lineHeight": "16px" },
+      "body": { "size": "14px", "lineHeight": "20px" },
+      "bodyLarge": { "size": "16px", "lineHeight": "24px" },
+      "title": { "size": "24px", "lineHeight": "32px" },
+      "display": { "size": "32px", "lineHeight": "40px" }
+    },
+    "weight": {
+      "regular": 400,
+      "medium": 500,
+      "semibold": 600
+    }
+  },
+  "opacity": {
+    "disabled": 0.48,
+    "muted": 0.72
+  },
+  "zIndex": {
+    "shell": 10,
+    "overlay": 40,
+    "modal": 50
   },
   "status": {
     "excellent": "emerald",

@@ -7,6 +7,7 @@ import { DownloadInspector } from "../features/downloads/DownloadInspector";
 import { AddTorrentModal } from "../features/add-torrent/AddTorrentModal";
 import { DownloadDoctorPanel } from "../features/diagnostics/DownloadDoctorPanel";
 import { createMockTorrent, tickTorrent } from "../features/downloads/mockEngine";
+import { useReducedMotion } from "../hooks/useReducedMotion";
 import { CommandPalette } from "../components/CommandPalette";
 import { EmptyState } from "../components/EmptyState";
 import { MetricCard } from "../components/MetricCard";
@@ -23,10 +24,16 @@ export function App() {
     createMockTorrent("Public Climate Dataset", "good", 0.41),
     createMockTorrent("Creative Commons Film Pack", "weak", 0.08),
   ]);
-  const [ui, setUi] = useState<AppUiState>({ view: "downloads", density: "cards", selectedTorrentId: null, expertMode: false });
+  const [ui, setUi] = useState<AppUiState>({
+    view: "downloads",
+    density: "cards",
+    selectedTorrentId: null,
+    expertMode: false,
+  });
   const [isAdding, setAdding] = useState(false);
   const [commandOpen, setCommandOpen] = useState(false);
   const [selectedDiagnostic, setSelectedDiagnostic] = useState<SpeedDiagnostic | null>(null);
+  const reducedMotion = useReducedMotion();
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -44,19 +51,30 @@ export function App() {
     return () => window.clearInterval(id);
   }, []);
 
-  const selectedTorrent = useMemo(() => selectTorrent(torrents, ui.selectedTorrentId), [torrents, ui.selectedTorrentId]);
+  const selectedTorrent = useMemo(
+    () => selectTorrent(torrents, ui.selectedTorrentId),
+    [torrents, ui.selectedTorrentId],
+  );
   const activeCount = torrents.filter((t) => t.status === "downloading").length;
   const totalSpeed = torrents.reduce((sum, torrent) => sum + torrent.downloadSpeedBytes, 0);
 
   return (
-    <AppShell activeView={ui.view} onViewChange={(view) => setUi((current) => ({ ...current, view }))}>
+    <AppShell
+      activeView={ui.view}
+      onViewChange={(view) => setUi((current) => ({ ...current, view }))}
+    >
       {ui.view === "downloads" ? (
         <>
           <TopBar
             title="Downloads"
             subtitle={`${activeCount} active · ${torrents.length} total`}
             density={ui.density}
-            onToggleDensity={() => setUi((current) => ({ ...current, density: current.density === "cards" ? "table" : "cards" }))}
+            onToggleDensity={() =>
+              setUi((current) => ({
+                ...current,
+                density: current.density === "cards" ? "table" : "cards",
+              }))
+            }
             onCommand={() => setCommandOpen(true)}
             onAdd={() => setAdding(true)}
           />
@@ -66,26 +84,46 @@ export function App() {
             ) : (
               <>
                 <div className="mb-6 grid grid-cols-3 gap-4">
-                  <MetricCard label="Total speed" value={`${(totalSpeed / 1024 / 1024).toFixed(1)} MB/s`} detail="smoothed mock telemetry" />
+                  <MetricCard
+                    label="Total speed"
+                    value={`${(totalSpeed / 1024 / 1024).toFixed(1)} MB/s`}
+                    detail="smoothed mock telemetry"
+                  />
                   <MetricCard label="Health" value="Mostly good" detail="availability weighted" />
-                  <MetricCard label="Protection" value="Safe delete on" detail="destructive actions guarded" />
+                  <MetricCard
+                    label="Protection"
+                    value="Safe delete on"
+                    detail="destructive actions guarded"
+                  />
                 </div>
                 {ui.density === "cards" ? (
                   <div className="space-y-4">
                     <AnimatePresence initial={false}>
                       {torrents.map((torrent) => (
-                        <motion.div key={torrent.id} layout initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.98 }}>
+                        <motion.div
+                          key={torrent.id}
+                          layout={!reducedMotion}
+                          initial={reducedMotion ? false : { opacity: 0, y: 14 }}
+                          animate={reducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+                          exit={reducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.98 }}
+                          transition={{ duration: reducedMotion ? 0 : 0.22 }}
+                        >
                           <DownloadCard
                             torrent={torrent}
                             onDiagnose={() => setSelectedDiagnostic(diagnoseTorrent(torrent))}
-                            onOpenDetails={() => setUi((current) => ({ ...current, selectedTorrentId: torrent.id }))}
+                            onOpenDetails={() =>
+                              setUi((current) => ({ ...current, selectedTorrentId: torrent.id }))
+                            }
                           />
                         </motion.div>
                       ))}
                     </AnimatePresence>
                   </div>
                 ) : (
-                  <DownloadTable torrents={torrents} onSelect={(id) => setUi((current) => ({ ...current, selectedTorrentId: id }))} />
+                  <DownloadTable
+                    torrents={torrents}
+                    onSelect={(id) => setUi((current) => ({ ...current, selectedTorrentId: id }))}
+                  />
                 )}
               </>
             )}
@@ -97,12 +135,30 @@ export function App() {
       {ui.view === "settings" ? <SettingsPage /> : null}
       <AnimatePresence>
         <CommandPalette open={commandOpen} onClose={() => setCommandOpen(false)} />
-        {isAdding ? <AddTorrentModal onClose={() => setAdding(false)} onAdd={(name) => {
-          setTorrents((items) => [createMockTorrent(name || "New legal torrent", "checking", 0.0), ...items]);
-          setAdding(false);
-        }} /> : null}
-        {selectedDiagnostic ? <DownloadDoctorPanel diagnostic={selectedDiagnostic} onClose={() => setSelectedDiagnostic(null)} /> : null}
-        {selectedTorrent ? <DownloadInspector torrent={selectedTorrent} onClose={() => setUi((current) => ({ ...current, selectedTorrentId: null }))} /> : null}
+        {isAdding ? (
+          <AddTorrentModal
+            onClose={() => setAdding(false)}
+            onAdd={(name) => {
+              setTorrents((items) => [
+                createMockTorrent(name || "New legal torrent", "checking", 0.0),
+                ...items,
+              ]);
+              setAdding(false);
+            }}
+          />
+        ) : null}
+        {selectedDiagnostic ? (
+          <DownloadDoctorPanel
+            diagnostic={selectedDiagnostic}
+            onClose={() => setSelectedDiagnostic(null)}
+          />
+        ) : null}
+        {selectedTorrent ? (
+          <DownloadInspector
+            torrent={selectedTorrent}
+            onClose={() => setUi((current) => ({ ...current, selectedTorrentId: null }))}
+          />
+        ) : null}
       </AnimatePresence>
     </AppShell>
   );

@@ -10,12 +10,14 @@
   },
   "dependencies": {
     "clsx": "latest",
-    "tailwind-merge": "latest",
     "lucide-react": "latest",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "tailwind-merge": "latest"
   },
   "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
     "typescript": "latest",
     "vitest": "latest"
   }

@@ -3,10 +3,12 @@ import type { ButtonHTMLAttributes, ReactNode } from "react";
 export type ButtonVariant = "primary" | "secondary" | "danger" | "ghost";
 
 const variants: Record<ButtonVariant, string> = {
-  primary: "bg-blue-500 text-white hover:bg-blue-400",
-  secondary: "border border-white/10 bg-white/[0.05] text-slate-100 hover:bg-white/[0.08]",
-  danger: "bg-red-500 text-white hover:bg-red-400",
-  ghost: "text-slate-300 hover:bg-white/[0.06]"
+  primary: "bg-[var(--lt-accent)] text-[var(--lt-text-inverse)] hover:bg-[var(--lt-accent-strong)]",
+  secondary:
+    "border border-[var(--lt-border-subtle)] bg-[var(--lt-surface-muted)] text-[var(--lt-text-primary)] hover:border-[var(--lt-border-strong)]",
+  danger: "bg-[var(--lt-status-danger-text)] text-[var(--lt-text-inverse)] hover:brightness-110",
+  ghost:
+    "text-[var(--lt-text-secondary)] hover:bg-[var(--lt-surface-muted)] hover:text-[var(--lt-text-primary)]",
 };
 
 export function Button({
@@ -17,7 +19,7 @@ export function Button({
 }: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: ButtonVariant; children: ReactNode }) {
   return (
     <button
-      className={`rounded-2xl px-4 py-2 text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-blue-400/70 disabled:cursor-not-allowed disabled:opacity-50 ${variants[variant]} ${className}`}
+      className={`lt-focus-ring inline-flex items-center justify-center rounded-[var(--lt-radius-control)] px-4 py-2 text-sm font-medium transition duration-[var(--lt-duration-fast)] ease-[var(--lt-ease-standard)] disabled:cursor-not-allowed disabled:opacity-[0.48] ${variants[variant]} ${className}`}
       {...props}
     >
       {children}

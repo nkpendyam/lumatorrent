@@ -9,7 +9,8 @@ export default {
         xl2: "1.25rem",
       },
       boxShadow: {
-        soft: "0 24px 80px rgba(0, 0, 0, 0.12)",
+        soft: "var(--lt-shadow-soft)",
+        panel: "var(--lt-shadow-panel)",
       },
     },
   },
