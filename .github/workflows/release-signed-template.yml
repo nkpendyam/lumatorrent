@@ -1,0 +1,24 @@
+name: Signed Release Template
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag to build'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  note:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "This is a template workflow."
+          echo "Configure signing secrets documented in docs/CODE_SIGNING_AND_NOTARIZATION.md before enabling signed release builds."
+          exit 1
+
+# Senior implementation note:
+# Replace this template with platform-specific signing jobs only after secrets exist.
+# Never commit certificates or private keys to the repository.

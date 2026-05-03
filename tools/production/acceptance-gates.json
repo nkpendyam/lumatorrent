@@ -1,0 +1,35 @@
+{
+  "version": "v11",
+  "gates": [
+    {
+      "id": "M0",
+      "name": "Environment/repo boot",
+      "status": "scaffolded"
+    },
+    {
+      "id": "M1",
+      "name": "Premium shell UI",
+      "status": "scaffolded"
+    },
+    {
+      "id": "M2",
+      "name": "Contract mock engine",
+      "status": "scaffolded"
+    },
+    {
+      "id": "M3",
+      "name": "Safe file handling",
+      "status": "planned"
+    },
+    {
+      "id": "M5",
+      "name": "Libtorrent sidecar alpha",
+      "status": "planned"
+    },
+    {
+      "id": "M8",
+      "name": "Packaging beta",
+      "status": "planned"
+    }
+  ]
+}

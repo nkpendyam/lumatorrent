@@ -1,0 +1,23 @@
+name: Repo Bootstrap Dry Run
+
+on:
+  workflow_dispatch:
+    inputs:
+      owner:
+        description: GitHub owner/user/org
+        required: true
+      repo:
+        description: Repository name
+        required: true
+        default: lumatorrent
+
+jobs:
+  dry-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node scripts/github-init-repo.mjs --owner "${{ inputs.owner }}" --repo "${{ inputs.repo }}"
+      - run: node scripts/github-apply-ruleset.mjs --owner "${{ inputs.owner }}" --repo "${{ inputs.repo }}"

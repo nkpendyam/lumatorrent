@@ -1,0 +1,10 @@
+{
+  "name": "lumatorrent_senior_v7",
+  "version": "v7",
+  "notes": "Adds detailed phase docs, Apple-style design research, safe autonomy guardrails, and expanded Codex instructions.",
+  "important_restrictions": [
+    "No permission bypass or self-authorization.",
+    "No built-in piracy search.",
+    "Use official docs and approved dependencies only."
+  ]
+}

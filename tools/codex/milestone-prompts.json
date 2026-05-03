@@ -1,0 +1,25 @@
+{
+  "version": "v11",
+  "prompts": [
+    {
+      "id": "M0",
+      "title": "Environment and repo boot",
+      "prompt": "Run preflight, verify v11, fix only broken scaffolding, and stop."
+    },
+    {
+      "id": "M1",
+      "title": "Premium shell UI",
+      "prompt": "Implement accessible premium shell screens from design docs with tests; do not touch engine."
+    },
+    {
+      "id": "M2",
+      "title": "Contract-complete mock engine",
+      "prompt": "Implement mock engine and typed client to satisfy engine contracts."
+    },
+    {
+      "id": "M5",
+      "title": "Libtorrent sidecar alpha",
+      "prompt": "Implement smallest native sidecar alpha, avoid blocking UI calls, consume alerts asynchronously."
+    }
+  ]
+}

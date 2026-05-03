@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EngineError",
+  "type": "object",
+  "required": [
+    "code",
+    "message"
+  ],
+  "properties": {
+    "code": {
+      "enum": [
+        "INVALID_MAGNET",
+        "TORRENT_PARSE_FAILED",
+        "METADATA_TIMEOUT",
+        "NO_SEEDERS_OBSERVED",
+        "PORT_CLOSED",
+        "TRACKER_TIMEOUT",
+        "DHT_UNAVAILABLE",
+        "DISK_FULL",
+        "PERMISSION_DENIED",
+        "PATH_REJECTED",
+        "ENGINE_UNAVAILABLE"
+      ]
+    },
+    "message": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object"
+    },
+    "recoverable": {
+      "type": "boolean"
+    }
+  }
+}

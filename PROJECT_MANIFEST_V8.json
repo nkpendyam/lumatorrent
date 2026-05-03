@@ -1,0 +1,31 @@
+{
+  "name": "lumatorrent_senior_v8",
+  "version": "v8",
+  "created_at": "2026-05-02T17:56:50.241753Z",
+  "purpose": "Senior-level Codex scaffold for building a premium cross-platform open-source torrent client.",
+  "fixed_from_v7": [
+    "Fixed package.json codex:models script reference."
+  ],
+  "added": [
+    "Phase master plan",
+    "Codex autonomous task tree",
+    "Design bible",
+    "UI component spec library",
+    "Implementation backlog",
+    "Real engine milestones",
+    "Test coverage matrix",
+    "Frontend screen contracts",
+    "Backend theory of operation",
+    "Performance benchmark plan",
+    "Accessibility automation plan",
+    "Local legal fixture lab",
+    "Audit and verification scripts"
+  ],
+  "honest_limitations": [
+    "Not a finished torrent downloader.",
+    "No real libtorrent integration yet.",
+    "No private signing credentials included.",
+    "No permission bypass or self-authorization behavior.",
+    "Real cross-platform QA still required."
+  ]
+}

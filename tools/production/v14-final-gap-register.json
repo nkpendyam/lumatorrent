@@ -1,0 +1,38 @@
+[
+  {
+    "id": "G1",
+    "title": "Real libtorrent lifecycle",
+    "severity": "critical",
+    "exit": "Legal torrent add/pause/resume/remove works"
+  },
+  {
+    "id": "G2",
+    "title": "Magnet metadata fetch",
+    "severity": "critical",
+    "exit": "Metadata and file list appear for legal magnet"
+  },
+  {
+    "id": "G3",
+    "title": "Safe delete to trash",
+    "severity": "critical",
+    "exit": "OS-specific trash tests pass"
+  },
+  {
+    "id": "G4",
+    "title": "Download Doctor real inputs",
+    "severity": "high",
+    "exit": "Diagnostics based on engine telemetry"
+  },
+  {
+    "id": "G5",
+    "title": "Signed installers",
+    "severity": "high",
+    "exit": "Signed artifacts and notarization complete"
+  },
+  {
+    "id": "G6",
+    "title": "Real OS QA",
+    "severity": "high",
+    "exit": "Windows/macOS/Linux matrix complete"
+  }
+]

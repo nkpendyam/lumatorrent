@@ -1,0 +1,11 @@
+{
+  "name": "lumatorrent_senior_codex_v13_hardened_scaffold",
+  "purpose": "Hardened 20-year engineer level Codex scaffold with stronger audit, implementation DAG, CI, OS integration, and beta planning.",
+  "created_from": "v12",
+  "honest_limitations": [
+    "real torrent engine still not complete",
+    "no private signing credentials included",
+    "real OS QA evidence cannot be generated in zip",
+    "Codex permissions cannot be bypassed"
+  ]
+}

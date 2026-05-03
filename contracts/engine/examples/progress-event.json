@@ -1,0 +1,10 @@
+{
+  "type": "torrent.progress",
+  "timestamp": "2026-05-02T17:00:00.000Z",
+  "torrentId": "torrent_123",
+  "payload": {
+    "progress": 0.72,
+    "downloadSpeed": 8808038,
+    "uploadSpeed": 420000
+  }
+}

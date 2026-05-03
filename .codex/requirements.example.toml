@@ -1,0 +1,14 @@
+# Example requirements for Codex environment.
+# Copy or adapt in the actual Codex environment if supported.
+
+[tools]
+node = ">=20.11"
+pnpm = ">=9"
+rust = ">=1.84"
+git = ">=2.40"
+gh = "optional-authenticated"
+
+[policy]
+no_permission_bypass = true
+no_random_web_scripts = true
+legal_torrent_use_only = true

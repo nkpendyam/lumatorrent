@@ -1,0 +1,46 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "stub-debug",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/stub-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "LUMATORRENT_ENGINE_MODE": "stub"
+      }
+    },
+    {
+      "name": "stub-release",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/stub-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "LUMATORRENT_ENGINE_MODE": "stub"
+      }
+    },
+    {
+      "name": "libtorrent-release",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/libtorrent-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "LUMATORRENT_ENGINE_MODE": "libtorrent"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "stub-debug",
+      "configurePreset": "stub-debug"
+    },
+    {
+      "name": "stub-release",
+      "configurePreset": "stub-release"
+    },
+    {
+      "name": "libtorrent-release",
+      "configurePreset": "libtorrent-release"
+    }
+  ]
+}

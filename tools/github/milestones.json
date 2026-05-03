@@ -1,0 +1,32 @@
+[
+  {
+    "title": "M0 Repo Hardening",
+    "description": "Repo automation, CI, contracts, docs, and quality gates.",
+    "due_on": null
+  },
+  {
+    "title": "M1 Beautiful Mock MVP",
+    "description": "Premium UI against mock engine with tests.",
+    "due_on": null
+  },
+  {
+    "title": "M2 Native Engine Stub",
+    "description": "Compile/bundle native sidecar in stub mode.",
+    "due_on": null
+  },
+  {
+    "title": "M3 Real libtorrent Alpha",
+    "description": "Real magnet/torrent lifecycle with legal fixtures.",
+    "due_on": null
+  },
+  {
+    "title": "M4 Download Doctor Alpha",
+    "description": "Real diagnostics for speed and health.",
+    "due_on": null
+  },
+  {
+    "title": "M5 Cross-platform Beta",
+    "description": "Windows/macOS/Linux installers and QA.",
+    "due_on": null
+  }
+]

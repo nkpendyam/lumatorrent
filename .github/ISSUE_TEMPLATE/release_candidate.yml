@@ -1,0 +1,25 @@
+name: Release candidate checklist
+about: Track a release candidate from build to QA approval
+labels: [release, qa]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      placeholder: v0.1.0-beta.1
+    validations:
+      required: true
+  - type: checkboxes
+    id: gates
+    attributes:
+      label: Release gates
+      options:
+        - label: CI passed
+        - label: Native engine stub built on Windows/macOS/Linux
+        - label: Desktop package dry-run passed
+        - label: Manual QA completed on Windows
+        - label: Manual QA completed on macOS
+        - label: Manual QA completed on Linux
+        - label: Security checklist reviewed
+        - label: Release notes drafted
+        - label: Rollback plan documented

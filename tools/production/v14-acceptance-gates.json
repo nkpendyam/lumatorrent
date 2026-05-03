@@ -1,0 +1,28 @@
+{
+  "global": [
+    "package scripts valid",
+    "contract schemas parse",
+    "security constraints honored",
+    "tests updated",
+    "docs updated",
+    "no unsafe permission bypass"
+  ],
+  "milestones": {
+    "M0": [
+      "preflight passes",
+      "script references valid"
+    ],
+    "M1": [
+      "design tokens present",
+      "reduced motion handled"
+    ],
+    "M6": [
+      "sidecar health works",
+      "permissions explicit"
+    ],
+    "M10": [
+      "OS QA matrix executed",
+      "known issues documented"
+    ]
+  }
+}

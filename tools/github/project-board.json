@@ -1,0 +1,25 @@
+{
+  "projectName": "LumaTorrent Production Build",
+  "fields": [
+    "Status",
+    "Milestone",
+    "Risk",
+    "Area",
+    "Size"
+  ],
+  "statuses": [
+    "Backlog",
+    "Ready",
+    "In progress",
+    "Review",
+    "Blocked",
+    "Done"
+  ],
+  "views": [
+    "Roadmap",
+    "Engine",
+    "UI/UX",
+    "QA",
+    "Release"
+  ]
+}

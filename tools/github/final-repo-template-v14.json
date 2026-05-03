@@ -1,0 +1,30 @@
+{
+  "repo": {
+    "name": "lumatorrent",
+    "description": "Premium open-source torrent client for legal file distribution with smart diagnostics.",
+    "visibility": "public",
+    "topics": [
+      "tauri",
+      "rust",
+      "react",
+      "torrent-client",
+      "open-source",
+      "legal-torrents"
+    ]
+  },
+  "branches": {
+    "default": "main",
+    "protection": [
+      "required_status_checks",
+      "required_pull_request_reviews",
+      "linear_history"
+    ]
+  },
+  "milestones": [
+    "M0 Preflight",
+    "M1 Design System",
+    "M2 Dashboard",
+    "M6 Native Sidecar",
+    "M10 Beta Release"
+  ]
+}

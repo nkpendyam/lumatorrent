@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="LumaTorrent icon concept">
+  <defs>
+    <linearGradient id="g" x1="80" x2="430" y1="70" y2="450" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#60A5FA"/>
+      <stop offset="1" stop-color="#8B5CF6"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="#080B12"/>
+  <circle cx="256" cy="256" r="154" fill="url(#g)" opacity="0.22"/>
+  <path d="M256 112c68 0 124 45 142 107h-50c-16-35-51-59-92-59-57 0-103 46-103 103s46 103 103 103c42 0 78-25 94-61h49c-18 63-75 109-143 109-83 0-151-68-151-151s68-151 151-151Z" fill="url(#g)"/>
+  <path d="M252 198h38l-57 58h47l-81 83 25-61h-43l71-80Z" fill="white"/>
+</svg>

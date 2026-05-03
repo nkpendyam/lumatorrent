@@ -1,0 +1,35 @@
+{
+  "version": "v11",
+  "requirements": [
+    {
+      "id": "R-001",
+      "name": "Legal torrent positioning",
+      "status": "scaffolded"
+    },
+    {
+      "id": "R-002",
+      "name": "Add magnet link",
+      "status": "not_implemented"
+    },
+    {
+      "id": "R-003",
+      "name": "Add torrent file",
+      "status": "not_implemented"
+    },
+    {
+      "id": "R-004",
+      "name": "Download Doctor",
+      "status": "scaffolded"
+    },
+    {
+      "id": "R-005",
+      "name": "Safe delete",
+      "status": "planned"
+    },
+    {
+      "id": "R-006",
+      "name": "Multi-OS packaging",
+      "status": "planned"
+    }
+  ]
+}

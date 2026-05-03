@@ -1,0 +1,40 @@
+{
+  "scenarios": [
+    {
+      "id": "NET-001",
+      "name": "local healthy torrent",
+      "automated": false,
+      "owner": "native-engine"
+    },
+    {
+      "id": "NET-002",
+      "name": "metadata delay",
+      "automated": false,
+      "owner": "native-engine"
+    },
+    {
+      "id": "NET-003",
+      "name": "engine crash recovery",
+      "automated": false,
+      "owner": "desktop+engine"
+    },
+    {
+      "id": "NET-004",
+      "name": "closed port diagnosis",
+      "automated": false,
+      "owner": "diagnostics"
+    },
+    {
+      "id": "NET-005",
+      "name": "disk full behavior",
+      "automated": false,
+      "owner": "storage"
+    },
+    {
+      "id": "NET-006",
+      "name": "private torrent rules",
+      "automated": false,
+      "owner": "engine"
+    }
+  ]
+}

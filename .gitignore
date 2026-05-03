@@ -1,0 +1,12 @@
+node_modules/
+dist/
+build/
+target/
+.DS_Store
+.env
+.env.local
+.pnpm-store/
+playwright-report/
+test-results/
+apps/desktop/src-tauri/gen/
+apps/desktop/src-tauri/target/

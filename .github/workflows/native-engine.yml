@@ -1,0 +1,25 @@
+name: Native Engine
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build-stub:
+    name: Build native-engine stub (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: lukka/get-cmake@latest
+      - name: Build stub on Unix
+        if: runner.os != 'Windows'
+        run: ./scripts/build-native-engine.sh stub
+      - name: Build stub on Windows
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: ./scripts/build-native-engine.ps1 -Mode stub

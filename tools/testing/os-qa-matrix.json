@@ -1,0 +1,18 @@
+{
+  "platforms": [
+    "windows-11-x64",
+    "macos-apple-silicon",
+    "ubuntu-lts"
+  ],
+  "scenarios": [
+    "install",
+    "launch",
+    "add-legal-torrent",
+    "pause-resume",
+    "restart-recovery",
+    "safe-delete",
+    "settings-persistence",
+    "engine-crash-recovery",
+    "accessibility-smoke"
+  ]
+}

@@ -1,0 +1,16 @@
+:root {
+  --lt-radius-sm: 10px;
+  --lt-radius-md: 16px;
+  --lt-radius-lg: 24px;
+  --lt-radius-xl: 32px;
+  --lt-duration-fast: 140ms;
+  --lt-duration-normal: 220ms;
+  --lt-duration-slow: 320ms;
+  --lt-surface-0: #090b10;
+  --lt-surface-1: rgba(255,255,255,0.035);
+  --lt-surface-2: rgba(255,255,255,0.07);
+  --lt-border-subtle: rgba(255,255,255,0.1);
+  --lt-text-primary: #f8fafc;
+  --lt-text-secondary: #94a3b8;
+  --lt-accent: #60a5fa;
+}

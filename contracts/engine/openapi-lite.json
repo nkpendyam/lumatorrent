@@ -1,0 +1,83 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "LumaTorrent Engine API",
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:{port}/v1",
+      "variables": {
+        "port": {
+          "default": "43177"
+        }
+      }
+    }
+  ],
+  "security": [
+    {
+      "EngineToken": []
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Engine health",
+        "responses": {
+          "200": {
+            "description": "healthy"
+          }
+        }
+      }
+    },
+    "/torrents": {
+      "get": {
+        "summary": "List torrents"
+      }
+    },
+    "/torrents/magnet": {
+      "post": {
+        "summary": "Add magnet"
+      }
+    },
+    "/torrents/file": {
+      "post": {
+        "summary": "Add torrent file"
+      }
+    },
+    "/torrents/{id}/pause": {
+      "post": {
+        "summary": "Pause torrent"
+      }
+    },
+    "/torrents/{id}/resume": {
+      "post": {
+        "summary": "Resume torrent"
+      }
+    },
+    "/torrents/{id}/remove": {
+      "post": {
+        "summary": "Remove torrent"
+      }
+    },
+    "/torrents/{id}/diagnose": {
+      "post": {
+        "summary": "Run diagnostics"
+      }
+    },
+    "/events": {
+      "get": {
+        "summary": "Event stream"
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "EngineToken": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Luma-Engine-Token"
+      }
+    }
+  }
+}

@@ -1,0 +1,57 @@
+[
+  {
+    "name": "area:frontend",
+    "color": "1d76db",
+    "description": "React/Tauri UI"
+  },
+  {
+    "name": "area:engine",
+    "color": "5319e7",
+    "description": "Rust torrent engine sidecar"
+  },
+  {
+    "name": "area:security",
+    "color": "b60205",
+    "description": "Security or safety sensitive"
+  },
+  {
+    "name": "area:ux",
+    "color": "fbca04",
+    "description": "User experience and design"
+  },
+  {
+    "name": "area:packaging",
+    "color": "c5def5",
+    "description": "Installers, releases, platform packaging"
+  },
+  {
+    "name": "type:bug",
+    "color": "d73a4a",
+    "description": "Something is broken"
+  },
+  {
+    "name": "type:feature",
+    "color": "a2eeef",
+    "description": "New feature"
+  },
+  {
+    "name": "type:docs",
+    "color": "0075ca",
+    "description": "Documentation"
+  },
+  {
+    "name": "risk:high",
+    "color": "b60205",
+    "description": "Needs careful review"
+  },
+  {
+    "name": "codex-ready",
+    "color": "0e8a16",
+    "description": "Well-scoped task for Codex"
+  },
+  {
+    "name": "good first issue",
+    "color": "7057ff",
+    "description": "Good for new contributors"
+  }
+]

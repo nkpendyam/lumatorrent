@@ -1,0 +1,34 @@
+{
+  "remainingGaps": [
+    {
+      "area": "engine",
+      "gap": "real libtorrent add/pause/resume/remove not implemented",
+      "severity": "critical"
+    },
+    {
+      "area": "downloads",
+      "gap": "real magnet metadata fetch not implemented",
+      "severity": "critical"
+    },
+    {
+      "area": "files",
+      "gap": "delete-to-trash not implemented",
+      "severity": "critical"
+    },
+    {
+      "area": "diagnostics",
+      "gap": "Download Doctor uses mock inputs",
+      "severity": "high"
+    },
+    {
+      "area": "release",
+      "gap": "signing secrets not configured",
+      "severity": "high"
+    },
+    {
+      "area": "qa",
+      "gap": "no real OS test evidence",
+      "severity": "high"
+    }
+  ]
+}

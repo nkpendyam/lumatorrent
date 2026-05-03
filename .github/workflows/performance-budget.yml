@@ -1,0 +1,14 @@
+name: Performance Budget
+on:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  perf-budget:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node scripts/performance-budget-check.mjs
+      - run: node scripts/generate-benchmark-scenarios.mjs

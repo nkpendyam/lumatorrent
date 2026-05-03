@@ -1,0 +1,21 @@
+{
+  "name": "lumatorrent_senior_v10",
+  "version": "v10",
+  "purpose": "Production execution scaffold for Codex with GitHub automation, Plus-plan strategy, production gap register, and stronger auditability.",
+  "honest_status": "Strong scaffold, not finished torrent client.",
+  "can_do": [
+    "guide Codex",
+    "create GitHub repo after auth",
+    "create labels/milestones/issues",
+    "validate contracts",
+    "run quality gates",
+    "support phase-by-phase implementation"
+  ],
+  "cannot_do": [
+    "bypass permissions",
+    "self-authorize accounts",
+    "include signing certificates",
+    "guarantee unlimited Plus usage",
+    "download real torrents before libtorrent implementation"
+  ]
+}

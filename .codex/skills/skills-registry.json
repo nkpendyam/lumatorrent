@@ -1,0 +1,114 @@
+{
+  "version": 1,
+  "updatedBy": "Codex or maintainer",
+  "skills": [
+    {
+      "name": "Tauri 2",
+      "purpose": "Desktop app shell, native permissions, windowing, sidecar, packaging",
+      "docsUrl": "https://v2.tauri.app/",
+      "install": "pnpm install plus Rust toolchain",
+      "verify": "pnpm --filter @lumatorrent/desktop tauri info",
+      "status": "planned",
+      "securityNotes": "Use least-privilege permissions and keep sidecar scoped."
+    },
+    {
+      "name": "React + TypeScript",
+      "purpose": "Premium desktop UI implementation",
+      "docsUrl": "https://react.dev/",
+      "install": "pnpm install",
+      "verify": "pnpm -r typecheck",
+      "status": "planned",
+      "securityNotes": "Avoid unsafe HTML injection."
+    },
+    {
+      "name": "Tailwind CSS",
+      "purpose": "Design tokens, spacing, layout, responsive UI",
+      "docsUrl": "https://tailwindcss.com/docs",
+      "install": "pnpm install",
+      "verify": "pnpm -r lint",
+      "status": "planned",
+      "securityNotes": "Keep generated CSS deterministic."
+    },
+    {
+      "name": "shadcn/ui",
+      "purpose": "Accessible UI component starting point",
+      "docsUrl": "https://ui.shadcn.com/docs",
+      "install": "Install components intentionally, one at a time",
+      "verify": "Component tests and visual review",
+      "status": "planned",
+      "securityNotes": "Review copied component diffs."
+    },
+    {
+      "name": "Motion",
+      "purpose": "Premium animation and transitions",
+      "docsUrl": "https://motion.dev/",
+      "install": "pnpm install",
+      "verify": "Playwright smoke tests and reduced-motion checks",
+      "status": "planned",
+      "securityNotes": "Respect reduced-motion preference."
+    },
+    {
+      "name": "Rust",
+      "purpose": "Safe backend/controller and sidecar code",
+      "docsUrl": "https://www.rust-lang.org/learn",
+      "install": "rustup toolchain install stable",
+      "verify": "cargo test --workspace",
+      "status": "planned",
+      "securityNotes": "Minimize unsafe code."
+    },
+    {
+      "name": "libtorrent",
+      "purpose": "Battle-tested torrent engine core",
+      "docsUrl": "https://www.libtorrent.org/",
+      "install": "Use approved OS package manager, vcpkg, Homebrew, or controlled CMake build",
+      "verify": "Native engine smoke tests",
+      "status": "planned",
+      "securityNotes": "Keep behind sidecar boundary."
+    },
+    {
+      "name": "CMake",
+      "purpose": "Native engine build system",
+      "docsUrl": "https://cmake.org/documentation/",
+      "install": "OS package manager",
+      "verify": "cmake --version",
+      "status": "planned",
+      "securityNotes": "Pin CI versions where possible."
+    },
+    {
+      "name": "Playwright",
+      "purpose": "UI smoke and integration tests",
+      "docsUrl": "https://playwright.dev/",
+      "install": "pnpm install",
+      "verify": "pnpm test:e2e",
+      "status": "planned",
+      "securityNotes": "Do not store secrets in tests."
+    },
+    {
+      "name": "GitHub Actions",
+      "purpose": "CI, packaging, security workflows",
+      "docsUrl": "https://docs.github.com/actions",
+      "install": "None",
+      "verify": "CI green",
+      "status": "planned",
+      "securityNotes": "Use least-privilege token permissions."
+    },
+    {
+      "name": "OpenAI Codex",
+      "purpose": "AI coding workflow, model routing, local development assistance",
+      "docsUrl": "https://developers.openai.com/codex/",
+      "install": "Follow official Codex docs",
+      "verify": "codex --version",
+      "status": "planned",
+      "securityNotes": "Use approval policy and model routing."
+    },
+    {
+      "name": "OpenAI image generation",
+      "purpose": "Premium UI/UX concept generation and design references",
+      "docsUrl": "https://platform.openai.com/docs/guides/image-generation",
+      "install": "Use current OpenAI image generation tool available to the user",
+      "verify": "Design review artifact generated",
+      "status": "planned",
+      "securityNotes": "Do not copy proprietary Apple assets."
+    }
+  ]
+}

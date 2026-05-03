@@ -1,0 +1,6 @@
+# Update these handles after creating the GitHub organization/repo.
+* @your-org/core-maintainers
+/apps/desktop/ @your-org/frontend-maintainers
+/apps/engine/ @your-org/engine-maintainers
+/packages/shared/src/pathSafety.ts @your-org/security-maintainers
+/docs/SECURITY_MODEL.md @your-org/security-maintainers

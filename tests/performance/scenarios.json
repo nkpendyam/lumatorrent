@@ -1,0 +1,16 @@
+{
+  "scenarios": [
+    {
+      "name": "dashboard-500-torrents",
+      "target": "no visible jank while scrolling"
+    },
+    {
+      "name": "event-rate-limit",
+      "target": "renderer receives aggregated updates"
+    },
+    {
+      "name": "cold-start",
+      "target": "document budget before implementation"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "gates": [
+    {
+      "id": "G0",
+      "name": "preflight",
+      "required": [
+        "node",
+        "pnpm",
+        "rust",
+        "git"
+      ],
+      "mustPassBefore": "M0"
+    },
+    {
+      "id": "G1",
+      "name": "contract validation",
+      "requiredScripts": [
+        "contracts:validate",
+        "test:contracts"
+      ],
+      "mustPassBefore": "engine-real"
+    },
+    {
+      "id": "G2",
+      "name": "safe file handling",
+      "requiredSpecs": [
+        "SAFE_DELETE_TO_TRASH_IMPLEMENTATION_SPEC.md"
+      ],
+      "mustPassBefore": "beta"
+    },
+    {
+      "id": "G3",
+      "name": "os qa",
+      "requiredPlatforms": [
+        "windows-11",
+        "macos-apple-silicon",
+        "ubuntu-lts"
+      ],
+      "mustPassBefore": "public-release"
+    },
+    {
+      "id": "G4",
+      "name": "signed release",
+      "requiredSecrets": [
+        "TAURI_PRIVATE_KEY",
+        "TAURI_KEY_PASSWORD"
+      ],
+      "mustPassBefore": "auto-update"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "file": "movie.mp4",
+    "level": "safe"
+  },
+  {
+    "file": "installer.exe",
+    "level": "danger"
+  },
+  {
+    "file": "archive.zip",
+    "level": "caution"
+  },
+  {
+    "file": "script.ps1",
+    "level": "danger"
+  },
+  {
+    "file": "disk-image.dmg",
+    "level": "danger"
+  }
+]

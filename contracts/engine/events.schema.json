@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EngineEvent",
+  "type": "object",
+  "required": [
+    "type",
+    "timestamp"
+  ],
+  "properties": {
+    "type": {
+      "enum": [
+        "torrent.added",
+        "torrent.metadata",
+        "torrent.progress",
+        "torrent.completed",
+        "torrent.paused",
+        "torrent.error",
+        "engine.restarted",
+        "diagnostic.updated"
+      ]
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "torrentId": {
+      "type": "string"
+    },
+    "payload": {
+      "type": "object"
+    }
+  }
+}

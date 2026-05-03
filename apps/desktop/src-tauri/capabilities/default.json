@@ -1,0 +1,18 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Default desktop capability. Keep narrow; only allow the LumaTorrent sidecar commands needed by the app.",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    {
+      "identifier": "shell:allow-spawn",
+      "allow": [
+        {
+          "name": "luma-engine",
+          "sidecar": true
+        }
+      ]
+    }
+  ]
+}
