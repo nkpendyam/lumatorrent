@@ -1,6 +1,7 @@
 export type ThemeMode = "system" | "light" | "dark";
 export type ResolvedTheme = "light" | "dark";
 
+// Kept for migration from the pre-M3 standalone theme setting.
 export const THEME_STORAGE_KEY = "lumatorrent.theme";
 
 const themeModes: ThemeMode[] = ["system", "light", "dark"];

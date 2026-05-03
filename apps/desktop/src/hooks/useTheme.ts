@@ -1,25 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
-import {
-  isThemeMode,
-  resolveThemeMode,
-  THEME_STORAGE_KEY,
-  type ResolvedTheme,
-  type ThemeMode,
-} from "../app/theme";
+import { useEffect, useState } from "react";
+import type { ResolvedTheme } from "../app/theme";
 
-function getSystemTheme(): ResolvedTheme {
+export function getSystemTheme(): ResolvedTheme {
   if (typeof window === "undefined") return "dark";
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
-function readStoredTheme(): ThemeMode {
-  if (typeof window === "undefined") return "system";
-  const stored = window.localStorage.getItem(THEME_STORAGE_KEY);
-  return isThemeMode(stored) ? stored : "system";
-}
-
-export function useTheme() {
-  const [mode, setMode] = useState<ThemeMode>(() => readStoredTheme());
+export function useSystemTheme() {
   const [systemTheme, setSystemTheme] = useState<ResolvedTheme>(() => getSystemTheme());
 
   useEffect(() => {
@@ -31,11 +18,5 @@ export function useTheme() {
     return () => query.removeEventListener("change", update);
   }, []);
 
-  useEffect(() => {
-    window.localStorage.setItem(THEME_STORAGE_KEY, mode);
-  }, [mode]);
-
-  const resolvedTheme = useMemo(() => resolveThemeMode(mode, systemTheme), [mode, systemTheme]);
-
-  return { mode, resolvedTheme, setMode };
+  return systemTheme;
 }

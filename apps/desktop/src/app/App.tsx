@@ -13,7 +13,8 @@ import {
   tickTorrent,
 } from "../features/downloads/mockEngine";
 import { useReducedMotion } from "../hooks/useReducedMotion";
-import { useTheme } from "../hooks/useTheme";
+import { useSettings } from "../hooks/useSettings";
+import { useSystemTheme } from "../hooks/useTheme";
 import { CommandPalette } from "../components/CommandPalette";
 import { EmptyState } from "../components/EmptyState";
 import { MetricCard } from "../components/MetricCard";
@@ -31,7 +32,7 @@ import {
   type DashboardFilter,
 } from "../features/downloads/dashboardModel";
 import { getDownloadListMotion } from "./motion";
-import { getNextThemeMode } from "./theme";
+import { getNextThemeMode, resolveThemeMode } from "./theme";
 
 export function App() {
   const [torrents, setTorrents] = useState<TorrentSummary[]>(() => createMockDashboardTorrents());
@@ -47,8 +48,10 @@ export function App() {
   const [dashboardFilter, setDashboardFilter] = useState<DashboardFilter>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDiagnostic, setSelectedDiagnostic] = useState<SpeedDiagnostic | null>(null);
-  const reducedMotion = useReducedMotion();
-  const { mode: themeMode, resolvedTheme, setMode: setThemeMode } = useTheme();
+  const { settings, updateSettings, resetSettings } = useSettings();
+  const systemTheme = useSystemTheme();
+  const reducedMotion = useReducedMotion(settings.appearance.reducedMotion);
+  const resolvedTheme = resolveThemeMode(settings.appearance.theme, systemTheme);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -94,7 +97,7 @@ export function App() {
             title="Downloads"
             subtitle={`${stats.activeCount} active · ${torrents.length} total`}
             density={ui.density}
-            themeMode={themeMode}
+            themeMode={settings.appearance.theme}
             resolvedTheme={resolvedTheme}
             onToggleDensity={() =>
               setUi((current) => ({
@@ -103,7 +106,15 @@ export function App() {
               }))
             }
             onToggleSidebar={() => setSidebarCollapsed((current) => !current)}
-            onToggleTheme={() => setThemeMode((current) => getNextThemeMode(current))}
+            onToggleTheme={() =>
+              updateSettings((current) => ({
+                ...current,
+                appearance: {
+                  ...current.appearance,
+                  theme: getNextThemeMode(current.appearance.theme),
+                },
+              }))
+            }
             onCommand={() => setCommandOpen(true)}
             onAdd={() => setAdding(true)}
           />
@@ -243,7 +254,13 @@ export function App() {
       ) : null}
       {ui.view === "diagnostics" ? <DiagnosticsPage /> : null}
       {ui.view === "safety" ? <SafetyPage /> : null}
-      {ui.view === "settings" ? <SettingsPage /> : null}
+      {ui.view === "settings" ? (
+        <SettingsPage
+          settings={settings}
+          onUpdateSettings={updateSettings}
+          onResetSettings={resetSettings}
+        />
+      ) : null}
       <AnimatePresence>
         <CommandPalette open={commandOpen} onClose={() => setCommandOpen(false)} />
         {isAdding ? (
