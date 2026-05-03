@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
+import { Activity, Gauge, HeartPulse, Search, ShieldCheck } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { diagnoseTorrent, type SpeedDiagnostic, type TorrentSummary } from "@lumatorrent/shared";
 import { DownloadCard } from "../features/downloads/DownloadCard";
@@ -6,7 +7,11 @@ import { DownloadTable } from "../features/downloads/DownloadTable";
 import { DownloadInspector } from "../features/downloads/DownloadInspector";
 import { AddTorrentModal } from "../features/add-torrent/AddTorrentModal";
 import { DownloadDoctorPanel } from "../features/diagnostics/DownloadDoctorPanel";
-import { createMockTorrent, tickTorrent } from "../features/downloads/mockEngine";
+import {
+  createMockDashboardTorrents,
+  createMockTorrent,
+  tickTorrent,
+} from "../features/downloads/mockEngine";
 import { useReducedMotion } from "../hooks/useReducedMotion";
 import { useTheme } from "../hooks/useTheme";
 import { CommandPalette } from "../components/CommandPalette";
@@ -14,19 +19,22 @@ import { EmptyState } from "../components/EmptyState";
 import { MetricCard } from "../components/MetricCard";
 import { TopBar } from "../components/TopBar";
 import { AppShell } from "./AppShell";
-import { selectTorrent, type AppUiState } from "./productState";
+import { getNextViewDensity, selectTorrent, type AppUiState } from "./productState";
 import { SettingsPage } from "../features/settings/SettingsPage";
 import { SafetyPage } from "../features/safety/SafetyPage";
 import { DiagnosticsPage } from "../features/diagnostics/DiagnosticsPage";
+import {
+  dashboardFilters,
+  filterTorrents,
+  getDashboardStats,
+  getEmptyStateCopy,
+  type DashboardFilter,
+} from "../features/downloads/dashboardModel";
 import { getDownloadListMotion } from "./motion";
 import { getNextThemeMode } from "./theme";
 
 export function App() {
-  const [torrents, setTorrents] = useState<TorrentSummary[]>([
-    createMockTorrent("Ubuntu 26.04 Daily ISO", "excellent", 0.72),
-    createMockTorrent("Public Climate Dataset", "good", 0.41),
-    createMockTorrent("Creative Commons Film Pack", "weak", 0.08),
-  ]);
+  const [torrents, setTorrents] = useState<TorrentSummary[]>(() => createMockDashboardTorrents());
   const [ui, setUi] = useState<AppUiState>({
     view: "downloads",
     density: "cards",
@@ -36,6 +44,8 @@ export function App() {
   const [isAdding, setAdding] = useState(false);
   const [commandOpen, setCommandOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [dashboardFilter, setDashboardFilter] = useState<DashboardFilter>("all");
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedDiagnostic, setSelectedDiagnostic] = useState<SpeedDiagnostic | null>(null);
   const reducedMotion = useReducedMotion();
   const { mode: themeMode, resolvedTheme, setMode: setThemeMode } = useTheme();
@@ -60,9 +70,16 @@ export function App() {
     () => selectTorrent(torrents, ui.selectedTorrentId),
     [torrents, ui.selectedTorrentId],
   );
+  const visibleTorrents = useMemo(
+    () => filterTorrents(torrents, dashboardFilter, searchQuery),
+    [dashboardFilter, searchQuery, torrents],
+  );
   const downloadListMotion = useMemo(() => getDownloadListMotion(reducedMotion), [reducedMotion]);
-  const activeCount = torrents.filter((t) => t.status === "downloading").length;
-  const totalSpeed = torrents.reduce((sum, torrent) => sum + torrent.downloadSpeedBytes, 0);
+  const stats = useMemo(() => getDashboardStats(torrents), [torrents]);
+  const emptyState = useMemo(
+    () => getEmptyStateCopy(dashboardFilter, searchQuery),
+    [dashboardFilter, searchQuery],
+  );
 
   return (
     <AppShell
@@ -75,14 +92,14 @@ export function App() {
         <>
           <TopBar
             title="Downloads"
-            subtitle={`${activeCount} active · ${torrents.length} total`}
+            subtitle={`${stats.activeCount} active · ${torrents.length} total`}
             density={ui.density}
             themeMode={themeMode}
             resolvedTheme={resolvedTheme}
             onToggleDensity={() =>
               setUi((current) => ({
                 ...current,
-                density: current.density === "cards" ? "table" : "cards",
+                density: getNextViewDensity(current.density),
               }))
             }
             onToggleSidebar={() => setSidebarCollapsed((current) => !current)}
@@ -95,23 +112,81 @@ export function App() {
               <EmptyState onAdd={() => setAdding(true)} />
             ) : (
               <>
-                <div className="mb-6 grid gap-4 md:grid-cols-3">
+                <div className="mb-6 grid gap-4 md:grid-cols-4">
                   <MetricCard
                     label="Total speed"
-                    value={`${(totalSpeed / 1024 / 1024).toFixed(1)} MB/s`}
+                    value={`${(stats.totalSpeedBytes / 1024 / 1024).toFixed(1)} MB/s`}
                     detail="smoothed mock telemetry"
+                    icon={<Gauge size={18} aria-hidden />}
                   />
-                  <MetricCard label="Health" value="Mostly good" detail="availability weighted" />
+                  <MetricCard
+                    label="Health"
+                    value={
+                      stats.attentionCount > 0 ? `${stats.attentionCount} need review` : "Clear"
+                    }
+                    detail="availability weighted"
+                    icon={<HeartPulse size={18} aria-hidden />}
+                  />
+                  <MetricCard
+                    label="Completed"
+                    value={`${stats.completedCount}`}
+                    detail="ready or seeding"
+                    icon={<Activity size={18} aria-hidden />}
+                  />
                   <MetricCard
                     label="Protection"
                     value="Safe delete on"
                     detail="destructive actions guarded"
+                    icon={<ShieldCheck size={18} aria-hidden />}
                   />
                 </div>
+
+                <div className="mb-5 flex flex-col gap-3 rounded-[var(--lt-radius-card)] border border-[var(--lt-border-subtle)] bg-[var(--lt-surface-2)] p-3 shadow-[var(--lt-shadow-soft)] sm:flex-row sm:items-center sm:justify-between">
+                  <div className="relative min-w-0 flex-1">
+                    <Search
+                      className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[var(--lt-text-tertiary)]"
+                      size={16}
+                      aria-hidden
+                    />
+                    <input
+                      value={searchQuery}
+                      onChange={(event) => setSearchQuery(event.target.value)}
+                      className="lt-focus-ring w-full rounded-[var(--lt-radius-control)] border border-[var(--lt-border-subtle)] bg-[var(--lt-surface-0)] py-2 pl-9 pr-3 text-sm text-[var(--lt-text-primary)] placeholder:text-[var(--lt-text-tertiary)]"
+                      placeholder="Search legal downloads"
+                      aria-label="Search downloads"
+                    />
+                  </div>
+                  <div
+                    className="flex gap-2 overflow-x-auto"
+                    role="group"
+                    aria-label="Dashboard filters"
+                  >
+                    {dashboardFilters.map((filter) => {
+                      const selected = dashboardFilter === filter.id;
+
+                      return (
+                        <button
+                          key={filter.id}
+                          type="button"
+                          onClick={() => setDashboardFilter(filter.id)}
+                          className={`lt-focus-ring shrink-0 rounded-[var(--lt-radius-pill)] px-3 py-2 text-sm font-medium transition duration-[var(--lt-duration-fast)] ease-[var(--lt-ease-standard)] ${
+                            selected
+                              ? "bg-[var(--lt-accent)] text-[var(--lt-text-inverse)]"
+                              : "bg-[var(--lt-surface-muted)] text-[var(--lt-text-secondary)] hover:text-[var(--lt-text-primary)]"
+                          }`}
+                          aria-pressed={selected}
+                        >
+                          {filter.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
                 {ui.density === "cards" ? (
                   <div className="space-y-4">
                     <AnimatePresence initial={false}>
-                      {torrents.map((torrent) => (
+                      {visibleTorrents.map((torrent) => (
                         <motion.div
                           key={torrent.id}
                           layout={downloadListMotion.layout}
@@ -130,13 +205,37 @@ export function App() {
                         </motion.div>
                       ))}
                     </AnimatePresence>
+                    {visibleTorrents.length === 0 ? (
+                      <EmptyState
+                        title={emptyState.title}
+                        description={emptyState.description}
+                        actionLabel="Clear filters"
+                        onAdd={() => {
+                          setDashboardFilter("all");
+                          setSearchQuery("");
+                        }}
+                      />
+                    ) : null}
                   </div>
                 ) : (
                   <DownloadTable
-                    torrents={torrents}
+                    torrents={visibleTorrents}
                     onSelect={(id) => setUi((current) => ({ ...current, selectedTorrentId: id }))}
                   />
                 )}
+                {ui.density === "table" && visibleTorrents.length === 0 ? (
+                  <div className="mt-4">
+                    <EmptyState
+                      title={emptyState.title}
+                      description={emptyState.description}
+                      actionLabel="Clear filters"
+                      onAdd={() => {
+                        setDashboardFilter("all");
+                        setSearchQuery("");
+                      }}
+                    />
+                  </div>
+                ) : null}
               </>
             )}
           </section>

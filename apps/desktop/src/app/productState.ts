@@ -13,3 +13,7 @@ export type AppUiState = {
 export function selectTorrent(torrents: TorrentSummary[], id: string | null) {
   return torrents.find((torrent) => torrent.id === id) ?? null;
 }
+
+export function getNextViewDensity(density: ViewDensity): ViewDensity {
+  return density === "cards" ? "table" : "cards";
+}
