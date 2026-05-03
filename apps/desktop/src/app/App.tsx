@@ -7,7 +7,12 @@ import { DownloadTable } from "../features/downloads/DownloadTable";
 import { DownloadInspector } from "../features/downloads/DownloadInspector";
 import { AddTorrentModal } from "../features/add-torrent/AddTorrentModal";
 import { DownloadDoctorPanel } from "../features/diagnostics/DownloadDoctorPanel";
-import { createMockEngineClient } from "../api/mockEngineClient";
+import {
+  getEngineLifecycleNotice,
+  initializeEngineLifecycle,
+  isTickingMockClient,
+  type EngineLifecycleState,
+} from "../api/engineLifecycle";
 import { useReducedMotion } from "../hooks/useReducedMotion";
 import { useSettings } from "../hooks/useSettings";
 import { useSystemTheme } from "../hooks/useTheme";
@@ -31,7 +36,7 @@ import { getDownloadListMotion } from "./motion";
 import { getNextThemeMode, resolveThemeMode } from "./theme";
 
 export function App() {
-  const [engineClient] = useState(() => createMockEngineClient());
+  const [engineLifecycle, setEngineLifecycle] = useState<EngineLifecycleState | null>(null);
   const [torrents, setTorrents] = useState<TorrentSummary[]>([]);
   const [ui, setUi] = useState<AppUiState>({
     view: "downloads",
@@ -49,6 +54,7 @@ export function App() {
   const systemTheme = useSystemTheme();
   const reducedMotion = useReducedMotion(settings.appearance.reducedMotion);
   const resolvedTheme = resolveThemeMode(settings.appearance.theme, systemTheme);
+  const engineNotice = engineLifecycle ? getEngineLifecycleNotice(engineLifecycle) : null;
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -62,13 +68,24 @@ export function App() {
   }, []);
 
   useEffect(() => {
-    void engineClient.listTorrents().then(setTorrents);
-  }, [engineClient]);
+    let cancelled = false;
+    void initializeEngineLifecycle().then((nextLifecycle) => {
+      if (cancelled) return;
+      setEngineLifecycle(nextLifecycle);
+      void nextLifecycle.client.listTorrents().then(setTorrents);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
-    const id = window.setInterval(() => setTorrents(engineClient.tick()), 1200);
+    if (!engineLifecycle) return undefined;
+    const client = engineLifecycle.client;
+    if (!isTickingMockClient(client)) return undefined;
+    const id = window.setInterval(() => setTorrents(client.tick()), 1200);
     return () => window.clearInterval(id);
-  }, [engineClient]);
+  }, [engineLifecycle]);
 
   const selectedTorrent = useMemo(
     () => selectTorrent(torrents, ui.selectedTorrentId),
@@ -120,8 +137,26 @@ export function App() {
             onAdd={() => setAdding(true)}
           />
           <section className="min-h-0 flex-1 overflow-auto p-4 sm:p-6 lg:p-8">
+            {engineNotice ? (
+              <div
+                className="mb-4 rounded-[var(--lt-radius-card)] border border-[var(--lt-status-warning-border)] bg-[var(--lt-status-warning-bg)] px-4 py-3 text-sm text-[var(--lt-status-warning-text)]"
+                role="status"
+              >
+                {engineNotice}
+              </div>
+            ) : null}
             {torrents.length === 0 ? (
-              <EmptyState onAdd={() => setAdding(true)} />
+              <EmptyState
+                title={engineNotice ? "Engine unavailable" : undefined}
+                description={
+                  engineNotice ??
+                  "Paste a magnet link or drop a .torrent file to begin. LumaTorrent is designed for legal files like Linux ISOs, open-source releases, public datasets, and Creative Commons media."
+                }
+                actionLabel={engineNotice ? "Engine offline" : "Add Torrent"}
+                onAdd={() => {
+                  if (!engineNotice) setAdding(true);
+                }}
+              />
             ) : (
               <>
                 <div className="mb-6 grid gap-4 md:grid-cols-4">
@@ -268,14 +303,16 @@ export function App() {
           <AddTorrentModal
             onClose={() => setAdding(false)}
             onAdd={(name) => {
+              if (!engineLifecycle) return;
               const displayName = name || "New legal torrent";
-              void engineClient
+              void engineLifecycle.client
                 .addMagnet({
                   magnetUri: `magnet:?dn=${encodeURIComponent(displayName)}`,
                   savePath: "~/Downloads/LumaTorrent",
                 })
-                .then(() => engineClient.listTorrents())
-                .then(setTorrents);
+                .then(() => engineLifecycle.client.listTorrents())
+                .then(setTorrents)
+                .catch(() => setTorrents([]));
               setAdding(false);
             }}
           />

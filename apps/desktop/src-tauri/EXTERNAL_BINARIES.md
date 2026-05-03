@@ -16,3 +16,12 @@ Codex task:
 3. Update `tauri.conf.json` externalBin after verifying local dev builds.
 
 Do not commit large generated binaries unless the repository explicitly chooses that workflow. Prefer CI artifacts/releases.
+
+`tauri.conf.json` intentionally does not enable `externalBin` in M5 because no target-suffixed sidecar binary is produced yet. Enabling it early makes `cargo check` fail before the desktop shell can compile. Re-enable `externalBin` in the milestone that builds and stages the sidecar artifact.
+
+M5 lifecycle scaffold:
+
+- Frontend default remains mock mode.
+- Local sidecar mode is opt-in through development configuration.
+- The sidecar auth token is a per-launch secret and must not be printed in logs.
+- Health checks use `GET /v1/health` with `X-Luma-Engine-Version: v1` and `X-Luma-Engine-Token`.

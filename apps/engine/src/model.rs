@@ -4,28 +4,49 @@ use uuid::Uuid;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+pub struct EngineHealth {
+    pub ok: bool,
+    pub api_version: String,
+    pub engine_version: String,
+    pub torrent_backend: EngineBackend,
+    pub uptime_seconds: u64,
+    pub started_at_iso: DateTime<Utc>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum EngineBackend {
+    Mock,
+    Stub,
+    Libtorrent,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct TorrentSummary {
     pub id: Uuid,
     pub name: String,
     pub status: TorrentStatus,
     pub progress: f32,
-    pub download_speed: u64,
-    pub upload_speed: u64,
+    pub download_speed_bytes: u64,
+    pub upload_speed_bytes: u64,
     pub eta_seconds: Option<u64>,
     pub health: Health,
+    pub health_confidence: f32,
     pub seeders: u32,
     pub peers: u32,
     pub size_bytes: u64,
     pub downloaded_bytes: u64,
     pub uploaded_bytes: u64,
     pub save_path: String,
-    pub added_at: DateTime<Utc>,
+    pub added_at_iso: DateTime<Utc>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum TorrentStatus {
     Checking,
+    Metadata,
     Downloading,
     Paused,
     Completed,
@@ -46,17 +67,27 @@ pub enum Health {
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct AddTorrentRequest {
-    pub magnet_or_path: String,
+    pub magnet_uri: String,
     pub save_path: String,
+    pub selected_files: Option<Vec<String>>,
+    pub start_paused: Option<bool>,
 }
 
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct DiagnosticResponse {
+pub struct AddTorrentResponse {
     pub torrent_id: Uuid,
-    pub confidence: f32,
+    pub status: TorrentStatus,
+}
+
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SpeedDiagnostic {
+    pub torrent_id: Uuid,
+    pub summary: String,
     pub causes: Vec<DiagnosticCause>,
-    pub recommendations: Vec<String>,
+    pub recommendations: Vec<Recommendation>,
+    pub generated_at_iso: DateTime<Utc>,
 }
 
 #[derive(Debug, Serialize)]
@@ -64,6 +95,24 @@ pub struct DiagnosticResponse {
 pub struct DiagnosticCause {
     pub code: String,
     pub severity: String,
+    pub title: String,
     pub message: String,
-    pub fixable: bool,
+    pub technical_details: Option<String>,
+}
+
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Recommendation {
+    pub id: String,
+    pub label: String,
+    pub description: String,
+    pub action: Option<String>,
+}
+
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct EngineError {
+    pub code: String,
+    pub message: String,
+    pub recoverable: bool,
 }

@@ -26,9 +26,6 @@
   "bundle": {
     "active": true,
     "targets": "all",
-    "icon": [],
-    "externalBin": [
-      "../../apps/engine/target/release/luma-engine"
-    ]
+    "icon": []
   }
 }

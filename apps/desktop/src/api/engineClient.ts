@@ -43,6 +43,7 @@ type FetchLike = (input: string, init?: RequestInit) => Promise<Response>;
 export type HttpEngineClientOptions = {
   baseUrl: string;
   token: string;
+  timeoutMs?: number;
   fetchImpl?: FetchLike;
 };
 
@@ -59,12 +60,14 @@ export function assertLocalEngineUrl(url: string): void {
 export class HttpEngineClient implements EngineClient {
   private readonly baseUrl: string;
   private readonly token: string;
+  private readonly timeoutMs: number;
   private readonly fetchImpl: FetchLike;
 
   constructor(options: HttpEngineClientOptions) {
     assertLocalEngineUrl(options.baseUrl);
     this.baseUrl = options.baseUrl.replace(/\/$/, "");
     this.token = options.token;
+    this.timeoutMs = options.timeoutMs ?? 5_000;
     this.fetchImpl = options.fetchImpl ?? fetch;
   }
 
@@ -131,20 +134,22 @@ export class HttpEngineClient implements EngineClient {
 
   private async requestJson(path: string, init: RequestInit = {}): Promise<unknown> {
     let response: Response;
+    const controller = new AbortController();
+    const timeoutId = globalThis.setTimeout(() => controller.abort(), this.timeoutMs);
     try {
       response = await this.fetchImpl(`${this.baseUrl}${path}`, {
         ...init,
+        signal: init.signal ?? controller.signal,
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "X-Luma-Engine-Token": this.token,
-          "X-Luma-Engine-Version": ENGINE_API_VERSION,
+          ...createEngineRequestHeaders(this.token),
           ...init.headers,
         },
       });
     } catch {
       const error = createEngineUnavailableError("Engine request failed.");
       throw new EngineClientError(error.message, error.code, error);
+    } finally {
+      globalThis.clearTimeout(timeoutId);
     }
 
     const payload = await parseJsonResponse(response);
@@ -154,6 +159,15 @@ export class HttpEngineClient implements EngineClient {
     }
     return payload;
   }
+}
+
+export function createEngineRequestHeaders(token: string): Record<string, string> {
+  return {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    "X-Luma-Engine-Token": token,
+    "X-Luma-Engine-Version": ENGINE_API_VERSION,
+  };
 }
 
 export class UnavailableEngineClient implements EngineClient {

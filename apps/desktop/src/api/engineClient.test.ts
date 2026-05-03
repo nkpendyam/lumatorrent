@@ -4,6 +4,7 @@ import {
   applyEngineEventToTorrents,
   assertLocalEngineUrl,
   EngineClientError,
+  createEngineRequestHeaders,
   HttpEngineClient,
   parseEngineEvent,
   UnavailableEngineClient,
@@ -109,6 +110,29 @@ describe("http engine client", () => {
     });
 
     await expect(unavailable.health()).rejects.toMatchObject({ code: "ENGINE_UNAVAILABLE" });
+  });
+
+  it("builds auth headers without logging token material", () => {
+    const headers = createEngineRequestHeaders("secret-token");
+
+    expect(headers["X-Luma-Engine-Token"]).toBe("secret-token");
+    expect(Object.keys(headers)).toContain("X-Luma-Engine-Version");
+  });
+
+  it("times out unavailable local engine requests", async () => {
+    const client = new HttpEngineClient({
+      baseUrl: "http://localhost:19876/v1",
+      token: "test-token",
+      timeoutMs: 1,
+      fetchImpl: (_input, init) =>
+        new Promise((_resolve, reject) => {
+          init?.signal?.addEventListener("abort", () =>
+            reject(new DOMException("Aborted", "AbortError")),
+          );
+        }),
+    });
+
+    await expect(client.health()).rejects.toMatchObject({ code: "ENGINE_UNAVAILABLE" });
   });
 });
 

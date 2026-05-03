@@ -25,7 +25,9 @@ pub fn validate_torrent_relative_path(path: &str) -> Result<(), String> {
     for component in p.components() {
         match component {
             Component::ParentDir => return Err("parent traversal is not allowed".to_string()),
-            Component::RootDir | Component::Prefix(_) => return Err("root/prefix paths are not allowed".to_string()),
+            Component::RootDir | Component::Prefix(_) => {
+                return Err("root/prefix paths are not allowed".to_string())
+            }
             _ => {}
         }
     }
