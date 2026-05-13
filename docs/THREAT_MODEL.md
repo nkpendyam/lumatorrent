@@ -22,18 +22,23 @@
 ## High-risk threats and controls
 
 ### Path traversal
+
 Controls: normalize paths, reject absolute paths and traversal segments, never follow symlinks when deleting, and keep path-safety tests mandatory in CI.
 
 ### Unsafe deletion
+
 Controls: separate “remove from app” from “move files to trash,” delete only files listed in the torrent manifest, show exact deletion preview, prefer OS trash/recycle bin, and never delete parent folders blindly.
 
 ### Remote-control exposure
+
 Controls: disabled by default, localhost binding in MVP, strong random auth token, no default passwords, and CSRF protection if browser-accessible.
 
 ### Malicious executables
+
 Controls: classify risky file types, warn before opening executable/script/archive files, and never auto-open downloaded content.
 
 ### Resource exhaustion
+
 Controls: virtualized file/peer lists, capped logs, capped speed history, metadata size limits, and disk-space preflight checks.
 
 ## Security release gate

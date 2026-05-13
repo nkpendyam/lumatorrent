@@ -41,6 +41,7 @@ If the exact model names in the user's account differ, Codex must inspect availa
 ## Autonomy boundaries
 
 Codex may automate:
+
 - repo scanning
 - dependency install through official package managers
 - tests/lint/builds
@@ -50,6 +51,7 @@ Codex may automate:
 - local audits
 
 Codex must not:
+
 - bypass sandbox or OS permissions
 - self-authorize account access
 - store secrets in the repo

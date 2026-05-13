@@ -8,4 +8,6 @@ for (const gap of critical) {
   console.log(`- ${gap.id}: ${gap.title} -> ${gap.exit}`);
 }
 console.log("");
-console.log("Conclusion: scaffold is ready for Codex; production app still requires implementation milestones.");
+console.log(
+  "Conclusion: scaffold is ready for Codex; production app still requires implementation milestones.",
+);

@@ -70,7 +70,9 @@ Response:
 ```
 
 ### `POST /v1/torrents/:id/pause`
+
 ### `POST /v1/torrents/:id/resume`
+
 ### `POST /v1/torrents/:id/remove`
 
 Remove request:

@@ -1,9 +1,5 @@
 {
-  "platforms": [
-    "windows-11-x64",
-    "macos-apple-silicon",
-    "ubuntu-lts"
-  ],
+  "platforms": ["windows-11-x64", "macos-apple-silicon", "ubuntu-lts"],
   "scenarios": [
     "install",
     "launch",

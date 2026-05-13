@@ -1,128 +1,86 @@
 [
   {
     "title": "Run v10 full audit and fix any failures",
-    "milestone": "M0",
+    "milestone": "M0 Repo Hardening",
     "body": "Run pnpm verify:all, pnpm verify:v10, pnpm audit:v10, and document failures.",
-    "labels": [
-      "codex-ready",
-      "m0"
-    ]
+    "labels": ["codex-ready", "m0"]
   },
   {
     "title": "Initialize GitHub repository automation",
-    "milestone": "M0",
+    "milestone": "M0 Repo Hardening",
     "body": "Run GitHub dry-run scripts, then execute once credentials and repo owner are confirmed.",
-    "labels": [
-      "codex-ready",
-      "m0"
-    ]
+    "labels": ["codex-ready", "m0"]
   },
   {
     "title": "Implement dashboard card/table switch",
-    "milestone": "M1",
+    "milestone": "M1 Beautiful Mock MVP",
     "body": "Build accessible card/table switch with tests and reduced motion behavior.",
-    "labels": [
-      "codex-ready",
-      "m1"
-    ]
+    "labels": ["codex-ready", "m1"]
   },
   {
     "title": "Implement Add Torrent modal production states",
-    "milestone": "M1",
+    "milestone": "M1 Beautiful Mock MVP",
     "body": "Cover empty, parsing, metadata loading, duplicate, invalid, and ready states.",
-    "labels": [
-      "codex-ready",
-      "m1"
-    ]
+    "labels": ["codex-ready", "m1"]
   },
   {
     "title": "Bundle native stub engine as Tauri sidecar",
-    "milestone": "M2",
+    "milestone": "M2 Native Engine Stub",
     "body": "Use Tauri externalBin and verify the sidecar starts on loopback only.",
-    "labels": [
-      "codex-ready",
-      "m2"
-    ]
+    "labels": ["codex-ready", "m2"]
   },
   {
     "title": "Implement engine token lifecycle",
-    "milestone": "M2",
+    "milestone": "M2 Native Engine Stub",
     "body": "Generate, store, and pass a per-session token to the engine safely.",
-    "labels": [
-      "codex-ready",
-      "m2"
-    ]
+    "labels": ["codex-ready", "m2"]
   },
   {
     "title": "Create libtorrent session wrapper",
-    "milestone": "M3",
+    "milestone": "M3 Real libtorrent Alpha",
     "body": "Add native session wrapper with alerts and shutdown path.",
-    "labels": [
-      "codex-ready",
-      "m3"
-    ]
+    "labels": ["codex-ready", "m3"]
   },
   {
     "title": "Implement real magnet add",
-    "milestone": "M3",
+    "milestone": "M3 Real libtorrent Alpha",
     "body": "Add magnet URI to libtorrent session and emit metadata/progress events.",
-    "labels": [
-      "codex-ready",
-      "m3"
-    ]
+    "labels": ["codex-ready", "m3"]
   },
   {
     "title": "Implement .torrent file import",
-    "milestone": "M3",
+    "milestone": "M3 Real libtorrent Alpha",
     "body": "Support local .torrent import with path validation and fixtures.",
-    "labels": [
-      "codex-ready",
-      "m3"
-    ]
+    "labels": ["codex-ready", "m3"]
   },
   {
     "title": "Implement real tracker diagnostics",
-    "milestone": "M4",
+    "milestone": "M4 Download Doctor Alpha",
     "body": "Map tracker states to Download Doctor causes/recommendations.",
-    "labels": [
-      "codex-ready",
-      "m4"
-    ]
+    "labels": ["codex-ready", "m4"]
   },
   {
     "title": "Implement port status checker",
-    "milestone": "M4",
+    "milestone": "M4 Download Doctor Alpha",
     "body": "Detect likely closed/open port and communicate uncertainty.",
-    "labels": [
-      "codex-ready",
-      "m4"
-    ]
+    "labels": ["codex-ready", "m4"]
   },
   {
     "title": "Create Windows smoke test checklist run",
-    "milestone": "M5",
+    "milestone": "M5 Cross-platform Beta",
     "body": "Run installer and basic download flow on Windows 11.",
-    "labels": [
-      "codex-ready",
-      "m5"
-    ]
+    "labels": ["codex-ready", "m5"]
   },
   {
     "title": "Create macOS notarization dry run",
-    "milestone": "M5",
+    "milestone": "M5 Cross-platform Beta",
     "body": "Prepare signing/notarization without committing secrets.",
-    "labels": [
-      "codex-ready",
-      "m5"
-    ]
+    "labels": ["codex-ready", "m5"]
   },
   {
     "title": "Create Linux AppImage/deb smoke test",
-    "milestone": "M5",
+    "milestone": "M5 Cross-platform Beta",
     "body": "Build and smoke test Linux packages.",
-    "labels": [
-      "codex-ready",
-      "m5"
-    ]
+    "labels": ["codex-ready", "m5"]
   }
 ]

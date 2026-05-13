@@ -3,10 +3,5 @@
   "version": "v12",
   "description": "Final stronger production-execution scaffold with Codex context packs, implementation specs, GitHub project planning, quality gates, and gap reporting.",
   "honestStatus": "Strong scaffold; not a finished torrent client.",
-  "nonAutomatable": [
-    "permissions bypass",
-    "GitHub login",
-    "signing secrets",
-    "real OS QA evidence"
-  ]
+  "nonAutomatable": ["permissions bypass", "GitHub login", "signing secrets", "real OS QA evidence"]
 }

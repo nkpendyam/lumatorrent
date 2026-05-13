@@ -53,5 +53,35 @@
     "name": "good first issue",
     "color": "7057ff",
     "description": "Good for new contributors"
+  },
+  {
+    "name": "m0",
+    "color": "bfdadc",
+    "description": "M0 Repo Hardening"
+  },
+  {
+    "name": "m1",
+    "color": "bfd4f2",
+    "description": "M1 Beautiful Mock MVP"
+  },
+  {
+    "name": "m2",
+    "color": "d4c5f9",
+    "description": "M2 Native Engine Stub"
+  },
+  {
+    "name": "m3",
+    "color": "f9d0c4",
+    "description": "M3 Real libtorrent Alpha"
+  },
+  {
+    "name": "m4",
+    "color": "fef2c0",
+    "description": "M4 Download Doctor Alpha"
+  },
+  {
+    "name": "m5",
+    "color": "c2e0c6",
+    "description": "M5 Cross-platform Beta"
   }
 ]

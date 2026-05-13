@@ -1,10 +1,13 @@
 # Phase Master Plan
 
 ## Purpose
+
 This is the master execution map for Codex and human contributors. It converts the project vision into a disciplined build plan that avoids vibe-coding, protects safety, and moves from mock scaffold to real cross-platform torrent client.
 
 ## Global engineering rule
+
 Never implement a feature without:
+
 1. a product reason,
 2. a design state,
 3. a data/API contract,
@@ -13,10 +16,13 @@ Never implement a feature without:
 6. security/safety review if it touches files, network, IPC, downloads, or permissions.
 
 ## Phase 0 — Discovery, research, constraints
+
 ### Goal
+
 Understand the product deeply before coding.
 
 ### Required outputs
+
 - competitor matrix
 - product positioning
 - user personas
@@ -26,6 +32,7 @@ Understand the product deeply before coding.
 - MVP scope freeze
 
 ### Codex tasks
+
 - Read all root and `.codex` docs.
 - Fill `docs/research/COMPETITOR_MATRIX.md`.
 - Fill `docs/research/GAP_ANALYSIS.md`.
@@ -34,13 +41,17 @@ Understand the product deeply before coding.
 - Update `docs/PRODUCT_REQUIREMENTS.md`.
 
 ### Done when
+
 The project can be described in one sentence, every MVP feature has a reason, and non-goals are explicit.
 
 ## Phase 1 — Design system and interaction model
+
 ### Goal
+
 Create the Apple-inspired premium user experience before scaling implementation.
 
 ### Required outputs
+
 - `docs/DESIGN_BIBLE.md` updated
 - design tokens implemented
 - component library spec written
@@ -49,6 +60,7 @@ Create the Apple-inspired premium user experience before scaling implementation.
 - motion rules implemented
 
 ### Codex tasks
+
 - Create/refine design prompts.
 - Generate/review concept directions with image generation.
 - Translate concepts into tokens and components.
@@ -57,13 +69,17 @@ Create the Apple-inspired premium user experience before scaling implementation.
 - Implement Download Doctor visual language.
 
 ### Done when
+
 A user can understand the app in 10 seconds from the dashboard and advanced controls remain discoverable.
 
 ## Phase 2 — Frontend product shell
+
 ### Goal
+
 Build a polished desktop shell with real state boundaries even while engine data is mocked.
 
 ### Required outputs
+
 - app shell
 - navigation
 - cards/table toggle
@@ -74,13 +90,17 @@ Build a polished desktop shell with real state boundaries even while engine data
 - Playwright smoke coverage
 
 ### Done when
+
 The app feels like a real product demo and every major state is represented.
 
 ## Phase 3 — Engine API contract and mock engine
+
 ### Goal
+
 Make the UI depend on a realistic engine contract, not hardcoded mock data.
 
 ### Required outputs
+
 - versioned Engine API contract
 - mock engine server
 - contract tests
@@ -89,13 +109,17 @@ Make the UI depend on a realistic engine contract, not hardcoded mock data.
 - state persistence simulation
 
 ### Done when
+
 Frontend can switch between mock engine and future native engine with minimal changes.
 
 ## Phase 4 — Native engine sidecar
+
 ### Goal
+
 Integrate native torrent capability safely behind a sidecar boundary.
 
 ### Required outputs
+
 - sidecar build working in stub mode
 - libtorrent build path documented
 - lifecycle management
@@ -105,13 +129,17 @@ Integrate native torrent capability safely behind a sidecar boundary.
 - feature flag for native mode
 
 ### Done when
+
 The sidecar can start, respond to health checks, restart cleanly, and pass IPC safety tests.
 
 ## Phase 5 — Real torrent MVP
+
 ### Goal
+
 Download legal torrents reliably.
 
 ### Required outputs
+
 - magnet import
 - `.torrent` import
 - metadata fetching
@@ -123,13 +151,17 @@ Download legal torrents reliably.
 - legal fixture lab
 
 ### Done when
+
 A legal Linux ISO torrent can download, pause, resume, survive restart, and be removed safely.
 
 ## Phase 6 — Download Doctor and smart diagnostics
+
 ### Goal
+
 Make the product smarter than traditional clients.
 
 ### Required outputs
+
 - health score model
 - port check
 - tracker status
@@ -140,13 +172,17 @@ Make the product smarter than traditional clients.
 - confidence labels
 
 ### Done when
+
 Slow downloads get useful, honest explanations without promising impossible speed gains.
 
 ## Phase 7 — Expert mode
+
 ### Goal
+
 Keep power users without overwhelming beginners.
 
 ### Required outputs
+
 - tracker editor
 - peer list
 - ratio controls
@@ -156,13 +192,17 @@ Keep power users without overwhelming beginners.
 - force recheck / force announce
 
 ### Done when
+
 A power user can do expected advanced actions, but new users never see them by default.
 
 ## Phase 8 — QA, packaging, and release
+
 ### Goal
+
 Make releases repeatable and trustworthy.
 
 ### Required outputs
+
 - CI green
 - multi-OS smoke tests
 - packaging dry runs
@@ -172,13 +212,17 @@ Make releases repeatable and trustworthy.
 - update path tested
 
 ### Done when
+
 A beta user can install the app on supported OSes and run basic flows without developer tools.
 
 ## Phase 9 — Beta operations
+
 ### Goal
+
 Operate an open-source project professionally.
 
 ### Required outputs
+
 - issue triage
 - contribution guide
 - security policy
@@ -188,4 +232,5 @@ Operate an open-source project professionally.
 - release cadence
 
 ### Done when
+
 External contributors can help without creating chaos.

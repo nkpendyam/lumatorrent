@@ -17,7 +17,7 @@ const required = [
   "scripts/audit-v8-package.mjs",
   "scripts/test-engine-contracts.mjs",
   "scripts/performance-budget-check.mjs",
-  "scripts/create-legal-fixtures.mjs"
+  "scripts/create-legal-fixtures.mjs",
 ];
 
 let failed = false;

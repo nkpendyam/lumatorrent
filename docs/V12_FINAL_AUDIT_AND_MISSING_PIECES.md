@@ -1,9 +1,11 @@
 # V12 Final Audit and Missing Pieces
 
 ## Honest status
+
 V12 is a stronger production-execution scaffold. It is not a completed torrent client.
 
 ## What v12 strengthens
+
 - More exact Codex context packs.
 - More exact milestone sharding for ChatGPT Plus/Codex usage.
 - Stronger implementation specs for real torrent features.
@@ -14,6 +16,7 @@ V12 is a stronger production-execution scaffold. It is not a completed torrent c
 - More machine-readable quality gates and gap tracking.
 
 ## What remains impossible to include safely in a zip
+
 - User GitHub authentication.
 - Apple/Windows signing certificates.
 - Private release keys.
@@ -21,6 +24,7 @@ V12 is a stronger production-execution scaffold. It is not a completed torrent c
 - Permission bypass or self-authorization.
 
 ## What remains implementation work
+
 - Real libtorrent sidecar integration.
 - Real magnet metadata fetch.
 - Real .torrent parsing.

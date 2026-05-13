@@ -1,15 +1,19 @@
 # Phase 04 — QA, Release, and Operations
 
 ## Objective
+
 Ship a desktop app that is stable across Windows, macOS, and Linux, with clear release criteria and repeatable QA.
 
 ## QA matrix
+
 Test on:
+
 - Windows 11
 - latest macOS stable
 - Ubuntu LTS
 
 Critical scenarios:
+
 - add magnet
 - add .torrent
 - metadata fetch
@@ -26,6 +30,7 @@ Critical scenarios:
 - accessibility keyboard traversal
 
 ## Release gates
+
 - CI green
 - manual smoke tests complete
 - native sidecar build verified

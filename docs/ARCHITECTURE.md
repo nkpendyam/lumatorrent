@@ -40,13 +40,13 @@ packages/ui       Reusable UI primitives
 The UI never talks to libtorrent directly. It talks to an adapter:
 
 ```ts
-TorrentEngineClient
-  addMagnet(input)
-  pause(id)
-  resume(id)
-  remove(id, options)
-  getTorrents()
-  diagnose(id)
+TorrentEngineClient;
+addMagnet(input);
+pause(id);
+resume(id);
+remove(id, options);
+getTorrents();
+diagnose(id);
 ```
 
 ## UI update strategy

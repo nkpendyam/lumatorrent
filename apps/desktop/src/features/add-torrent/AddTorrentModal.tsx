@@ -1,7 +1,13 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 
-export function AddTorrentModal({ onClose, onAdd }: { onClose: () => void; onAdd: (name: string) => void }) {
+export function AddTorrentModal({
+  onClose,
+  onAdd,
+}: {
+  onClose: () => void;
+  onAdd: (name: string) => void;
+}) {
   const [value, setValue] = useState("");
   return (
     <motion.div
@@ -18,7 +24,8 @@ export function AddTorrentModal({ onClose, onAdd }: { onClose: () => void; onAdd
       >
         <h2 className="text-2xl font-semibold tracking-tight">Add legal torrent</h2>
         <p className="mt-2 text-sm text-slate-400">
-          Paste a magnet link or drop a .torrent file. LumaTorrent is designed for legal downloads only.
+          Paste a magnet link or drop a .torrent file. LumaTorrent is designed for legal downloads
+          only.
         </p>
         <textarea
           value={value}
@@ -30,7 +37,10 @@ export function AddTorrentModal({ onClose, onAdd }: { onClose: () => void; onAdd
           Drop .torrent file here
         </div>
         <div className="mt-6 flex justify-end gap-3">
-          <button onClick={onClose} className="rounded-2xl px-4 py-2 text-sm text-slate-300 hover:bg-white/10">
+          <button
+            onClick={onClose}
+            className="rounded-2xl px-4 py-2 text-sm text-slate-300 hover:bg-white/10"
+          >
             Cancel
           </button>
           <button

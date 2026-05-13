@@ -1,13 +1,16 @@
 # GitHub Automation Validation Plan
 
 ## Required tools
+
 - git
 - GitHub CLI `gh`
 - Node.js
 - pnpm
 
 ## Authentication checks
+
 Run:
+
 ```
 gh auth status
 ```
@@ -15,9 +18,11 @@ gh auth status
 For issue/project automation, GitHub CLI may need refreshed scopes depending on the operation.
 
 ## Dry-run first
+
 Every GitHub automation script must support dry-run by default and require `--execute` for mutation.
 
 ## Repo creation flow
+
 1. `pnpm github:doctor`
 2. `pnpm github:plan -- --owner OWNER --repo REPO`
 3. `pnpm github:init -- --owner OWNER --repo REPO --visibility public --execute`
@@ -28,6 +33,7 @@ Every GitHub automation script must support dry-run by default and require `--ex
 8. `pnpm github:secrets:check`
 
 ## Validation
+
 - repo exists
 - main branch exists
 - CI workflows visible
