@@ -1,6 +1,6 @@
 # Replace with real maintainers after repository creation.
-* @YOUR_ORG/core-maintainers
-/apps/engine/ @YOUR_ORG/backend-maintainers
-/apps/desktop/ @YOUR_ORG/frontend-maintainers
-/docs/SECURITY* @YOUR_ORG/security-maintainers
-/docs/THREAT_MODEL.md @YOUR_ORG/security-maintainers
+* @nkpendyam
+/apps/engine/ @nkpendyam
+/apps/desktop/ @nkpendyam
+/docs/SECURITY* @nkpendyam
+/docs/THREAT_MODEL.md @nkpendyam

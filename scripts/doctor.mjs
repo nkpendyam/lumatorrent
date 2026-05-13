@@ -1,13 +1,27 @@
-import { spawnSync } from "node:child_process";
-const commands = ["git", "node", "pnpm", "rustc", "cargo", "cmake"];
+import { execSync } from "node:child_process";
+
+const commands = [
+  ["git", "git --version"],
+  ["node", "node --version"],
+  ["pnpm", "pnpm --version"],
+  ["rustc", "rustc --version"],
+  ["cargo", "cargo --version"],
+  ["cmake", "cmake --version"],
+];
+
 let missing = false;
-for (const cmd of commands) {
-  const result = spawnSync(cmd, ["--version"], { encoding: "utf8" });
-  if (result.error) {
-    console.log(`missing: ${cmd}`);
+
+for (const [name, command] of commands) {
+  try {
+    const output = execSync(command, {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+    console.log(`${name}: ${output.trim().split("\n")[0]}`);
+  } catch {
+    console.log(`missing: ${name}`);
     missing = true;
-  } else {
-    console.log(`${cmd}: ${result.stdout.trim().split("\n")[0]}`);
   }
 }
+
 process.exit(missing ? 1 : 0);

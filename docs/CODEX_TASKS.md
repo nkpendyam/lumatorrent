@@ -4,10 +4,13 @@ Work in order. Do not skip safety tasks.
 
 ## Phase 0 — Repository hardening
 
-- [ ] Run `pnpm doctor` and record missing dependencies.
-- [ ] Run `node scripts/verify-project.mjs`.
-- [ ] Replace placeholder GitHub org names.
-- [ ] Generate `pnpm-lock.yaml` by running `pnpm install`.
+- [x] Run `pnpm doctor` and record missing dependencies.
+  - 2026-05-13 audit: `git`, `node`, `pnpm`, `rustc`, `cargo`, and authenticated `gh` are available through the project scripts. `cmake` is still missing and blocks native-engine build verification. Production doctor also reports optional `ninja` and `pkg-config` missing.
+- [x] Run `node scripts/verify-project.mjs`.
+- [x] Replace placeholder GitHub org names.
+  - 2026-05-13 audit: remote is `nkpendyam/lumatorrent`; repository metadata, CODEOWNERS, and repo automation runbooks now use `nkpendyam`.
+- [x] Generate `pnpm-lock.yaml` by running `pnpm install`.
+  - 2026-05-13 audit: `pnpm install` updated `pnpm-lock.yaml`; `pnpm install --frozen-lockfile` now passes.
 - [ ] Confirm `pnpm verify` passes.
 
 ## Phase 1 — UI foundation

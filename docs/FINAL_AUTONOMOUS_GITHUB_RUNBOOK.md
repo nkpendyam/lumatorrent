@@ -13,11 +13,11 @@
 ```bash
 pnpm github:doctor
 pnpm github:plan
-pnpm github:init -- --owner YOUR_OWNER --repo lumatorrent --visibility public --execute
-pnpm github:labels -- --owner YOUR_OWNER --repo lumatorrent --execute
-pnpm github:milestones -- --owner YOUR_OWNER --repo lumatorrent --execute
-pnpm github:issues -- --owner YOUR_OWNER --repo lumatorrent --execute
-pnpm github:rules -- --owner YOUR_OWNER --repo lumatorrent --execute
+pnpm github:init -- --owner nkpendyam --repo lumatorrent --visibility public --execute
+pnpm github:labels -- --owner nkpendyam --repo lumatorrent --execute
+pnpm github:milestones -- --owner nkpendyam --repo lumatorrent --execute
+pnpm github:issues -- --owner nkpendyam --repo lumatorrent --execute
+pnpm github:rules -- --owner nkpendyam --repo lumatorrent --execute
 pnpm github:project:plan
 ```
 
@@ -32,6 +32,7 @@ pnpm github:project:plan
 ## Production GitHub setup
 
 Enable:
+
 - branch protection
 - required CI
 - signed releases
