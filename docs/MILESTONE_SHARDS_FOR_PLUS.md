@@ -1,14 +1,17 @@
 # Milestone Shards for Codex on Plus
 
 ## Why this exists
+
 A Plus plan can use Codex, but large tasks must be split to avoid wasting allowance and context.
 
 ## Shard size rules
+
 - One shard = one PR.
 - One shard should be reviewable in under 500 changed lines when possible.
 - Large native integration work must be split into design, stub, adapter, tests, and platform hardening.
 
 ## Recommended order
+
 M0: local preflight and repo creation.
 M1: design token polish.
 M2: dashboard and inspector UI.

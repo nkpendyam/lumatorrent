@@ -1,9 +1,11 @@
 # Product Metrics and Observability Events
 
 ## Privacy rule
+
 No telemetry by default. All telemetry must be opt-in and documented.
 
 ## Local-only events to support diagnostics
+
 - app_started
 - engine_started
 - engine_crashed
@@ -17,6 +19,7 @@ No telemetry by default. All telemetry must be opt-in and documented.
 - safe_delete_completed
 
 ## Event schema requirements
+
 - event name
 - timestamp
 - app version

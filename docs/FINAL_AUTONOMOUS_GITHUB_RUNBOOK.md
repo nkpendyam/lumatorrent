@@ -32,6 +32,7 @@ pnpm github:project:plan
 ## Production GitHub setup
 
 Enable:
+
 - branch protection
 - required CI
 - signed releases

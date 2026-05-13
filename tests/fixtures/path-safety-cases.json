@@ -1,9 +1,5 @@
 {
-  "valid": [
-    "ubuntu/ubuntu.iso",
-    "datasets/climate_2026/part-001.csv",
-    "Creative Commons/film.mp4"
-  ],
+  "valid": ["ubuntu/ubuntu.iso", "datasets/climate_2026/part-001.csv", "Creative Commons/film.mp4"],
   "invalid": [
     "../secret.txt",
     "/etc/passwd",
@@ -12,11 +8,5 @@
     "CON/file.txt",
     "safe/../unsafe.txt"
   ],
-  "riskyFiles": [
-    "setup.exe",
-    "script.ps1",
-    "movie.mp4.js",
-    "installer.dmg",
-    "archive.zip"
-  ]
+  "riskyFiles": ["setup.exe", "script.ps1", "movie.mp4.js", "installer.dmg", "archive.zip"]
 }

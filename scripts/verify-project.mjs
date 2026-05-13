@@ -30,7 +30,7 @@ const required = [
   "tools/github-labels.json",
   "scripts/bootstrap.sh",
   "scripts/bootstrap.ps1",
-  "scripts/doctor.mjs"
+  "scripts/doctor.mjs",
 ];
 
 const missing = required.filter((file) => !existsSync(file));

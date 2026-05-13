@@ -1,6 +1,7 @@
 # Senior Code Review Rubric
 
 ## Every PR must answer
+
 1. What user problem does this solve?
 2. Which milestone/requirement does it map to?
 3. What tests prove it works?
@@ -10,6 +11,7 @@
 7. Does it degrade performance or accessibility?
 
 ## Blockers
+
 - unsafe file deletion
 - remote API exposure by default
 - secrets committed to repo
@@ -19,6 +21,7 @@
 - torrent behavior that violates private torrent flags
 
 ## Required review labels
+
 - area/frontend
 - area/engine
 - area/security

@@ -1,9 +1,11 @@
 # Codex Execution Command Center
 
 ## Session model
+
 Use one focused Codex session per milestone. Do not ask Codex to solve the entire app in a single giant context window.
 
 ## Mandatory opening prompt
+
 ```text
 You are working in the LumaTorrent repo. Read AGENTS.md, .codex/START_HERE.md, docs/SENIOR_ENGINEERING_EXECUTION_STANDARD.md, and docs/CODEX_EXECUTION_COMMAND_CENTER.md first.
 Use the cheapest capable model for each subtask.
@@ -15,6 +17,7 @@ Implement with tests and update docs.
 ```
 
 ## Phase command flow
+
 1. `pnpm doctor`
 2. `pnpm verify:structure`
 3. `pnpm codex:master`
@@ -26,6 +29,7 @@ Implement with tests and update docs.
 9. `/review`
 
 ## Model routing
+
 - scan: cheapest capable model
 - edit: cheapest capable model
 - architecture: strongest model
@@ -33,7 +37,9 @@ Implement with tests and update docs.
 - final review: strongest model
 
 ## Completion protocol
+
 A task is not done until:
+
 - code compiles in its package
 - tests updated or added
 - docs updated if behavior changed

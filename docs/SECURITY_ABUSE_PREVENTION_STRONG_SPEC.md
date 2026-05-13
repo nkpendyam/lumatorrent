@@ -1,6 +1,7 @@
 # Security and Abuse Prevention Strong Spec
 
 ## Abuse boundaries
+
 - no piracy search
 - no scraping torrent indexes
 - no default remote dashboard
@@ -8,6 +9,7 @@
 - no hidden proxy/VPN claims
 
 ## Required defenses
+
 - path traversal prevention
 - symlink deletion safety
 - safe trash behavior
@@ -18,7 +20,9 @@
 - dependency review
 
 ## Remote dashboard future gate
+
 Remote access cannot ship until:
+
 - authentication
 - CSRF protection
 - explicit enablement

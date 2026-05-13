@@ -92,7 +92,6 @@ BitTorrent network / disk
 
 GPL-3.0-or-later.
 
-
 ## v4 production engineering additions
 
 This package includes the production layers needed for a serious torrent client build:
@@ -112,7 +111,7 @@ Private signing certificates, Apple Developer credentials, Windows signing keys,
 This repository includes a Codex operating layer for fast, cost-conscious development:
 
 ```text
-Use the cheapest capable model for each subtask. 
+Use the cheapest capable model for each subtask.
 Use gpt-5.4-mini for repo scanning, file discovery, and simple edits.
 Use gpt-5.5 only for architecture, complex implementation, debugging, and final review.
 Do not waste gpt-5.5 on repetitive scanning.
@@ -135,16 +134,17 @@ Read:
 - `docs/SKILLS.md`
 - `design/image-generation/PREMIUM_UI_PROMPTS.md`
 
-
 ## v7 additions
+
 - Detailed phase-by-phase development docs
 - Apple-style design research pack
 - Safe autonomous Codex guardrails
 - Cross-platform design adaptation guidance
 
-
 ## v8 additions
+
 v8 adds the missing senior-execution layer:
+
 - Phase master plan
 - Codex autonomous task tree
 - Design bible
@@ -159,9 +159,11 @@ v8 adds the missing senior-execution layer:
 - v8 audit and verification scripts
 
 ## v9 world-class execution scaffold
+
 v9 adds stronger production execution docs, real contract scaffolding, more frontend screens, stronger native-engine scaffolding, contract validation scripts, and an honest world-class audit.
 
 Run:
+
 ```bash
 pnpm verify:v9
 pnpm audit:v9
@@ -169,11 +171,12 @@ pnpm contracts:validate
 pnpm quality:score
 ```
 
-
 ## v10 production execution additions
+
 This version adds safer GitHub automation, a Plus-plan Codex execution strategy, a production gap register, readiness scorecard, real libtorrent implementation tasks, and stronger v10 verification scripts.
 
 Start with:
+
 ```bash
 pnpm verify:v10
 pnpm audit:v10
@@ -181,8 +184,8 @@ pnpm preflight:prod
 pnpm github:doctor
 ```
 
-
 ## v11 additions
+
 - Honest Codex submission audit
 - Milestone acceptance gates
 - Requirements traceability matrix
@@ -191,8 +194,8 @@ pnpm github:doctor
 - GitHub automation validation plan
 - Local preflight and safe bootstrap scripts
 
-
 ## v12 additions
+
 - Codex context packs.
 - Plus-plan milestone sharding.
 - Real implementation specs for torrent flows.

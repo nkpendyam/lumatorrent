@@ -4,7 +4,12 @@ import { Button, Card } from "@lumatorrent/ui";
 export function CommandPalette({ open, onClose }: { open: boolean; onClose: () => void }) {
   if (!open) return null;
   return (
-    <motion.div className="fixed inset-0 z-50 grid place-items-start justify-center bg-black/50 pt-28" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+    <motion.div
+      className="fixed inset-0 z-50 grid place-items-start justify-center bg-black/50 pt-28"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <Card className="w-[640px] overflow-hidden">
         <div className="border-b border-white/10 p-4">
           <input
@@ -20,7 +25,9 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
           <div className="rounded-2xl px-3 py-2 hover:bg-white/5">Open settings</div>
         </div>
         <div className="border-t border-white/10 p-3 text-right">
-          <Button variant="ghost" onClick={onClose}>Close</Button>
+          <Button variant="ghost" onClick={onClose}>
+            Close
+          </Button>
         </div>
       </Card>
     </motion.div>

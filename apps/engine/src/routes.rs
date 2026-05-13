@@ -2,7 +2,7 @@ use crate::model::{
     AddTorrentRequest, AddTorrentResponse, DiagnosticCause, EngineBackend, EngineError,
     EngineHealth, Health, Recommendation, SpeedDiagnostic, TorrentStatus, TorrentSummary,
 };
-use crate::safety::validate_download_root;
+use crate::safety::{validate_download_root, validate_torrent_relative_path};
 use crate::state::AppState;
 use axum::extract::{Path, State};
 use axum::http::{HeaderMap, StatusCode};
@@ -111,7 +111,14 @@ async fn add_magnet(
         return engine_error(StatusCode::BAD_REQUEST, "PATH_REJECTED", &message, true)
             .into_response();
     }
-    let _selected_file_count = payload.selected_files.as_ref().map(Vec::len).unwrap_or(0);
+    if let Some(selected_files) = payload.selected_files.as_ref() {
+        for file_path in selected_files {
+            if let Err(message) = validate_torrent_relative_path(file_path) {
+                return engine_error(StatusCode::BAD_REQUEST, "PATH_REJECTED", &message, true)
+                    .into_response();
+            }
+        }
+    }
 
     let status = if payload.start_paused.unwrap_or(false) {
         TorrentStatus::Paused

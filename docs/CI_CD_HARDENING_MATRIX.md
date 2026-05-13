@@ -1,6 +1,7 @@
 # CI/CD Hardening Matrix
 
 ## Required workflows
+
 - ci.yml: lint/typecheck/test
 - codeql.yml: security scan
 - contracts.yml: engine contract validation
@@ -11,6 +12,7 @@
 - v13-audit.yml: repo scaffold audit
 
 ## Gates before merge
+
 - package scripts check
 - verify project structure
 - contract validation
@@ -20,6 +22,7 @@
 - docs updated when architecture changes
 
 ## Gates before release candidate
+
 - all merge gates
 - OS QA matrix filled
 - signing secrets check

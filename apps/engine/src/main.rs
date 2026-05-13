@@ -10,7 +10,7 @@ use std::net::SocketAddr;
 use tower_http::trace::TraceLayer;
 
 #[tokio::main]
-async fn main() {
+async fn main() -> std::io::Result<()> {
     tracing_subscriber::fmt::init();
 
     let state = AppState::new_dev();
@@ -22,12 +22,8 @@ async fn main() {
         .unwrap_or(17391);
     // Critical safety property: bind localhost only. Remote dashboard must be a separate opt-in feature.
     let addr = SocketAddr::from(([127, 0, 0, 1], port));
-    let listener = tokio::net::TcpListener::bind(addr)
-        .await
-        .expect("engine must bind localhost");
+    let listener = tokio::net::TcpListener::bind(addr).await?;
 
     tracing::info!("engine listening on 127.0.0.1:{}", port);
-    axum::serve(listener, app)
-        .await
-        .expect("engine server failed");
+    axum::serve(listener, app).await
 }
