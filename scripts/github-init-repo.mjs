@@ -27,8 +27,7 @@ commands.push(['gh', ['repo', 'create', full, `--${visibility}`, '--source=.', '
 console.log(`Plan to initialize and push repository: ${full}`);
 for (const [cmd, argv] of commands) console.log(`$ ${cmd} ${argv.join(' ')}`);
 if (!execute) {
-  console.log('
-Dry run only. Add --execute to run.');
+  console.log('\nDry run only. Add --execute to run.');
   process.exit(0);
 }
 const auth = spawnSync('gh', ['auth', 'status'], { stdio: 'inherit' });
