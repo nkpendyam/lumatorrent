@@ -12,6 +12,14 @@ Work in order. Do not skip safety tasks.
 - [x] Generate `pnpm-lock.yaml` by running `pnpm install`.
   - 2026-05-13 audit: `pnpm install` updated `pnpm-lock.yaml`; `pnpm install --frozen-lockfile` now passes.
 - [ ] Confirm `pnpm verify` passes.
+  - 2026-05-14 branch status: `codex/verify-format-sweep` (`f714a06`) reports full `pnpm verify` passing after a formatting-only sweep. Main has not merged this branch yet.
+
+## Active Codex Branches
+
+- [ ] Review/merge `codex/verify-format-sweep` (`f714a06`) — Prettier sweep, full `pnpm verify` reported passing, 196 changed files.
+- [ ] Review/merge `codex/safe-delete-to-trash` (`1cd4e2b`) — safe delete preview model and desktop trash adapter boundary; real OS trash integration still pending.
+- [ ] Review/merge `codex/magnet-metadata-state` (`c199ce8`) — magnet metadata state contract and mock-engine transitions; real libtorrent metadata fetch still pending.
+- [ ] Review/merge `codex/native-engine-health` (`0339216`) — native health contract smoke readiness; blocked from CMake verification until `cmake` is installed.
 
 ## Phase 1 — UI foundation
 
@@ -36,6 +44,7 @@ Work in order. Do not skip safety tasks.
 - [ ] Add Rust path safety module.
 - [ ] Add malicious filename fixture tests.
 - [ ] Add delete preview model.
+  - 2026-05-14 branch status: implemented on `codex/safe-delete-to-trash` (`1cd4e2b`), not merged to main.
 - [ ] Add risky file classifier.
 - [ ] Add UI warning for executable/script files.
 
@@ -52,9 +61,12 @@ Work in order. Do not skip safety tasks.
 
 - [ ] Create engine trait boundary.
 - [ ] Implement mock engine behind the trait.
+- [ ] Add magnet metadata state machine.
+  - 2026-05-14 branch status: implemented on `codex/magnet-metadata-state` (`c199ce8`), not merged to main.
 - [ ] Add ADR for chosen libtorrent binding/sidecar strategy.
 - [ ] Add build docs for native libtorrent dependencies.
 - [ ] Implement first libtorrent spike in a separate branch.
+  - 2026-05-14 branch status: native health smoke readiness exists on `codex/native-engine-health` (`0339216`), but CMake is still missing.
 
 ## Phase 6 — packaging and releases
 
