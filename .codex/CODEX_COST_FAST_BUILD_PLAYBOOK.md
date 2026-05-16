@@ -9,7 +9,7 @@ Use the cheapest capable model for each subtask.
 Use the exact user-preferred prompt:
 
 ```text
-Use the cheapest capable model for each subtask. 
+Use the cheapest capable model for each subtask.
 Use gpt-5.4-mini for repo scanning, file discovery, and simple edits.
 Use gpt-5.5 only for architecture, complex implementation, debugging, and final review.
 Do not waste gpt-5.5 on repetitive scanning.

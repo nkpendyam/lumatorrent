@@ -1,9 +1,11 @@
 # Engine Implementation DAG
 
 ## Critical path
+
 1. Define API contracts
 2. Implement localhost auth middleware
 3. Implement engine event bus
+   - 2026-05-15 local status: mock engine now emits state-event snapshots and desktop clients can fetch typed events. Real libtorrent alert streaming still pending.
 4. Implement sidecar spawn from Tauri
 5. Implement native engine health endpoint
 6. Implement libtorrent session initialization
@@ -15,6 +17,7 @@
 12. Implement diagnostics
 
 ## Hard rules from libtorrent integration
+
 - Avoid blocking `status()` calls on UI paths.
 - Prefer `post_status()` and `post_torrent_updates()` for updates.
 - Prefer async add flow where possible.
@@ -22,6 +25,7 @@
 - UI should consume event stream snapshots, not poll aggressively.
 
 ## Done means
+
 - contract tests pass
 - engine smoke tests pass
 - no renderer thread blocked by engine work

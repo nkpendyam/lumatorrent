@@ -5,7 +5,7 @@ const checks = [
   "icon button labels",
   "reduced motion",
   "non-color-only status",
-  "contrast review"
+  "contrast review",
 ];
 
 console.log("Accessibility audit checklist:");

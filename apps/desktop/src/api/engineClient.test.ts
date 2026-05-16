@@ -70,11 +70,28 @@ describe("http engine client", () => {
     );
   });
 
-  it("parses torrent lists and add magnet responses", async () => {
+  it("parses torrent lists, add magnet responses, and safe remove responses", async () => {
+    const addedEvent = {
+      type: "torrent.added",
+      timestamp: "2026-05-03T00:00:00.000Z",
+      sequence: 1,
+      torrentId: torrent.id,
+      payload: { status: torrent.status, summary: torrent },
+    };
     const fetchImpl = vi
       .fn()
       .mockResolvedValueOnce(jsonResponse([torrent]))
-      .mockResolvedValueOnce(jsonResponse({ torrentId: "torrent-2", status: "metadata" }));
+      .mockResolvedValueOnce(jsonResponse({ events: [addedEvent] }))
+      .mockResolvedValueOnce(jsonResponse({ torrentId: "torrent-2", status: "metadata" }))
+      .mockResolvedValueOnce(jsonResponse({ torrentId: "torrent-file-1", status: "checking" }))
+      .mockResolvedValueOnce(
+        jsonResponse({
+          ok: true,
+          removedFromApp: true,
+          filesTrashed: [],
+          filesMissing: ["missing.iso"],
+        }),
+      );
     const client = new HttpEngineClient({
       baseUrl: "http://localhost:19876/v1",
       token: "test-token",
@@ -82,9 +99,32 @@ describe("http engine client", () => {
     });
 
     await expect(client.listTorrents()).resolves.toEqual([torrent]);
+    await expect(client.listEvents({ after: 0, limit: 10 })).resolves.toEqual([addedEvent]);
+    expect(fetchImpl.mock.calls.at(-1)?.[0]).toBe(
+      "http://localhost:19876/v1/events?after=0&limit=10",
+    );
     await expect(
       client.addMagnet({ magnetUri: "magnet:?xt=urn:btih:abc&dn=Legal", savePath: "~/Downloads" }),
     ).resolves.toEqual({ torrentId: "torrent-2", status: "metadata" });
+    await expect(
+      client.addTorrentFile({
+        torrentFilePath: "C:/Downloads/legal.torrent",
+        savePath: "~/Downloads",
+      }),
+    ).resolves.toEqual({ torrentId: "torrent-file-1", status: "checking" });
+    await expect(client.removeTorrent("torrent-2", { deleteFiles: true })).resolves.toEqual({
+      ok: true,
+      removedFromApp: true,
+      filesTrashed: [],
+      filesMissing: ["missing.iso"],
+    });
+    expect(fetchImpl).toHaveBeenLastCalledWith(
+      "http://localhost:19876/v1/torrents/torrent-2/remove",
+      expect.objectContaining({
+        body: JSON.stringify({ deleteFiles: true, useTrash: true }),
+        method: "POST",
+      }),
+    );
   });
 
   it("normalizes engine errors and unavailable fetch failures", async () => {
@@ -155,6 +195,23 @@ describe("engine events", () => {
       progress: 0.5,
       downloadSpeedBytes: 2_000,
     });
+  });
+
+  it("applies added events by prepending new torrent summaries", () => {
+    const added = { ...torrent, id: "torrent-2", name: "Added legal torrent" };
+
+    const next = applyEngineEventToTorrents([torrent], {
+      type: "torrent.added",
+      timestamp: "2026-05-03T00:00:00.000Z",
+      sequence: 2,
+      torrentId: added.id,
+      payload: {
+        status: "metadata",
+        summary: added,
+      },
+    });
+
+    expect(next.map((item) => item.id)).toEqual(["torrent-2", "torrent-1"]);
   });
 
   it("rejects malformed events", () => {

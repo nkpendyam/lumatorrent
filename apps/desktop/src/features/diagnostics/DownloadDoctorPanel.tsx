@@ -2,7 +2,13 @@ import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import type { SpeedDiagnostic } from "@lumatorrent/shared";
 
-export function DownloadDoctorPanel({ diagnostic, onClose }: { diagnostic: SpeedDiagnostic; onClose: () => void }) {
+export function DownloadDoctorPanel({
+  diagnostic,
+  onClose,
+}: {
+  diagnostic: SpeedDiagnostic;
+  onClose: () => void;
+}) {
   return (
     <motion.aside
       initial={{ x: 420, opacity: 0 }}
@@ -16,7 +22,11 @@ export function DownloadDoctorPanel({ diagnostic, onClose }: { diagnostic: Speed
           <h2 className="text-xl font-semibold tracking-tight">Download Doctor</h2>
           <p className="text-sm text-slate-400">Human-readable speed diagnosis</p>
         </div>
-        <button onClick={onClose} className="rounded-xl p-2 hover:bg-white/10" aria-label="Close diagnostics">
+        <button
+          onClick={onClose}
+          className="rounded-xl p-2 hover:bg-white/10"
+          aria-label="Close diagnostics"
+        >
           <X size={18} />
         </button>
       </div>
@@ -32,7 +42,10 @@ export function DownloadDoctorPanel({ diagnostic, onClose }: { diagnostic: Speed
           </div>
         ) : (
           diagnostic.causes.map((cause) => (
-            <div key={cause.code} className="rounded-3xl border border-white/10 bg-white/[0.04] p-4">
+            <div
+              key={cause.code}
+              className="rounded-3xl border border-white/10 bg-white/[0.04] p-4"
+            >
               <div className="font-medium">{cause.title}</div>
               <p className="mt-1 text-sm leading-6 text-slate-400">{cause.message}</p>
             </div>
@@ -40,10 +53,15 @@ export function DownloadDoctorPanel({ diagnostic, onClose }: { diagnostic: Speed
         )}
       </div>
 
-      <h3 className="mt-8 text-sm font-semibold uppercase tracking-wide text-slate-500">Recommended actions</h3>
+      <h3 className="mt-8 text-sm font-semibold uppercase tracking-wide text-slate-500">
+        Recommended actions
+      </h3>
       <div className="mt-3 space-y-3">
         {diagnostic.recommendations.map((item) => (
-          <button key={item.id} className="w-full rounded-3xl border border-white/10 bg-white/[0.04] p-4 text-left hover:bg-white/[0.07]">
+          <button
+            key={item.id}
+            className="w-full rounded-3xl border border-white/10 bg-white/[0.04] p-4 text-left hover:bg-white/[0.07]"
+          >
             <div className="font-medium">{item.label}</div>
             <p className="mt-1 text-sm text-slate-400">{item.description}</p>
           </button>

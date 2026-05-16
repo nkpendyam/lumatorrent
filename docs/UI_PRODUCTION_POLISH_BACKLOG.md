@@ -1,6 +1,7 @@
 # UI Production Polish Backlog
 
 ## Dashboard
+
 - virtualized list for many torrents
 - card/table switch
 - section collapsing
@@ -9,6 +10,7 @@
 - accessible live regions for major state changes
 
 ## Add Torrent
+
 - magnet validation
 - metadata loading timeout
 - duplicate torrent detection
@@ -17,6 +19,7 @@
 - dangerous file preview
 
 ## Inspector
+
 - overview summary
 - files table
 - tracker status
@@ -25,6 +28,7 @@
 - advanced raw details
 
 ## Settings
+
 - settings search
 - reset section
 - import/export settings
@@ -33,6 +37,7 @@
 - safe defaults explanation
 
 ## Motion polish
+
 - route transitions
 - inspector continuity transition
 - progress interpolation

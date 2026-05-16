@@ -1,43 +1,44 @@
 #!/usr/bin/env node
-import { spawnSync } from 'node:child_process';
+import { execSync } from "node:child_process";
 
 const checks = [
-  ['node', ['--version']],
-  ['pnpm', ['--version']],
-  ['rustc', ['--version']],
-  ['cargo', ['--version']],
-  ['cmake', ['--version']],
-  ['git', ['--version']],
+  ["node", "node --version"],
+  ["pnpm", "pnpm --version"],
+  ["rustc", "rustc --version"],
+  ["cargo", "cargo --version"],
+  ["cmake", "cmake --version"],
+  ["git", "git --version"],
 ];
 
 let failed = false;
-for (const [cmd, args] of checks) {
-  const res = spawnSync(cmd, args, { encoding: 'utf8' });
-  if (res.status !== 0) {
+for (const [cmd, command] of checks) {
+  try {
+    const output = execSync(command, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+    console.log(`OK ${cmd}: ${output.split("\n")[0]}`);
+  } catch {
     failed = true;
     console.error(`Missing required tool: ${cmd}`);
-  } else {
-    const line = (res.stdout || res.stderr).split('\n')[0];
-    console.log(`OK ${cmd}: ${line}`);
   }
 }
 
 const optional = [
-  ['ninja', ['--version']],
-  ['pkg-config', ['--version']],
+  ["ninja", "ninja --version"],
+  ["pkg-config", "pkg-config --version"],
 ];
-for (const [cmd, args] of optional) {
-  const res = spawnSync(cmd, args, { encoding: 'utf8' });
-  if (res.status !== 0) {
+for (const [cmd, command] of optional) {
+  try {
+    const output = execSync(command, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+    console.log(`OK ${cmd}: ${output.split("\n")[0]}`);
+  } catch {
     console.warn(`WARN optional tool not found: ${cmd}`);
-  } else {
-    console.log(`OK ${cmd}: ${(res.stdout || res.stderr).split('\n')[0]}`);
   }
 }
 
 if (failed) {
-  console.error('\nProduction doctor failed. Install missing required tools and rerun.');
+  console.error("\nProduction doctor failed. Install missing required tools and rerun.");
   process.exit(1);
 }
 
-console.log('\nProduction doctor passed. Native libtorrent headers are checked by scripts/build-native-engine.* in libtorrent mode.');
+console.log(
+  "\nProduction doctor passed. Native libtorrent headers are checked by scripts/build-native-engine.* in libtorrent mode.",
+);

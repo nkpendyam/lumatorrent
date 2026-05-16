@@ -1,12 +1,15 @@
 # v9 World-Class Audit
 
 ## Summary
+
 v9 upgrades the repo from strong planning scaffold to a stronger execution scaffold with deeper docs, more screen code, stronger contracts, explicit quality scoring, and more test/benchmark infrastructure.
 
 ## Honest boundary
+
 v9 is still not a finished torrent downloader. It is a stronger world-class project foundation.
 
 ## Area scoring after v9
+
 - Repo structure: Strong
 - Codex instructions: Strong
 - Token efficiency: Strong

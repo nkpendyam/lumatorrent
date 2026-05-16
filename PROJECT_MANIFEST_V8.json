@@ -3,9 +3,7 @@
   "version": "v8",
   "created_at": "2026-05-02T17:56:50.241753Z",
   "purpose": "Senior-level Codex scaffold for building a premium cross-platform open-source torrent client.",
-  "fixed_from_v7": [
-    "Fixed package.json codex:models script reference."
-  ],
+  "fixed_from_v7": ["Fixed package.json codex:models script reference."],
   "added": [
     "Phase master plan",
     "Codex autonomous task tree",

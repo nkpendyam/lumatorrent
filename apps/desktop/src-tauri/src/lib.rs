@@ -68,6 +68,11 @@ fn start_engine(
 
     let binary = resolve_engine_binary()?;
     let child = Command::new(binary)
+        .arg("--serve")
+        .arg("--host")
+        .arg("127.0.0.1")
+        .arg("--port")
+        .arg(port.to_string())
         .env("LUMATORRENT_ENGINE_TOKEN", &request.auth_token)
         .env("LUMATORRENT_ENGINE_PORT", port.to_string())
         .stdin(Stdio::null())
@@ -257,5 +262,5 @@ pub fn run() {
             engine_health
         ])
         .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+        .unwrap_or_else(|error| panic!("error while running tauri application: {error}"));
 }

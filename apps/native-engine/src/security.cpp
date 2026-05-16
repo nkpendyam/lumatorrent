@@ -16,9 +16,20 @@ bool is_probably_safe_save_path(const std::string& path) {
 }
 
 std::string require_engine_token_from_env() {
+#ifdef _WIN32
+  char* token = nullptr;
+  size_t token_size = 0;
+  if (_dupenv_s(&token, &token_size, "LUMATORRENT_ENGINE_TOKEN") != 0 || token == nullptr) {
+    return "";
+  }
+  std::string value(token, token_size > 0 ? token_size - 1 : 0);
+  std::free(token);
+  return value;
+#else
   const char* token = std::getenv("LUMATORRENT_ENGINE_TOKEN");
   if (!token) return "";
   return std::string(token);
+#endif
 }
 
 } // namespace lumatorrent

@@ -6,7 +6,8 @@ function walk(dir) {
   for (const entry of readdirSync(dir)) {
     const p = join(dir, entry);
     const st = statSync(p);
-    if (st.isDirectory()) out.push(...walk(p)); else out.push(p);
+    if (st.isDirectory()) out.push(...walk(p));
+    else out.push(p);
   }
   return out;
 }

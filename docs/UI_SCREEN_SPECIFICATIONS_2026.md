@@ -1,7 +1,9 @@
 # UI Screen Specifications (2026)
 
 ## 1. Dashboard
+
 Must support:
+
 - card view
 - compact table view
 - search
@@ -11,7 +13,9 @@ Must support:
 - quick diagnose
 
 ## 2. Add Torrent Modal
+
 States:
+
 - empty
 - parsing magnet
 - reading file
@@ -20,7 +24,9 @@ States:
 - invalid torrent
 
 ## 3. Inspector Drawer
+
 Tabs:
+
 - overview
 - files
 - speed
@@ -29,7 +35,9 @@ Tabs:
 - advanced
 
 ## 4. Download Doctor
+
 Sections:
+
 - summary
 - likely causes
 - recommended actions
@@ -37,7 +45,9 @@ Sections:
 - learn more
 
 ## 5. Settings
+
 Sections:
+
 - general
 - downloads
 - speed
@@ -47,7 +57,9 @@ Sections:
 - advanced
 
 ## 6. Onboarding
+
 Steps:
+
 - welcome
 - legal usage framing
 - default save path

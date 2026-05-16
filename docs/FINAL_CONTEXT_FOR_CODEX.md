@@ -17,6 +17,7 @@ Codex should load only the relevant context pack for the milestone.
 ## Do not load everything unless doing a final review.
 
 For each session:
+
 1. Load the milestone docs.
 2. Scan related files.
 3. Implement.

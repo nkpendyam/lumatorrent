@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
-      - 'apps/desktop/**'
-      - 'apps/engine/**'
-      - 'apps/native-engine/**'
-      - 'packages/**'
-      - '.github/workflows/package-desktop.yml'
+      - "apps/desktop/**"
+      - "apps/engine/**"
+      - "apps/native-engine/**"
+      - "packages/**"
+      - ".github/workflows/package-desktop.yml"
 
 jobs:
   package:
@@ -20,12 +20,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-        with:
-          version: 9
       - uses: actions/setup-node@v4
         with:
-          node-version-file: '.node-version'
-          cache: 'pnpm'
+          node-version-file: ".node-version"
+          cache: "pnpm"
       - uses: dtolnay/rust-toolchain@stable
       - uses: lukka/get-cmake@latest
       - name: Install Linux system deps
@@ -39,7 +37,7 @@ jobs:
       - run: pnpm build
       - name: Build native stub
         if: runner.os != 'Windows'
-        run: ./scripts/build-native-engine.sh stub
+        run: bash scripts/build-native-engine.sh stub
       - name: Build native stub Windows
         if: runner.os == 'Windows'
         shell: pwsh

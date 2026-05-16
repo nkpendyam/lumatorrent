@@ -1,6 +1,7 @@
 # QA World-Class Test Matrix
 
 ## Platform matrix
+
 - Windows 11 latest stable
 - macOS latest stable Apple Silicon
 - macOS latest stable Intel if available
@@ -8,7 +9,9 @@
 - Fedora latest optional
 
 ## Torrent behavior matrix
+
 Use legal fixtures only.
+
 - magnet healthy
 - magnet metadata slow
 - dead torrent
@@ -24,6 +27,7 @@ Use legal fixtures only.
 - engine crash during download
 
 ## UI matrix
+
 - keyboard only
 - screen reader smoke
 - high contrast
@@ -33,7 +37,9 @@ Use legal fixtures only.
 - 125/150/200% scaling
 
 ## Release criteria
+
 No public beta if:
+
 - delete safety has unknown behavior
 - engine crash loses downloads
 - remote API binds publicly

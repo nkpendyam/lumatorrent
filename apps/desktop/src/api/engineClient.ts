@@ -7,23 +7,32 @@ import {
   isTorrentSummary,
   normalizeEngineError,
   type AddTorrentRequest,
+  type AddTorrentFileRequest,
   type AddTorrentResponse,
   type EngineError,
   type EngineEvent,
   type EngineHealth,
+  type RemoveTorrentOptions,
+  type RemoveTorrentResponse,
   type SpeedDiagnostic,
   type TorrentSummary,
 } from "@lumatorrent/shared";
 
 export type AddMagnetRequest = AddTorrentRequest;
+export type ListEngineEventsOptions = {
+  after?: number;
+  limit?: number;
+};
 
 export interface EngineClient {
   health(): Promise<EngineHealth>;
   listTorrents(): Promise<TorrentSummary[]>;
+  listEvents(options?: ListEngineEventsOptions): Promise<EngineEvent[]>;
   addMagnet(request: AddTorrentRequest): Promise<AddTorrentResponse>;
+  addTorrentFile(request: AddTorrentFileRequest): Promise<AddTorrentResponse>;
   pauseTorrent(torrentId: string): Promise<void>;
   resumeTorrent(torrentId: string): Promise<void>;
-  removeTorrent(torrentId: string): Promise<void>;
+  removeTorrent(torrentId: string, options?: RemoveTorrentOptions): Promise<RemoveTorrentResponse>;
   runDiagnostics(torrentId: string): Promise<SpeedDiagnostic>;
 }
 
@@ -93,8 +102,36 @@ export class HttpEngineClient implements EngineClient {
     return payload;
   }
 
+  async listEvents(options: ListEngineEventsOptions = {}): Promise<EngineEvent[]> {
+    const query = new URLSearchParams();
+    if (options.after !== undefined) query.set("after", String(options.after));
+    if (options.limit !== undefined) query.set("limit", String(options.limit));
+    const payload = await this.requestJson(`/events${query.size > 0 ? `?${query}` : ""}`);
+    if (!isEngineEventsResponse(payload)) {
+      throw new EngineClientError(
+        "Engine returned an invalid event list.",
+        "ENGINE_CONTRACT_MISMATCH",
+      );
+    }
+    return payload.events;
+  }
+
   async addMagnet(request: AddTorrentRequest): Promise<AddTorrentResponse> {
     const payload = await this.requestJson("/torrents/magnet", {
+      method: "POST",
+      body: JSON.stringify(request),
+    });
+    if (!isAddTorrentResponse(payload)) {
+      throw new EngineClientError(
+        "Engine returned an invalid add torrent response.",
+        "ENGINE_CONTRACT_MISMATCH",
+      );
+    }
+    return payload;
+  }
+
+  async addTorrentFile(request: AddTorrentFileRequest): Promise<AddTorrentResponse> {
+    const payload = await this.requestJson("/torrents/file", {
       method: "POST",
       body: JSON.stringify(request),
     });
@@ -115,8 +152,24 @@ export class HttpEngineClient implements EngineClient {
     await this.requestJson(`/torrents/${encodeURIComponent(torrentId)}/resume`, { method: "POST" });
   }
 
-  async removeTorrent(torrentId: string): Promise<void> {
-    await this.requestJson(`/torrents/${encodeURIComponent(torrentId)}/remove`, { method: "POST" });
+  async removeTorrent(
+    torrentId: string,
+    options: RemoveTorrentOptions = {},
+  ): Promise<RemoveTorrentResponse> {
+    const payload = await this.requestJson(`/torrents/${encodeURIComponent(torrentId)}/remove`, {
+      method: "POST",
+      body: JSON.stringify({
+        deleteFiles: options.deleteFiles ?? false,
+        useTrash: options.useTrash ?? true,
+      }),
+    });
+    if (!isRemoveTorrentResponse(payload)) {
+      throw new EngineClientError(
+        "Engine returned an invalid remove torrent response.",
+        "ENGINE_CONTRACT_MISMATCH",
+      );
+    }
+    return payload;
   }
 
   async runDiagnostics(torrentId: string): Promise<SpeedDiagnostic> {
@@ -185,7 +238,15 @@ export class UnavailableEngineClient implements EngineClient {
     return [];
   }
 
+  async listEvents(): Promise<EngineEvent[]> {
+    return [];
+  }
+
   async addMagnet(): Promise<AddTorrentResponse> {
+    throw unavailableEngineClientError();
+  }
+
+  async addTorrentFile(): Promise<AddTorrentResponse> {
     throw unavailableEngineClientError();
   }
 
@@ -197,7 +258,7 @@ export class UnavailableEngineClient implements EngineClient {
     throw unavailableEngineClientError();
   }
 
-  async removeTorrent(_torrentId: string): Promise<void> {
+  async removeTorrent(_torrentId: string): Promise<RemoveTorrentResponse> {
     throw unavailableEngineClientError();
   }
 
@@ -241,6 +302,11 @@ export function applyEngineEventToTorrents(
     event.type === "torrent.paused" ||
     event.type === "torrent.error"
   ) {
+    if (event.type === "torrent.added" && event.payload.summary) {
+      const exists = torrents.some((torrent) => torrent.id === event.torrentId);
+      return exists ? torrents : [event.payload.summary, ...torrents];
+    }
+
     return torrents.map((torrent) =>
       torrent.id === event.torrentId
         ? { ...torrent, status: event.payload.status, ...(event.payload.summary ?? {}) }
@@ -249,6 +315,12 @@ export function applyEngineEventToTorrents(
   }
 
   return torrents;
+}
+
+function isEngineEventsResponse(value: unknown): value is { events: EngineEvent[] } {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) return false;
+  const record = value as Record<string, unknown>;
+  return Array.isArray(record.events) && record.events.every(isEngineEvent);
 }
 
 function isAddTorrentResponse(value: unknown): value is AddTorrentResponse {
@@ -260,6 +332,19 @@ function isAddTorrentResponse(value: unknown): value is AddTorrentResponse {
     ["checking", "metadata", "downloading", "paused", "completed", "seeding", "error"].includes(
       record.status,
     )
+  );
+}
+
+function isRemoveTorrentResponse(value: unknown): value is RemoveTorrentResponse {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) return false;
+  const record = value as Record<string, unknown>;
+  return (
+    record.ok === true &&
+    record.removedFromApp === true &&
+    Array.isArray(record.filesTrashed) &&
+    record.filesTrashed.every((item) => typeof item === "string") &&
+    Array.isArray(record.filesMissing) &&
+    record.filesMissing.every((item) => typeof item === "string")
   );
 }
 

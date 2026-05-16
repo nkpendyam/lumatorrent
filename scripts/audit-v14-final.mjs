@@ -13,10 +13,13 @@ function walk(dir) {
 }
 
 const files = walk(".");
+const normalizedFiles = files.map((file) => file.replaceAll(path.sep, "/"));
 const md = files.filter((f) => f.endsWith(".md")).length;
-const scripts = files.filter((f) => f.startsWith("scripts/") && f.endsWith(".mjs")).length;
-const workflows = files.filter((f) => f.startsWith(".github/workflows/")).length;
-const contracts = files.filter((f) => f.startsWith("contracts/engine/")).length;
+const scripts = normalizedFiles.filter(
+  (f) => f.startsWith("scripts/") && f.endsWith(".mjs"),
+).length;
+const workflows = normalizedFiles.filter((f) => f.startsWith(".github/workflows/")).length;
+const contracts = normalizedFiles.filter((f) => f.startsWith("contracts/engine/")).length;
 
 const report = {
   files: files.length,

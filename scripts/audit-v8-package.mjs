@@ -27,7 +27,7 @@ const report = {
   codex_models_script: packageJson.scripts?.["codex:models"],
   has_design_bible: existsSync("docs/DESIGN_BIBLE.md"),
   has_task_tree: existsSync("docs/CODEX_AUTONOMOUS_TASK_TREE.md"),
-  has_test_matrix: existsSync("docs/TEST_COVERAGE_MATRIX.md")
+  has_test_matrix: existsSync("docs/TEST_COVERAGE_MATRIX.md"),
 };
 
 console.log(JSON.stringify(report, null, 2));

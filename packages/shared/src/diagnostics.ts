@@ -18,7 +18,8 @@ export function diagnoseTorrent(torrent: TorrentSummary): SpeedDiagnostic {
       code: "NO_SEEDERS",
       severity: "critical",
       title: "No seeders found",
-      message: "This torrent may be inactive. Downloads cannot complete without available pieces from seeders or peers.",
+      message:
+        "This torrent may be inactive. Downloads cannot complete without available pieces from seeders or peers.",
     });
     recommendations.push({
       id: "wait-or-remove",
@@ -34,7 +35,11 @@ export function diagnoseTorrent(torrent: TorrentSummary): SpeedDiagnostic {
     });
   }
 
-  if (torrent.downloadSpeedBytes < 50_000 && torrent.progress < 0.98 && torrent.status === "downloading") {
+  if (
+    torrent.downloadSpeedBytes < 50_000 &&
+    torrent.progress < 0.98 &&
+    torrent.status === "downloading"
+  ) {
     recommendations.push({
       id: "run-port-check",
       label: "Check incoming port",

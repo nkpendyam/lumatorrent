@@ -1,6 +1,7 @@
 # Tracker and DHT Diagnostics Spec
 
 ## Tracker states
+
 - working
 - timeout
 - DNS failed
@@ -9,6 +10,7 @@
 - private torrent tracker only
 
 ## DHT states
+
 - disabled
 - bootstrapping
 - healthy
@@ -16,4 +18,5 @@
 - blocked
 
 ## Private torrent rule
+
 If a torrent is private, DHT/PEX behavior must respect the private flag.

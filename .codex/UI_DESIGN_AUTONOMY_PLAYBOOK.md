@@ -1,9 +1,11 @@
 # UI Design Autonomy Playbook
 
 ## Objective
+
 Enable Codex to generate, critique, and implement premium UI/UX efficiently.
 
 ## Workflow
+
 1. Read product/design docs.
 2. Create a short design brief for the target screen.
 3. Produce 2–4 UI image prompts.
@@ -15,6 +17,7 @@ Enable Codex to generate, critique, and implement premium UI/UX efficiently.
 9. Capture follow-up polish items.
 
 ## Approved ideation sources
+
 - official Apple HIG pages
 - Apple design resources
 - Stitch
@@ -22,5 +25,6 @@ Enable Codex to generate, critique, and implement premium UI/UX efficiently.
 - internal repo design system docs
 
 ## Non-goals
+
 - direct copying of Apple apps
 - shipping generated pixels without cleanup

@@ -24,8 +24,18 @@ export type EngineHealth = {
   startedAtIso?: string;
 };
 
+export type TorrentFile = {
+  id: string;
+  path: string;
+  sizeBytes: number;
+  progress: number;
+  priority: "skip" | "low" | "normal" | "high";
+  risk: "normal" | "executable" | "archive" | "unknown";
+};
+
 export type TorrentSummary = {
   id: string;
+  infoHash?: string | null;
   name: string;
   status: TorrentStatus;
   progress: number;
@@ -41,15 +51,7 @@ export type TorrentSummary = {
   uploadedBytes: number;
   savePath: string;
   addedAtIso: string;
-};
-
-export type TorrentFile = {
-  id: string;
-  path: string;
-  sizeBytes: number;
-  progress: number;
-  priority: "skip" | "low" | "normal" | "high";
-  risk: "normal" | "executable" | "archive" | "unknown";
+  files?: TorrentFile[];
 };
 
 export type DiagnosticSeverity = "info" | "warning" | "critical";
@@ -96,6 +98,12 @@ export type AddTorrentRequest = {
   startPaused?: boolean;
 };
 
+export type AddTorrentFileRequest = {
+  torrentFilePath: string;
+  savePath: string;
+  startPaused?: boolean;
+};
+
 export type AddTorrentResponse = {
   torrentId: string;
   status: TorrentStatus;
@@ -104,11 +112,19 @@ export type AddTorrentResponse = {
 export type AddMagnetInput = AddTorrentRequest;
 
 export type RemoveTorrentOptions = {
-  deleteFiles: boolean;
-  useTrash: true;
+  deleteFiles?: boolean;
+  useTrash?: true;
+};
+
+export type RemoveTorrentResponse = {
+  ok: boolean;
+  removedFromApp: boolean;
+  filesTrashed: string[];
+  filesMissing: string[];
 };
 
 export type EngineErrorCode =
+  | "DUPLICATE_TORRENT"
   | "INVALID_MAGNET"
   | "TORRENT_PARSE_FAILED"
   | "METADATA_TIMEOUT"

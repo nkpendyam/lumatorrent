@@ -89,7 +89,35 @@
     },
     "/torrents/file": {
       "post": {
-        "summary": "Add torrent file"
+        "summary": "Add torrent file",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddTorrentFileRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Torrent file accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddTorrentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/EngineError"
+          },
+          "409": {
+            "$ref": "#/components/responses/EngineError"
+          }
+        }
       }
     },
     "/torrents/{id}/pause": {
@@ -104,7 +132,32 @@
     },
     "/torrents/{id}/remove": {
       "post": {
-        "summary": "Remove torrent"
+        "summary": "Remove torrent",
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveTorrentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Torrent removed safely",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoveTorrentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/EngineError"
+          }
+        }
       }
     },
     "/torrents/{id}/recheck": {
@@ -197,6 +250,9 @@
           "id": {
             "type": "string"
           },
+          "infoHash": {
+            "type": ["string", "null"]
+          },
           "name": {
             "type": "string"
           },
@@ -249,6 +305,36 @@
           },
           "addedAtIso": {
             "type": "string"
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TorrentFile"
+            }
+          }
+        }
+      },
+      "TorrentFile": {
+        "type": "object",
+        "required": ["id", "path", "sizeBytes", "progress", "priority", "risk"],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "sizeBytes": {
+            "type": "number"
+          },
+          "progress": {
+            "type": "number"
+          },
+          "priority": {
+            "enum": ["skip", "low", "normal", "high"]
+          },
+          "risk": {
+            "enum": ["normal", "executable", "archive", "unknown"]
           }
         }
       },
@@ -290,6 +376,59 @@
               "seeding",
               "error"
             ]
+          }
+        }
+      },
+      "AddTorrentFileRequest": {
+        "type": "object",
+        "required": ["torrentFilePath", "savePath"],
+        "properties": {
+          "torrentFilePath": {
+            "type": "string"
+          },
+          "savePath": {
+            "type": "string"
+          },
+          "startPaused": {
+            "type": "boolean"
+          }
+        }
+      },
+      "RemoveTorrentRequest": {
+        "type": "object",
+        "properties": {
+          "deleteFiles": {
+            "type": "boolean",
+            "default": false
+          },
+          "useTrash": {
+            "type": "boolean",
+            "const": true,
+            "default": true
+          }
+        }
+      },
+      "RemoveTorrentResponse": {
+        "type": "object",
+        "required": ["ok", "removedFromApp", "filesTrashed", "filesMissing"],
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "removedFromApp": {
+            "type": "boolean"
+          },
+          "filesTrashed": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "filesMissing": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },

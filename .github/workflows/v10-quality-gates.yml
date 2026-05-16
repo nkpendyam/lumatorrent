@@ -14,8 +14,6 @@ jobs:
         with:
           node-version: 20
       - uses: pnpm/action-setup@v4
-        with:
-          version: 9.15.0
       - run: node scripts/verify-v10-production-execution.mjs
       - run: node scripts/audit-v10-package.mjs
       - run: node scripts/validate-contracts.mjs

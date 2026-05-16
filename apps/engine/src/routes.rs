@@ -1,15 +1,19 @@
 use crate::model::{
-    AddTorrentRequest, AddTorrentResponse, DiagnosticCause, EngineBackend, EngineError,
-    EngineHealth, Health, Recommendation, SpeedDiagnostic, TorrentStatus, TorrentSummary,
+    AddTorrentFileRequest, AddTorrentRequest, AddTorrentResponse, DiagnosticCause, EngineBackend,
+    EngineError, EngineHealth, Health, Recommendation, RemoveTorrentRequest, RemoveTorrentResponse,
+    SpeedDiagnostic, TorrentFileEntry, TorrentRecord, TorrentStatus, TorrentSummary,
 };
+use crate::safe_delete::{build_safe_delete_plan, move_plan_to_trash, SafeDeleteError};
 use crate::safety::validate_download_root;
 use crate::state::AppState;
-use axum::extract::{Path, State};
+use crate::torrent_file::{parse_torrent_metadata, TorrentParseError};
+use axum::extract::{Path, Query, State};
 use axum::http::{HeaderMap, StatusCode};
 use axum::response::IntoResponse;
 use axum::routing::{get, post};
 use axum::{Json, Router};
 use chrono::Utc;
+use serde::Deserialize;
 use serde_json::json;
 use uuid::Uuid;
 
@@ -86,8 +90,7 @@ async fn list_torrents(State(state): State<AppState>, headers: HeaderMap) -> imp
     if let Err(err) = check_auth(&headers, &state) {
         return err.into_response();
     }
-    let torrents = state.torrents.read().await.clone();
-    Json(torrents).into_response()
+    Json(state.engine.list_torrents().await).into_response()
 }
 
 async fn add_magnet(
@@ -111,7 +114,25 @@ async fn add_magnet(
         return engine_error(StatusCode::BAD_REQUEST, "PATH_REJECTED", &message, true)
             .into_response();
     }
-    let _selected_file_count = payload.selected_files.as_ref().map(Vec::len).unwrap_or(0);
+    let files = match build_mock_file_manifest(payload.selected_files.as_deref()) {
+        Ok(files) => files,
+        Err(message) => {
+            return engine_error(StatusCode::BAD_REQUEST, "PATH_REJECTED", &message, true)
+                .into_response();
+        }
+    };
+    let info_hash = extract_magnet_info_hash(&payload.magnet_uri);
+    if let Some(hash) = info_hash.as_deref() {
+        if state.engine.has_duplicate_info_hash(hash).await {
+            return engine_error(
+                StatusCode::CONFLICT,
+                "DUPLICATE_TORRENT",
+                "This torrent is already in the list.",
+                true,
+            )
+            .into_response();
+        }
+    }
 
     let status = if payload.start_paused.unwrap_or(false) {
         TorrentStatus::Paused
@@ -120,6 +141,7 @@ async fn add_magnet(
     };
     let torrent = TorrentSummary {
         id: Uuid::new_v4(),
+        info_hash,
         name: infer_display_name(&payload.magnet_uri),
         status: status.clone(),
         progress: 0.0,
@@ -136,7 +158,13 @@ async fn add_magnet(
         save_path: payload.save_path,
         added_at_iso: Utc::now(),
     };
-    state.torrents.write().await.insert(0, torrent.clone());
+    state
+        .engine
+        .add_record(TorrentRecord {
+            summary: torrent.clone(),
+            files,
+        })
+        .await;
     (
         StatusCode::ACCEPTED,
         Json(AddTorrentResponse {
@@ -150,17 +178,107 @@ async fn add_magnet(
 async fn add_file_placeholder(
     State(state): State<AppState>,
     headers: HeaderMap,
+    Json(payload): Json<AddTorrentFileRequest>,
 ) -> impl IntoResponse {
     if let Err(err) = check_auth(&headers, &state) {
         return err.into_response();
     }
-    engine_error(
-        StatusCode::BAD_REQUEST,
-        "TORRENT_PARSE_FAILED",
-        "Torrent file import is not implemented in the mock engine scaffold.",
-        true,
+    if !payload
+        .torrent_file_path
+        .to_ascii_lowercase()
+        .ends_with(".torrent")
+    {
+        return engine_error(
+            StatusCode::BAD_REQUEST,
+            "TORRENT_PARSE_FAILED",
+            "Only .torrent files can be imported.",
+            true,
+        )
+        .into_response();
+    }
+    if let Err(message) = validate_download_root(&payload.save_path) {
+        return engine_error(StatusCode::BAD_REQUEST, "PATH_REJECTED", &message, true)
+            .into_response();
+    }
+
+    let bytes = match tokio::fs::read(&payload.torrent_file_path).await {
+        Ok(bytes) => bytes,
+        Err(error) => {
+            return engine_error(
+                StatusCode::BAD_REQUEST,
+                "TORRENT_PARSE_FAILED",
+                &format!("Torrent file could not be read: {error}"),
+                true,
+            )
+            .into_response();
+        }
+    };
+    let metadata = match parse_torrent_metadata(&bytes) {
+        Ok(metadata) => metadata,
+        Err(error) => {
+            return engine_error(
+                StatusCode::BAD_REQUEST,
+                "TORRENT_PARSE_FAILED",
+                &torrent_parse_error_message(error),
+                true,
+            )
+            .into_response();
+        }
+    };
+    if state
+        .engine
+        .has_duplicate_info_hash(&metadata.info_hash)
+        .await
+    {
+        return engine_error(
+            StatusCode::CONFLICT,
+            "DUPLICATE_TORRENT",
+            "This torrent is already in the list.",
+            true,
+        )
+        .into_response();
+    }
+
+    let status = if payload.start_paused.unwrap_or(false) {
+        TorrentStatus::Paused
+    } else {
+        TorrentStatus::Checking
+    };
+    let torrent = TorrentSummary {
+        id: Uuid::new_v4(),
+        info_hash: Some(metadata.info_hash),
+        name: metadata.name,
+        status: status.clone(),
+        progress: 0.0,
+        download_speed_bytes: 0,
+        upload_speed_bytes: 0,
+        eta_seconds: None,
+        health: Health::Checking,
+        health_confidence: 0.3,
+        seeders: 0,
+        peers: 0,
+        size_bytes: metadata.total_size_bytes,
+        downloaded_bytes: 0,
+        uploaded_bytes: 0,
+        save_path: payload.save_path,
+        added_at_iso: Utc::now(),
+    };
+    state
+        .engine
+        .add_record(TorrentRecord {
+            summary: torrent.clone(),
+            files: metadata.files,
+        })
+        .await;
+
+    (
+        StatusCode::ACCEPTED,
+        Json(AddTorrentResponse {
+            torrent_id: torrent.id,
+            status,
+        }),
     )
-    .into_response()
+        .into_response()
 }
 
 async fn pause_torrent(
@@ -183,17 +301,70 @@ async fn remove_torrent(
     State(state): State<AppState>,
     headers: HeaderMap,
     Path(id): Path<Uuid>,
+    payload: Option<Json<RemoveTorrentRequest>>,
 ) -> impl IntoResponse {
     if let Err(err) = check_auth(&headers, &state) {
         return err.into_response();
     }
-    let mut torrents = state.torrents.write().await;
-    let original_len = torrents.len();
-    torrents.retain(|torrent| torrent.id != id);
-    if torrents.len() == original_len {
+
+    let Some(record) = state.engine.get_record(id).await else {
         return torrent_not_found().into_response();
+    };
+
+    let request = payload.map(|Json(value)| value).unwrap_or_default();
+    let delete_files = request.delete_files.unwrap_or(false);
+    let use_trash = request.use_trash.unwrap_or(true);
+    let mut files_trashed = Vec::new();
+    let mut files_missing = Vec::new();
+
+    if delete_files {
+        if !use_trash {
+            return engine_error(
+                StatusCode::BAD_REQUEST,
+                "PATH_REJECTED",
+                "Permanent delete is not supported. Use OS trash or remove from app only.",
+                false,
+            )
+            .into_response();
+        }
+
+        let save_path = record.summary.save_path.clone();
+        let files = record.files.clone();
+        let trash_result = tokio::task::spawn_blocking(move || {
+            let plan = build_safe_delete_plan(&save_path, &files)?;
+            let trashed = move_plan_to_trash(&plan)?;
+            Ok::<_, SafeDeleteError>((trashed, plan.missing_files))
+        })
+        .await
+        .map_err(|error| SafeDeleteError::TrashUnavailable(error.to_string()))
+        .and_then(|result| result);
+
+        match trash_result {
+            Ok((trashed, missing)) => {
+                files_trashed = trashed;
+                files_missing = missing;
+            }
+            Err(error) => {
+                return engine_error(
+                    StatusCode::BAD_REQUEST,
+                    "PATH_REJECTED",
+                    &error.to_string(),
+                    true,
+                )
+                .into_response();
+            }
+        }
     }
-    Json(json!({ "ok": true })).into_response()
+
+    state.engine.remove_record(id).await;
+
+    Json(RemoveTorrentResponse {
+        ok: true,
+        removed_from_app: true,
+        files_trashed,
+        files_missing,
+    })
+    .into_response()
 }
 
 async fn recheck_torrent(
@@ -213,12 +384,10 @@ async fn set_status(
     if let Err(err) = check_auth(&headers, &state) {
         return err.into_response();
     }
-    let mut torrents = state.torrents.write().await;
-    let Some(torrent) = torrents.iter_mut().find(|torrent| torrent.id == id) else {
+    let Some(summary) = state.engine.set_status(id, status).await else {
         return torrent_not_found().into_response();
     };
-    torrent.status = status;
-    Json(torrent.clone()).into_response()
+    Json(summary).into_response()
 }
 
 async fn diagnose_torrent(
@@ -229,10 +398,10 @@ async fn diagnose_torrent(
     if let Err(err) = check_auth(&headers, &state) {
         return err.into_response();
     }
-    let torrents = state.torrents.read().await;
-    let Some(torrent) = torrents.iter().find(|torrent| torrent.id == id) else {
+    let Some(record) = state.engine.get_record(id).await else {
         return torrent_not_found().into_response();
     };
+    let torrent = &record.summary;
 
     let mut causes = Vec::new();
     let mut recommendations = Vec::new();
@@ -266,12 +435,21 @@ async fn diagnose_torrent(
 
 async fn events_placeholder(
     State(state): State<AppState>,
+    Query(query): Query<EventsQuery>,
     headers: HeaderMap,
 ) -> impl IntoResponse {
     if let Err(err) = check_auth(&headers, &state) {
         return err.into_response();
     }
-    Json(json!({ "events": [] })).into_response()
+    Json(json!({ "events": state.engine.snapshot_events(query.after, query.limit).await }))
+        .into_response()
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct EventsQuery {
+    after: Option<u64>,
+    limit: Option<usize>,
 }
 
 fn engine_error(
@@ -299,10 +477,85 @@ fn torrent_not_found() -> (StatusCode, Json<EngineError>) {
     )
 }
 
+fn torrent_parse_error_message(error: TorrentParseError) -> String {
+    error.to_string()
+}
+
 fn infer_display_name(input: &str) -> String {
     if let Some(name) = input.split('&').find_map(|part| part.strip_prefix("dn=")) {
         name.replace('+', " ")
     } else {
         "Magnet download".to_string()
+    }
+}
+
+fn extract_magnet_info_hash(input: &str) -> Option<String> {
+    let query = input.strip_prefix("magnet:?")?;
+    query.split('&').find_map(|part| {
+        let value = part.strip_prefix("xt=")?;
+        let hash = value.strip_prefix("urn:btih:").or_else(|| {
+            value
+                .get(..9)
+                .filter(|prefix| prefix.eq_ignore_ascii_case("urn:btih:"))
+                .and_then(|_| value.get(9..))
+        })?;
+        let normalized = hash.trim().to_ascii_lowercase();
+        if normalized.is_empty() {
+            None
+        } else {
+            Some(normalized)
+        }
+    })
+}
+
+fn build_mock_file_manifest(
+    selected_files: Option<&[String]>,
+) -> Result<Vec<TorrentFileEntry>, String> {
+    selected_files
+        .unwrap_or(&[])
+        .iter()
+        .enumerate()
+        .map(|(index, relative_path)| {
+            crate::safety::validate_torrent_relative_path(relative_path)?;
+            Ok(TorrentFileEntry {
+                id: format!("selected-{index}"),
+                relative_path: relative_path.replace('\\', "/"),
+                size_bytes: 0,
+            })
+        })
+        .collect()
+}
+
+#[cfg(test)]
+mod tests {
+    #![allow(clippy::expect_used)]
+
+    use super::*;
+
+    #[test]
+    fn mock_file_manifest_normalizes_selected_files() {
+        let selected = vec!["folder\\legal.iso".to_string()];
+
+        let manifest = build_mock_file_manifest(Some(&selected)).expect("manifest");
+
+        assert_eq!(manifest[0].relative_path, "folder/legal.iso");
+    }
+
+    #[test]
+    fn mock_file_manifest_rejects_unsafe_selected_files() {
+        let selected = vec!["../outside.iso".to_string()];
+
+        let error = build_mock_file_manifest(Some(&selected)).expect_err("unsafe path");
+
+        assert_eq!(error, "parent traversal is not allowed");
+    }
+
+    #[test]
+    fn extracts_magnet_info_hash_case_insensitively() {
+        assert_eq!(
+            extract_magnet_info_hash("magnet:?xt=urn:btih:ABC123&dn=Legal"),
+            Some("abc123".to_string())
+        );
+        assert_eq!(extract_magnet_info_hash("magnet:?dn=Legal"), None);
     }
 }
