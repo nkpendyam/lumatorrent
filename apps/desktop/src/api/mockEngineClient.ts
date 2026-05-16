@@ -16,6 +16,10 @@ import {
   createMockTorrent,
   tickTorrent,
 } from "../features/downloads/mockEngine";
+import {
+  createMockMetadataPreview,
+  validateMagnetUri,
+} from "../features/add-torrent/addTorrentModel";
 import { EngineClientError, type EngineClient, type ListEngineEventsOptions } from "./engineClient";
 
 export class MockEngineClient implements EngineClient {
@@ -50,23 +54,38 @@ export class MockEngineClient implements EngineClient {
   }
 
   async addMagnet(request: AddTorrentRequest): Promise<AddTorrentResponse> {
-    const name = extractMagnetName(request.magnetUri) ?? "Legal torrent metadata";
-    const infoHash = extractMagnetInfoHash(request.magnetUri);
+    const validation = validateMagnetUri(request.magnetUri);
+    if (!validation.ok) {
+      throw new EngineClientError(validation.message, "INVALID_MAGNET");
+    }
+    const metadata = createMockMetadataPreview(validation);
+    const infoHash = metadata.infoHash;
     if (
       infoHash &&
       this.torrents.some((torrent) => normalizeInfoHash(torrent.infoHash) === infoHash)
     ) {
       throw new EngineClientError("This torrent is already in the list.", "DUPLICATE_TORRENT");
     }
+    const selectedFiles = new Set(request.selectedFiles ?? []);
+    const files =
+      selectedFiles.size > 0
+        ? metadata.files.filter((file) => selectedFiles.has(file.path))
+        : metadata.files;
+    const sizeBytes = files.reduce((sum, file) => sum + file.sizeBytes, 0);
     const torrent = createMockTorrent(
-      name,
+      metadata.name,
       "checking",
       0,
       request.startPaused ? "paused" : "metadata",
     );
     torrent.infoHash = infoHash;
+    torrent.files = files;
+    torrent.sizeBytes = sizeBytes;
+    torrent.downloadedBytes = 0;
+    torrent.savePath = request.savePath;
     this.torrents = [torrent, ...this.torrents];
     this.emitStateEvent("torrent.added", torrent);
+    if (torrent.status === "metadata") this.emitStateEvent("torrent.metadata", torrent);
     return { torrentId: torrent.id, status: torrent.status };
   }
 
@@ -153,24 +172,9 @@ export function createMockEngineClient(initialTorrents?: TorrentSummary[]): Mock
   return new MockEngineClient(initialTorrents);
 }
 
-function extractMagnetName(magnetUri: string): string | null {
-  try {
-    const params = new URLSearchParams(magnetUri.replace(/^magnet:\?/, ""));
-    return params.get("dn");
-  } catch {
-    return null;
-  }
-}
-
 export function extractMagnetInfoHash(magnetUri: string): string | null {
-  try {
-    const params = new URLSearchParams(magnetUri.replace(/^magnet:\?/, ""));
-    const exactTopic = params.get("xt");
-    const match = exactTopic?.match(/^urn:btih:([^&]+)$/i);
-    return match ? normalizeInfoHash(match[1]) : null;
-  } catch {
-    return null;
-  }
+  const validation = validateMagnetUri(magnetUri);
+  return validation.ok ? validation.infoHash : null;
 }
 
 function normalizeInfoHash(value: string | null | undefined): string | null {

@@ -334,13 +334,18 @@ export function App() {
         />
       ) : null}
       <AnimatePresence>
-        <CommandPalette open={commandOpen} onClose={() => setCommandOpen(false)} />
+        <CommandPalette
+          key="command-palette"
+          open={commandOpen}
+          onClose={() => setCommandOpen(false)}
+        />
         {isAdding ? (
           <AddTorrentModal
+            key="add-torrent-modal"
             onClose={() => setAdding(false)}
-            onAddTorrentFile={(torrentFilePath) => {
+            onAddTorrentFile={async (torrentFilePath) => {
               if (!engineLifecycle) return;
-              void engineLifecycle.client
+              await engineLifecycle.client
                 .addTorrentFile({
                   torrentFilePath,
                   savePath: "~/Downloads/LumaTorrent",
@@ -348,31 +353,27 @@ export function App() {
                 .then(() => engineLifecycle.client.listTorrents())
                 .then(setTorrents)
                 .catch(() => setTorrents([]));
-              setAdding(false);
             }}
-            onAdd={(name) => {
+            onAddMagnet={async (request) => {
               if (!engineLifecycle) return;
-              const displayName = name || "New legal torrent";
-              void engineLifecycle.client
-                .addMagnet({
-                  magnetUri: `magnet:?dn=${encodeURIComponent(displayName)}`,
-                  savePath: "~/Downloads/LumaTorrent",
-                })
+              await engineLifecycle.client
+                .addMagnet(request)
                 .then(() => engineLifecycle.client.listTorrents())
                 .then(setTorrents)
                 .catch(() => setTorrents([]));
-              setAdding(false);
             }}
           />
         ) : null}
         {selectedDiagnostic ? (
           <DownloadDoctorPanel
+            key="download-doctor-panel"
             diagnostic={selectedDiagnostic}
             onClose={() => setSelectedDiagnostic(null)}
           />
         ) : null}
         {selectedTorrent ? (
           <DownloadInspector
+            key="download-inspector"
             torrent={selectedTorrent}
             onClose={() => setUi((current) => ({ ...current, selectedTorrentId: null }))}
             onRemoveRequest={() => {
@@ -383,6 +384,7 @@ export function App() {
         ) : null}
         {pendingRemoveTorrent ? (
           <RemoveTorrentDialog
+            key="remove-torrent-dialog"
             torrent={pendingRemoveTorrent}
             errorMessage={removeError}
             onCancel={() => {
