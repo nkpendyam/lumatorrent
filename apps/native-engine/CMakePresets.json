@@ -7,7 +7,7 @@
       "binaryDir": "${sourceDir}/build/stub-debug",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
-        "LUMATORRENT_ENGINE_MODE": "stub"
+        "LUMATORRENT_WITH_LIBTORRENT": "OFF"
       }
     },
     {
@@ -16,7 +16,7 @@
       "binaryDir": "${sourceDir}/build/stub-release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "LUMATORRENT_ENGINE_MODE": "stub"
+        "LUMATORRENT_WITH_LIBTORRENT": "OFF"
       }
     },
     {
@@ -25,7 +25,7 @@
       "binaryDir": "${sourceDir}/build/libtorrent-release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "LUMATORRENT_ENGINE_MODE": "libtorrent"
+        "LUMATORRENT_WITH_LIBTORRENT": "ON"
       }
     }
   ],

@@ -1,15 +1,19 @@
 # Engine Contract Strong Spec
 
 ## Design goals
+
 The frontend must be able to run against a mock engine, a stub native engine, or a real libtorrent engine without changing UI code.
 
 ## Transport
+
 Default: localhost HTTP or local IPC. Bind to `127.0.0.1` only. Require per-session auth token. Do not expose remote dashboard by default.
 
 ## Versioning
+
 Every request must include or resolve against an engine API version.
 
 ## Core endpoints
+
 - `GET /v1/health`
 - `GET /v1/torrents`
 - `POST /v1/torrents/magnet`
@@ -22,7 +26,9 @@ Every request must include or resolve against an engine API version.
 - `GET /v1/events`
 
 ## Error taxonomy
+
 - `INVALID_MAGNET`
+- `DUPLICATE_TORRENT`
 - `TORRENT_PARSE_FAILED`
 - `METADATA_TIMEOUT`
 - `NO_SEEDERS_OBSERVED`
@@ -35,6 +41,7 @@ Every request must include or resolve against an engine API version.
 - `ENGINE_UNAVAILABLE`
 
 ## Event types
+
 - `torrent.added`
 - `torrent.metadata`
 - `torrent.progress`
@@ -45,6 +52,7 @@ Every request must include or resolve against an engine API version.
 - `diagnostic.updated`
 
 ## Real engine acceptance criteria
+
 - frontend works unchanged against mock and real engine
 - contract tests pass
 - API never binds to public interface by default

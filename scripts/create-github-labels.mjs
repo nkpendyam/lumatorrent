@@ -17,7 +17,7 @@ for (const label of labels) {
     label.color,
     "--description",
     label.description,
-    "--force"
+    "--force",
   ];
   const result = spawnSync("gh", args, { stdio: "inherit" });
   if (result.status !== 0) process.exit(result.status ?? 1);

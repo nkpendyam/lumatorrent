@@ -6,6 +6,7 @@
   "properties": {
     "code": {
       "enum": [
+        "DUPLICATE_TORRENT",
         "INVALID_MAGNET",
         "TORRENT_PARSE_FAILED",
         "METADATA_TIMEOUT",

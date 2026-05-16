@@ -6,6 +6,7 @@ import {
   type EngineEventType,
   type EngineHealth,
   type SpeedDiagnostic,
+  type TorrentFile,
   type TorrentHealth,
   type TorrentStatus,
   type TorrentSummary,
@@ -38,6 +39,7 @@ export const engineEventTypes = [
 ] as const satisfies readonly EngineEventType[];
 
 export const engineErrorCodes = [
+  "DUPLICATE_TORRENT",
   "INVALID_MAGNET",
   "TORRENT_PARSE_FAILED",
   "METADATA_TIMEOUT",
@@ -69,6 +71,9 @@ const torrentHealthValues = [
   "dead",
 ] as const satisfies readonly TorrentHealth[];
 
+const torrentFilePriorities = ["skip", "low", "normal", "high"] as const;
+const torrentFileRisks = ["normal", "executable", "archive", "unknown"] as const;
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
@@ -91,6 +96,20 @@ function isTorrentStatus(value: unknown): value is TorrentStatus {
 
 function isTorrentHealth(value: unknown): value is TorrentHealth {
   return isString(value) && torrentHealthValues.includes(value as TorrentHealth);
+}
+
+function isTorrentFile(value: unknown): value is TorrentFile {
+  if (!isRecord(value)) return false;
+  return (
+    isString(value.id) &&
+    isString(value.path) &&
+    isNumber(value.sizeBytes) &&
+    isNumber(value.progress) &&
+    isString(value.priority) &&
+    torrentFilePriorities.includes(value.priority as TorrentFile["priority"]) &&
+    isString(value.risk) &&
+    torrentFileRisks.includes(value.risk as TorrentFile["risk"])
+  );
 }
 
 function isEngineEventType(value: unknown): value is EngineEventType {
@@ -127,6 +146,7 @@ export function isTorrentSummary(value: unknown): value is TorrentSummary {
   if (!isRecord(value)) return false;
   return (
     isString(value.id) &&
+    (value.infoHash === undefined || value.infoHash === null || isString(value.infoHash)) &&
     isString(value.name) &&
     isTorrentStatus(value.status) &&
     isNumber(value.progress) &&
@@ -141,7 +161,8 @@ export function isTorrentSummary(value: unknown): value is TorrentSummary {
     isNumber(value.downloadedBytes) &&
     isNumber(value.uploadedBytes) &&
     isString(value.savePath) &&
-    isString(value.addedAtIso)
+    isString(value.addedAtIso) &&
+    (value.files === undefined || (Array.isArray(value.files) && value.files.every(isTorrentFile)))
   );
 }
 

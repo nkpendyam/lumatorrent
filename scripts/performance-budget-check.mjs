@@ -6,7 +6,7 @@
 const budgets = {
   maxDashboardTorrentsWithoutVirtualization: 100,
   maxTelemetryUiHz: 4,
-  maxInitialMockRenderMs: 1500
+  maxInitialMockRenderMs: 1500,
 };
 
 console.log("Performance budget targets:");

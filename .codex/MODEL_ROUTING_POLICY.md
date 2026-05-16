@@ -19,18 +19,18 @@ Model names can change by account, plan, workspace, and release channel. Before 
 
 ## Task-to-model routing
 
-| Subtask | Model class | Expected action |
-|---|---|---|
-| Repo tree scan | cheap/fast | Read filenames, detect modules, summarize structure only |
-| File discovery | cheap/fast | Locate relevant files using grep/find/ripgrep |
-| Simple rename/edit | cheap/fast | Apply small changes after exact file is known |
-| Formatting/lint fix | cheap/fast | Fix mechanical style failures |
-| Test triage | cheap/fast first | Summarize failing tests and logs |
-| Architecture design | strongest | Define boundaries, APIs, safety model, and tradeoffs |
-| libtorrent integration | strongest | Work on native engine, FFI/IPC, packaging decisions |
-| Security review | strongest | Threat model, path traversal, remote API, update signing |
-| Complex bug fix | strongest | Diagnose multi-file failures and race conditions |
-| Final PR review | strongest | Review correctness, maintainability, tests, and safety |
+| Subtask                | Model class      | Expected action                                          |
+| ---------------------- | ---------------- | -------------------------------------------------------- |
+| Repo tree scan         | cheap/fast       | Read filenames, detect modules, summarize structure only |
+| File discovery         | cheap/fast       | Locate relevant files using grep/find/ripgrep            |
+| Simple rename/edit     | cheap/fast       | Apply small changes after exact file is known            |
+| Formatting/lint fix    | cheap/fast       | Fix mechanical style failures                            |
+| Test triage            | cheap/fast first | Summarize failing tests and logs                         |
+| Architecture design    | strongest        | Define boundaries, APIs, safety model, and tradeoffs     |
+| libtorrent integration | strongest        | Work on native engine, FFI/IPC, packaging decisions      |
+| Security review        | strongest        | Threat model, path traversal, remote API, update signing |
+| Complex bug fix        | strongest        | Diagnose multi-file failures and race conditions         |
+| Final PR review        | strongest        | Review correctness, maintainability, tests, and safety   |
 
 ## Token-saving workflow
 

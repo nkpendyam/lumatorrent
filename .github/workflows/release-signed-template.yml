@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Release tag to build'
+        description: "Release tag to build"
         required: true
 
 permissions:

@@ -1,10 +1,13 @@
 # Codex Autonomous Execution Manual
 
 ## Mission
+
 Help Codex build LumaTorrent phase by phase with minimal token waste, strong guardrails, and production-grade acceptance criteria.
 
 ## Safe autonomy boundaries
+
 Codex may automate:
+
 - local project checks
 - dependency installation through official package managers after approval
 - GitHub repo creation after `gh auth status` passes
@@ -13,6 +16,7 @@ Codex may automate:
 - docs updates and issue generation
 
 Codex must not:
+
 - bypass OS permissions
 - self-authorize GitHub/OpenAI accounts
 - store secrets in the repo
@@ -21,9 +25,11 @@ Codex must not:
 - run arbitrary downloaded scripts
 
 ## Session pattern
+
 Use one session per milestone.
 
 ### Prompt template
+
 ```
 Read AGENTS.md, docs/CODEX_AUTONOMOUS_EXECUTION_MANUAL.md, and docs/MILESTONE_ACCEPTANCE_GATES.md.
 Work only on milestone: <MILESTONE_ID>.
@@ -34,6 +40,7 @@ Do not start the next milestone.
 ```
 
 ## Context strategy
+
 - Keep each Codex run under one milestone.
 - Use scripts to print task context rather than pasting the whole repo.
 - Keep architecture decisions in ADRs.
@@ -41,7 +48,9 @@ Do not start the next milestone.
 - Keep all UI decisions in the design bible and screen contracts.
 
 ## Done means
+
 A milestone is not done until:
+
 - implementation exists
 - tests exist
 - docs are updated

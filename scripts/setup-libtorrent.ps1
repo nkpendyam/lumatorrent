@@ -10,9 +10,17 @@ if (-not (Get-Command cmake -ErrorAction SilentlyContinue)) {
   throw "CMake is required. Install CMake first."
 }
 
-$VcpkgRoot = $env:VCPKG_ROOT
+$UserVcpkgRoot = "$env:USERPROFILE\vcpkg"
+$VcpkgRoot = $env:LUMATORRENT_VCPKG_ROOT
 if (-not $VcpkgRoot) {
-  $VcpkgRoot = "$env:USERPROFILE\vcpkg"
+  if (Test-Path $UserVcpkgRoot) {
+    $VcpkgRoot = $UserVcpkgRoot
+  } else {
+    $VcpkgRoot = $env:VCPKG_ROOT
+  }
+}
+if (-not $VcpkgRoot) {
+  $VcpkgRoot = $UserVcpkgRoot
 }
 
 if (-not (Test-Path $VcpkgRoot)) {

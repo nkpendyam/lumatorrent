@@ -1,9 +1,5 @@
 {
-  "preflight": [
-    "CODEX_FINAL_HANDOFF.md",
-    "docs/FINAL_PRODUCTION_AUDIT_V14.md",
-    "package.json"
-  ],
+  "preflight": ["CODEX_FINAL_HANDOFF.md", "docs/FINAL_PRODUCTION_AUDIT_V14.md", "package.json"],
   "design": [
     "docs/FINAL_DESIGN_AND_PRODUCT_BIBLE.md",
     "docs/DESIGN_RESEARCH_APPLE_2026.md",

@@ -1,6 +1,7 @@
 # Autonomous Development Guardrails for Codex
 
 ## What Codex is allowed to automate
+
 - repository scanning
 - code generation
 - test generation
@@ -12,6 +13,7 @@
 - updating the skills registry and skills page
 
 ## What Codex must NOT do
+
 - bypass operating system permissions
 - self-authorize privileged actions without user or policy approval
 - disable security controls silently
@@ -20,14 +22,18 @@
 - store secrets in the repository
 
 ## Safe autonomy model
+
 Codex should operate in a high-autonomy mode only within:
+
 - repo-scoped instructions
 - sandbox and approval settings chosen by the user
 - auditable scripts in `scripts/`
 - explicit dependency policies
 
 ## Codex CLI launching
+
 The repo may include helper scripts to launch Codex CLI with the right profiles, but the user/environment remains responsible for authentication and permission policy.
 
 ## Permissions policy
+
 If the user wants fewer interruptions, configure Codex approval and sandbox modes explicitly. Do not attempt to “skip permissions” by hacking around them.

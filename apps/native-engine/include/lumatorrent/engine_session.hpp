@@ -31,7 +31,9 @@ public:
 
   std::string health_json() const;
   std::string add_magnet(const std::string& magnet_uri, const std::string& save_path);
+  std::string add_torrent_file(const std::string& torrent_file_path, const std::string& save_path);
   std::string list_torrents_json() const;
+  std::string events_json(unsigned long long after_sequence, unsigned int limit);
   bool pause(const std::string& torrent_id);
   bool resume(const std::string& torrent_id);
   bool remove(const std::string& torrent_id, bool delete_files);

@@ -19,7 +19,7 @@ Do not commit large generated binaries unless the repository explicitly chooses 
 
 `tauri.conf.json` intentionally does not enable `externalBin` in M5 because no target-suffixed sidecar binary is produced yet. Enabling it early makes `cargo check` fail before the desktop shell can compile. Re-enable `externalBin` in the milestone that builds and stages the sidecar artifact.
 
-`icons/icon.ico` is a generated placeholder only so Tauri workspace checks can compile on Windows during sidecar lifecycle work. Replace it with real product icons in the packaging/branding milestone.
+`icons/` contains a generated Tauri icon set based on `design/app-icon-concept.svg` so workspace checks and development packaging can compile on Windows, macOS, and Linux. Replace the generated concept with final product icons in the packaging/branding milestone.
 
 M5 lifecycle scaffold:
 

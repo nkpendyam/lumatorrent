@@ -14,6 +14,7 @@ import type { EngineHealth, ProgressEvent, TorrentSummary } from "./types";
 
 const torrent: TorrentSummary = {
   id: "torrent-1",
+  infoHash: "abcdef1234567890abcdef1234567890abcdef12",
   name: "Ubuntu Legal ISO",
   status: "downloading",
   progress: 0.42,
@@ -29,6 +30,16 @@ const torrent: TorrentSummary = {
   uploadedBytes: 500,
   savePath: "~/Downloads/LumaTorrent",
   addedAtIso: "2026-05-03T00:00:00.000Z",
+  files: [
+    {
+      id: "file-0",
+      path: "release/disc.iso",
+      sizeBytes: 10_000,
+      progress: 0.42,
+      priority: "normal",
+      risk: "normal",
+    },
+  ],
 };
 
 describe("engine contract guards", () => {
@@ -37,6 +48,7 @@ describe("engine contract guards", () => {
     expect(engineEventTypes).toContain("torrent.progress");
     expect(engineEventTypes).toContain("engine.health");
     expect(engineErrorCodes).toContain("ENGINE_UNAVAILABLE");
+    expect(engineErrorCodes).toContain("DUPLICATE_TORRENT");
   });
 
   it("validates engine health", () => {
@@ -67,6 +79,7 @@ describe("engine contract guards", () => {
     };
 
     expect(isTorrentSummary(torrent)).toBe(true);
+    expect(isTorrentSummary({ ...torrent, files: [{ path: "missing-id" }] })).toBe(false);
     expect(isEngineEvent(event)).toBe(true);
     const malformedPayload = { ...event.payload, downloadSpeed: 2_000 };
     delete (malformedPayload as Partial<typeof event.payload>).downloadSpeedBytes;

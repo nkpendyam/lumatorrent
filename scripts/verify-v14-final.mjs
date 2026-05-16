@@ -12,7 +12,7 @@ const required = [
   "docs/FINAL_TEST_AND_RELEASE_BIBLE.md",
   "tools/production/v14-final-gap-register.json",
   "tools/codex/final-context-packs-v14.json",
-  "tools/production/v14-acceptance-gates.json"
+  "tools/production/v14-acceptance-gates.json",
 ];
 
 const missing = required.filter((p) => !fs.existsSync(p));

@@ -1,9 +1,11 @@
 # Backend Theory of Operation
 
 ## Overview
+
 The app uses a Tauri shell, a frontend renderer, and a local engine boundary. The frontend never talks directly to libtorrent. It talks to an app-controlled engine API.
 
 ## Why this architecture
+
 - isolates native crashes
 - improves security review
 - supports mock engine testing
@@ -11,8 +13,11 @@ The app uses a Tauri shell, a frontend renderer, and a local engine boundary. Th
 - keeps UI responsive
 
 ## Components
+
 ### Tauri host
+
 Responsible for:
+
 - windows
 - tray/menu
 - OS dialogs
@@ -21,7 +26,9 @@ Responsible for:
 - update integration
 
 ### Engine sidecar
+
 Responsible for:
+
 - torrent session
 - magnet and file loading
 - lifecycle
@@ -30,14 +37,18 @@ Responsible for:
 - persistence handoff
 
 ### Storage
+
 Responsible for:
+
 - settings
 - UI preferences
 - safe recent paths
 - local app metadata
 
 ## Event model
+
 The engine emits normalized events:
+
 - TorrentAdded
 - TorrentUpdated
 - TorrentPaused
@@ -47,4 +58,5 @@ The engine emits normalized events:
 - EngineHealthChanged
 
 ## Error philosophy
+
 Errors must be typed, structured, and user-translatable.

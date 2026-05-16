@@ -7,6 +7,7 @@ You are taking over a serious production-grade open-source desktop app scaffold.
 Your job is not to finish everything in one run. Your job is to complete the next milestone safely and thoroughly.
 
 Before editing code:
+
 1. Read `CODEX_FINAL_HANDOFF.md`.
 2. Read `docs/FINAL_PRODUCTION_AUDIT_V14.md`.
 3. Run `pnpm verify:v14`, `pnpm audit:v14`, and `pnpm final:readiness`.
@@ -18,6 +19,7 @@ Before editing code:
 9. Prepare a PR summary.
 
 Rules:
+
 - Keep legal-use positioning.
 - Do not add built-in piracy search.
 - Do not bypass permissions or sandboxing.
@@ -33,6 +35,7 @@ Start with M0 and M1 unless they are already complete. Do not jump directly to l
 ## What "outstanding" means here
 
 Outstanding means:
+
 - stable
 - safe
 - fast
@@ -44,6 +47,7 @@ Outstanding means:
 - better diagnostics than competitors
 
 It does not mean:
+
 - huge feature list
 - unsafe automation
 - flashy UI with bad performance

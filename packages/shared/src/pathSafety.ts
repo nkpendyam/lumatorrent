@@ -30,6 +30,9 @@ export type PathSafetyResult =
 export function validateTorrentRelativePath(input: string): PathSafetyResult {
   const trimmed = input.trim();
   if (!trimmed) return { ok: false, reason: "Path is empty." };
+  if (input !== trimmed) {
+    return { ok: false, reason: "Path cannot start or end with whitespace." };
+  }
 
   const normalized = trimmed.replaceAll("\\", "/").normalize("NFC");
 
@@ -41,6 +44,9 @@ export function validateTorrentRelativePath(input: string): PathSafetyResult {
   for (const part of parts) {
     if (!part || part === "." || part === "..") {
       return { ok: false, reason: "Path traversal or empty path segment detected." };
+    }
+    if (part.endsWith(" ") || part.endsWith(".")) {
+      return { ok: false, reason: "Filename cannot end with a space or dot." };
     }
     const base = part.split(".")[0]?.toUpperCase() ?? "";
     if (WINDOWS_RESERVED_NAMES.has(base)) {

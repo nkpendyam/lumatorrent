@@ -1,11 +1,14 @@
 # Codex Plus Plan Execution Strategy
 
 ## Goal
+
 Use the Plus plan efficiently without wasting context, model budget, or Codex task allowance.
 
 ## Model routing
+
 Use the cheapest capable model for each subtask.
 Use mini/fast models for:
+
 - file discovery
 - simple refactors
 - formatting
@@ -14,6 +17,7 @@ Use mini/fast models for:
 - repeat edits
 
 Use the strongest model only for:
+
 - architecture changes
 - libtorrent integration strategy
 - hard debugging
@@ -21,6 +25,7 @@ Use the strongest model only for:
 - final security/release review
 
 ## Session rules
+
 1. Start every session with `docs/CODEX_EXECUTION_COMMAND_CENTER.md`.
 2. Run `pnpm codex:next` to pick a focused task.
 3. Do one task only.
@@ -29,6 +34,7 @@ Use the strongest model only for:
 6. Use `/review` after meaningful changes.
 
 ## Context-saving rules
+
 - Do not paste the whole repo into prompts.
 - Point Codex to exact docs and files.
 - Prefer scripts over repeated instructions.
@@ -36,6 +42,7 @@ Use the strongest model only for:
 - Update `docs/DECISIONS_LOG.md` when a major decision is made.
 
 ## Prompt template
+
 ```text
 Read AGENTS.md, docs/CODEX_EXECUTION_COMMAND_CENTER.md, and the files relevant to this task only.
 Task: <one specific task>

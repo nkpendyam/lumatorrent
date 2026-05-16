@@ -16,7 +16,7 @@ const required = [
   "apps/desktop/src/features/downloads/DownloadInspector.tsx",
   "apps/desktop/src/features/settings/SettingsPage.tsx",
   "packages/shared/src/healthScore.ts",
-  "apps/native-engine/CMakePresets.json"
+  "apps/native-engine/CMakePresets.json",
 ];
 
 const missing = required.filter((file) => !existsSync(file));

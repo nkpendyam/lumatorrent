@@ -5,6 +5,7 @@ import { diagnoseTorrent, type SpeedDiagnostic, type TorrentSummary } from "@lum
 import { DownloadCard } from "../features/downloads/DownloadCard";
 import { DownloadTable } from "../features/downloads/DownloadTable";
 import { DownloadInspector } from "../features/downloads/DownloadInspector";
+import { RemoveTorrentDialog } from "../features/downloads/RemoveTorrentDialog";
 import { AddTorrentModal } from "../features/add-torrent/AddTorrentModal";
 import { DownloadDoctorPanel } from "../features/diagnostics/DownloadDoctorPanel";
 import {
@@ -50,6 +51,8 @@ export function App() {
   const [dashboardFilter, setDashboardFilter] = useState<DashboardFilter>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDiagnostic, setSelectedDiagnostic] = useState<SpeedDiagnostic | null>(null);
+  const [pendingRemoveTorrentId, setPendingRemoveTorrentId] = useState<string | null>(null);
+  const [removeError, setRemoveError] = useState<string | null>(null);
   const { settings, updateSettings, resetSettings } = useSettings();
   const systemTheme = useSystemTheme();
   const reducedMotion = useReducedMotion(settings.appearance.reducedMotion);
@@ -97,6 +100,10 @@ export function App() {
   const selectedTorrent = useMemo(
     () => selectTorrent(torrents, ui.selectedTorrentId),
     [torrents, ui.selectedTorrentId],
+  );
+  const pendingRemoveTorrent = useMemo(
+    () => selectTorrent(torrents, pendingRemoveTorrentId),
+    [pendingRemoveTorrentId, torrents],
   );
   const visibleTorrents = useMemo(
     () => filterTorrents(torrents, dashboardFilter, searchQuery),
@@ -331,6 +338,18 @@ export function App() {
         {isAdding ? (
           <AddTorrentModal
             onClose={() => setAdding(false)}
+            onAddTorrentFile={(torrentFilePath) => {
+              if (!engineLifecycle) return;
+              void engineLifecycle.client
+                .addTorrentFile({
+                  torrentFilePath,
+                  savePath: "~/Downloads/LumaTorrent",
+                })
+                .then(() => engineLifecycle.client.listTorrents())
+                .then(setTorrents)
+                .catch(() => setTorrents([]));
+              setAdding(false);
+            }}
             onAdd={(name) => {
               if (!engineLifecycle) return;
               const displayName = name || "New legal torrent";
@@ -356,6 +375,38 @@ export function App() {
           <DownloadInspector
             torrent={selectedTorrent}
             onClose={() => setUi((current) => ({ ...current, selectedTorrentId: null }))}
+            onRemoveRequest={() => {
+              setPendingRemoveTorrentId(selectedTorrent.id);
+              setRemoveError(null);
+            }}
+          />
+        ) : null}
+        {pendingRemoveTorrent ? (
+          <RemoveTorrentDialog
+            torrent={pendingRemoveTorrent}
+            errorMessage={removeError}
+            onCancel={() => {
+              setPendingRemoveTorrentId(null);
+              setRemoveError(null);
+            }}
+            onConfirm={(options) => {
+              if (!engineLifecycle) return;
+              const torrentId = pendingRemoveTorrent.id;
+              void engineLifecycle.client
+                .removeTorrent(torrentId, options)
+                .then(() => engineLifecycle.client.listTorrents())
+                .then((nextTorrents) => {
+                  setTorrents(nextTorrents);
+                  setPendingRemoveTorrentId(null);
+                  setRemoveError(null);
+                  setUi((current) => ({ ...current, selectedTorrentId: null }));
+                })
+                .catch(() => {
+                  setRemoveError(
+                    "LumaTorrent could not remove this download. No files were deleted.",
+                  );
+                });
+            }}
           />
         ) : null}
       </AnimatePresence>

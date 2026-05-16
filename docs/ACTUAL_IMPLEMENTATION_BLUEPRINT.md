@@ -1,6 +1,7 @@
 # Actual Implementation Blueprint
 
 ## Architecture layers
+
 1. Tauri shell.
 2. React UI.
 3. Engine client.
@@ -11,6 +12,7 @@
 8. diagnostics services.
 
 ## Do not skip the mock-to-real ladder
+
 - mock API must be contract complete.
 - contract tests must pass.
 - sidecar can be stubbed.
@@ -18,4 +20,5 @@
 - real networking must be tested with legal fixtures only.
 
 ## Core data flow
+
 Add torrent → validate input → create engine request → engine emits state events → UI reconciles event stream → persistence saves durable state → Download Doctor reads diagnostics snapshot.

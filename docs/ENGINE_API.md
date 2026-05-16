@@ -12,6 +12,7 @@ The torrent engine is a local-only sidecar. The UI must communicate through a ty
 ## Core endpoints
 
 ### `GET /health`
+
 Returns process health and engine version.
 
 ```json
@@ -24,9 +25,11 @@ Returns process health and engine version.
 ```
 
 ### `POST /torrents/add-magnet`
+
 Adds a magnet link.
 
 Request:
+
 ```json
 {
   "magnetUri": "magnet:?xt=urn:btih:...",
@@ -36,6 +39,7 @@ Request:
 ```
 
 Response:
+
 ```json
 {
   "torrentId": "tr_01H...",
@@ -44,21 +48,27 @@ Response:
 ```
 
 ### `GET /torrents`
+
 Returns summaries for dashboard rendering. Must be cheap and throttled.
 
 ### `GET /torrents/{id}`
+
 Returns detailed torrent state: files, trackers, peers, ratios, piece availability, and diagnostics input.
 
 ### `POST /torrents/{id}/pause`
+
 Pauses a torrent.
 
 ### `POST /torrents/{id}/resume`
+
 Resumes a torrent.
 
 ### `POST /torrents/{id}/remove`
+
 Removes a torrent from app state. File deletion must be a separate explicit operation.
 
 ### `POST /diagnostics/{id}/run`
+
 Runs Download Doctor checks and returns human-friendly causes plus machine-readable codes.
 
 ## Event stream
