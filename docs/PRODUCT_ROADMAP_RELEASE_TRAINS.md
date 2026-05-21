@@ -2,7 +2,7 @@
 
 ## Release train A — Foundation Alpha
 
-Goal: beautiful mock UI + stable scaffolding.
+Goal: beautiful mock UI plus stable product foundations.
 
 - design tokens
 - dashboard

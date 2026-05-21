@@ -4,7 +4,7 @@ LumaTorrent is an open-source desktop torrent client for legal file distribution
 
 ## Status
 
-LumaTorrent is in active development. The desktop shell, mock engine flows, contracts, path-safety rules, and native sidecar scaffold exist. Real production torrent downloading is still being built behind the native engine boundary.
+LumaTorrent is in active development. The desktop shell, mock engine flows, contracts, path-safety rules, and native sidecar boundary exist. Real production torrent downloading is still being built behind the native engine boundary.
 
 Current focus:
 
@@ -19,7 +19,7 @@ Current focus:
 - Tauri 2 desktop shell
 - React and TypeScript frontend
 - Rust mock/local engine
-- C++ native sidecar scaffold for libtorrent
+- C++ native sidecar boundary for libtorrent
 - pnpm workspace
 - Vitest, Playwright, Cargo tests, and GitHub Actions
 
@@ -28,7 +28,7 @@ Current focus:
 ```text
 apps/desktop       Tauri + React desktop app
 apps/engine        Rust local/mock engine
-apps/native-engine C++ native sidecar scaffold
+apps/native-engine C++ native sidecar boundary
 packages/shared    Shared contracts, types, and safety helpers
 packages/ui        Shared UI primitives and design tokens
 contracts/engine   Engine API and event schemas

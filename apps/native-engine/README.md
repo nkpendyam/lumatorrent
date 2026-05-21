@@ -1,13 +1,13 @@
 # Native Engine Sidecar
 
-This directory contains the production-oriented native torrent sidecar scaffold.
+This directory contains the production-oriented native torrent sidecar.
 
 The project intentionally supports two build modes:
 
 1. **Stub mode**: builds without libtorrent and returns safe placeholder responses.
 2. **libtorrent mode**: compiles with `LUMATORRENT_WITH_LIBTORRENT=1` and links against libtorrent.
 
-This prevents Codex from blocking the UI work on native dependency installation while still giving the project a real integration boundary.
+This keeps UI work unblocked by native dependency installation while still giving the project a real integration boundary.
 
 ## Build stub mode
 

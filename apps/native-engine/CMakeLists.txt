@@ -53,6 +53,6 @@ endif()
 
 install(TARGETS lumatorrent-native-engine RUNTIME DESTINATION bin)
 
-# v9 contract smoke target. Codex should wire this into CI once native engine stabilizes.
+# Contract smoke target to enable once native engine CI stabilizes.
 # add_executable(contract_smoke tests/contract_smoke.cpp src/engine_contract.cpp)
 # target_include_directories(contract_smoke PRIVATE include)

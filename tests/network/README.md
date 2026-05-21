@@ -12,7 +12,7 @@ Use generated text/binary files only. Example:
 
 ## Local torrent testing
 
-A real local swarm test requires a torrent creation tool and the native libtorrent engine. Codex should implement the harness after NATIVE-004.
+A real local swarm test requires a torrent creation tool and the native libtorrent engine. Implement the harness after NATIVE-004.
 
 Planned scripts:
 

@@ -17,9 +17,6 @@ const protectedFiles = new Set([
   "SECURITY.md",
   "CONTRIBUTING.md",
   "docs/DOCS_INDEX.md",
-  "docs/CODEX_TASKS.md",
-  "docs/CODEX_CONTEXT_PACKS.md",
-  "docs/CODEX_EXECUTION_COMMAND_CENTER.md",
   "docs/PHASE_MASTER_PLAN.md",
   "docs/PRODUCT_REQUIREMENTS.md",
   "docs/ARCHITECTURE.md",
@@ -36,7 +33,6 @@ const protectedFiles = new Set([
   "docs/DESIGN_BIBLE.md",
   "docs/UI_COMPONENT_SPEC_LIBRARY.md",
   "docs/RELEASE_CHECKLIST.md",
-  "docs/GITHUB_AUTOMATION_RUNBOOK.md",
   "docs/CODE_SIGNING_AND_NOTARIZATION.md",
 ]);
 

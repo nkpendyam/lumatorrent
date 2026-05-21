@@ -2,11 +2,10 @@
 import { spawnSync } from "node:child_process";
 const commands = [
   ["node", ["scripts/verify-project.mjs"]],
-  ["node", ["scripts/verify-v9-world-class-scaffold.mjs"]],
-  ["node", ["scripts/verify-v10-production-execution.mjs"]],
   ["node", ["scripts/validate-contracts.mjs"]],
   ["node", ["scripts/test-engine-contracts.mjs"]],
   ["node", ["scripts/performance-budget-check.mjs"]],
+  ["node", ["scripts/repo-hygiene-status.mjs"]],
 ];
 for (const [cmd, args] of commands) {
   console.log(`$ ${cmd} ${args.join(" ")}`);

@@ -4,7 +4,7 @@ When real sidecar spawning is implemented, create or update `src-tauri/capabilit
 
 Do not grant broad shell access. Scope only the known engine sidecar binary.
 
-M5 lifecycle scaffold permission rationale:
+Sidecar lifecycle permission rationale:
 
 - `core:default` is the baseline Tauri window/runtime permission set.
 - `shell:allow-spawn` is present only for the fixed `luma-engine` sidecar name with `"sidecar": true`.

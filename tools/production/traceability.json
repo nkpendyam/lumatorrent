@@ -1,10 +1,10 @@
 {
-  "version": "v11",
+  "version": "public-beta",
   "requirements": [
     {
       "id": "R-001",
       "name": "Legal torrent positioning",
-      "status": "scaffolded"
+      "status": "planned"
     },
     {
       "id": "R-002",
@@ -19,7 +19,7 @@
     {
       "id": "R-004",
       "name": "Download Doctor",
-      "status": "scaffolded"
+      "status": "planned"
     },
     {
       "id": "R-005",
