@@ -15,4 +15,4 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile=false
       - run: pnpm contracts:validate
-      - run: pnpm verify:v9
+      - run: pnpm test:contracts

@@ -17,9 +17,9 @@ This project should be inspired by Apple Human Interface Guidelines principles �
 - Native-feeling interactions on every platform.
 - Accessibility built in from the start.
 
-## Mandatory design inputs for Codex
+## Mandatory design inputs
 
-Codex must read before implementing UI:
+Read before implementing UI:
 
 - `docs/DESIGN_RESEARCH_APPLE_2026.md`
 - `docs/UX_DESIGN_SYSTEM.md`
@@ -99,7 +99,7 @@ Must design:
 
 ### 6) Accessibility
 
-Codex must design for:
+Design for:
 
 - keyboard-first operation
 - visible focus states
@@ -111,7 +111,7 @@ Codex must design for:
 
 ### 7) Motion system
 
-Codex must implement motion rules:
+Implement motion rules:
 
 - 120–220ms for micro transitions
 - 220–320ms for structural transitions
@@ -121,7 +121,7 @@ Codex must implement motion rules:
 
 ### 8) Design validation
 
-Codex should use image generation and web-based design ideation tools to draft concepts, then translate them into reusable specs and components.
+Use image generation and web-based design ideation tools to draft concepts, then translate them into reusable specs and components.
 
 Approved inspiration workflow:
 

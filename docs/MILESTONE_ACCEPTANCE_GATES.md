@@ -5,9 +5,9 @@
 Acceptance:
 
 - `pnpm preflight:local` passes or reports actionable install commands.
-- `pnpm verify:v11` passes.
-- GitHub repo can be created using dry-run mode.
-- Codex mission summary prints.
+- `pnpm verify` passes.
+- repository hygiene check passes.
+- required local toolchain gaps are documented.
 
 ## M1 — Premium shell UI
 

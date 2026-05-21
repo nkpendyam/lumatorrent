@@ -19,7 +19,7 @@ The scripts require you to authenticate GitHub CLI first:
 gh auth login
 ```
 
-Codex must not bypass this. Authentication belongs to the user.
+Automation must not bypass this. Authentication belongs to the user.
 
 ## Safe dry-run default
 

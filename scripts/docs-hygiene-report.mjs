@@ -3,7 +3,6 @@ import { existsSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 
 const protectedPrefixes = [
-  ".codex/",
   ".github/",
   "apps/",
   "docs/ADR/",
@@ -14,11 +13,9 @@ const protectedPrefixes = [
 ];
 
 const protectedFiles = new Set([
-  "AGENTS.md",
   "README.md",
   "SECURITY.md",
   "CONTRIBUTING.md",
-  "CODEX_FINAL_HANDOFF.md",
   "docs/DOCS_INDEX.md",
   "docs/CODEX_TASKS.md",
   "docs/CODEX_CONTEXT_PACKS.md",
@@ -30,7 +27,6 @@ const protectedFiles = new Set([
   "docs/MILESTONE_ACCEPTANCE_GATES.md",
   "docs/PRODUCTION_DEFINITION_OF_DONE.md",
   "docs/TEST_COVERAGE_MATRIX.md",
-  "docs/CODEX_AUTONOMOUS_TASK_TREE.md",
   "docs/ENGINE_IMPLEMENTATION_DAG.md",
   "docs/LIBTORRENT_REAL_IMPLEMENTATION_PLAYBOOK.md",
   "docs/REAL_LIBTORRENT_IMPLEMENTATION_TASKS.md",

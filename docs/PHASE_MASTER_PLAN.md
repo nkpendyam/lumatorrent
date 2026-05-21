@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This is the master execution map for Codex and human contributors. It converts the project vision into a disciplined build plan that avoids vibe-coding, protects safety, and moves from mock scaffold to real cross-platform torrent client.
+This is the master execution map for contributors. It converts the project vision into a disciplined build plan that avoids speculative rewrites, protects safety, and moves from mock scaffold to a real cross-platform torrent client.
 
 ## Global engineering rule
 
@@ -31,9 +31,9 @@ Understand the product deeply before coding.
 - risk register
 - MVP scope freeze
 
-### Codex tasks
+### Contributor tasks
 
-- Read all root and `.codex` docs.
+- Read the product, architecture, safety, and acceptance-gate docs.
 - Fill `docs/research/COMPETITOR_MATRIX.md`.
 - Fill `docs/research/GAP_ANALYSIS.md`.
 - Fill `docs/research/PERSONAS.md`.
@@ -59,7 +59,7 @@ Create the Apple-inspired premium user experience before scaling implementation.
 - accessibility notes added
 - motion rules implemented
 
-### Codex tasks
+### Contributor tasks
 
 - Create/refine design prompts.
 - Generate/review concept directions with image generation.

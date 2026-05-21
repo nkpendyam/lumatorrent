@@ -1,6 +1,6 @@
 # Known Non-Automatable Items
 
-Codex cannot safely automate these without user-provided credentials or physical/remote machines:
+Project automation cannot safely perform these without user-provided credentials or physical/remote machines:
 
 - GitHub login.
 - Apple Developer account setup.

@@ -41,6 +41,6 @@
 - remote API exposure
 - deletion guardrails
 
-## Codex task
+## Implementation task
 
 Fill this document with measured results once real builds exist.

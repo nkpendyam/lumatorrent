@@ -6,11 +6,11 @@ Use image generation and UI ideation tools to accelerate design without shipping
 
 ## Pipeline
 
-1. Codex reads design docs.
-2. Codex writes a design brief for one screen.
+1. Read design docs.
+2. Write a design brief for one screen.
 3. Generate concepts with image generation.
 4. Use Stitch/21st.dev only for inspiration and component references.
-5. Codex converts selected direction into tokens, layout specs, and React components.
+5. Convert the selected direction into tokens, layout specs, and React components.
 6. Run accessibility and performance checks.
 7. Senior review before merge.
 

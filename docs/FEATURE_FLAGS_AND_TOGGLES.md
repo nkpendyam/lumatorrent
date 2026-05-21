@@ -1,6 +1,6 @@
 # Feature Flags and Toggles
 
-Feature flags let Codex build advanced features safely without destabilizing the app.
+Feature flags let contributors build advanced features safely without destabilizing the app.
 
 ## Required flags
 
@@ -26,6 +26,6 @@ export const featureFlags = {
 - Native engine can be developed behind the `nativeEngine` flag while stub mode keeps CI stable.
 - Experimental animation must respect reduced-motion accessibility settings.
 
-## Codex instruction
+## Implementation instruction
 
 When implementing a risky or incomplete feature, put it behind a flag and add tests for both enabled and disabled states.

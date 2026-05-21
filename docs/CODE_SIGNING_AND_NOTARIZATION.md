@@ -32,6 +32,6 @@ Recommended secrets:
 
 Unsigned local dev builds are allowed. Public releases must be signed.
 
-## Codex rule
+## Automation rule
 
-Codex must never invent or commit private keys, certificates, passwords, or fake secrets. It may update workflows and docs only.
+Automation must never invent or commit private keys, certificates, passwords, or fake secrets. Release secrets must stay in the operating-system keychain, secure CI secret store, or another approved secret manager.
