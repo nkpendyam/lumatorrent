@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { readFileSync, statSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 
 const protectedPrefixes = [
@@ -80,7 +80,7 @@ function countNeedle(haystack, needle) {
   return haystack.split(needle).length - 1;
 }
 
-const tracked = gitLines(["ls-files"]);
+const tracked = gitLines(["ls-files"]).filter((file) => existsSync(file));
 const markdown = tracked.filter((file) => file.endsWith(".md"));
 const searchable = tracked.filter((file) => textExtensions.has(path.extname(file)));
 const searchableContent = searchable.map((file) => ({

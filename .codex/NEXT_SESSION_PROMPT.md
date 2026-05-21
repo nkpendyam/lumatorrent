@@ -301,6 +301,7 @@ Implemented hygiene updates:
 - `pnpm docs:hygiene` now reports Markdown reference counts and conservative review candidates.
 - `docs/DOCS_INDEX.md` now identifies primary source-of-truth docs and cleanup rules.
 - First docs report found 186 tracked Markdown files and 25 conservative review candidates. No Markdown files were deleted because candidates still require content review and final `rg` checks.
+- Follow-up prune removed seven unreferenced, superseded Markdown files after final `rg` checks: `docs/IMPLEMENTATION_PLAN.md`, `docs/FIRST_30_CODEX_TASKS.md`, `docs/FINAL_CONTEXT_FOR_CODEX.md`, `docs/FINAL_NO_MORE_SCAFFOLDING_ADVICE.md`, `docs/LOCKFILE_POLICY.md`, `docs/GITHUB_SETUP.md`, and `docs/GITHUB_LABELS.md`.
 
 Next session checklist:
 
