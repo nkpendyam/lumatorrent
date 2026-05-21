@@ -2,7 +2,7 @@
 
 ## Objective
 
-Give Codex a complete understanding of the product, constraints, legal positioning, technical direction, and success metrics before writing production code.
+Give contributors a complete understanding of the product, constraints, legal positioning, technical direction, and success metrics before writing production code.
 
 ## Desired outcomes
 
@@ -17,7 +17,7 @@ Give Codex a complete understanding of the product, constraints, legal positioni
 
 ### 1) Competitor analysis
 
-Codex should compare qBittorrent, Transmission, Deluge, BiglyBT, Tribler, and Tixati on:
+Compare qBittorrent, Transmission, Deluge, BiglyBT, Tribler, and Tixati on:
 
 - onboarding friction
 - discoverability
@@ -52,7 +52,7 @@ Deliverables:
 
 ### 3) Technical feasibility
 
-Codex must validate:
+Validate:
 
 - Tauri desktop shell viability
 - sidecar process viability
@@ -69,7 +69,7 @@ Deliverables:
 
 ### 4) Legal/safety framing
 
-Codex must keep the project framed around legal torrent use only:
+Keep the project framed around legal torrent use only:
 
 - Linux ISOs
 - open-source releases
@@ -87,4 +87,4 @@ Do not market the product as an anonymity tool.
 - Feature backlog prioritized.
 - Technical architecture accepted.
 - Design brief accepted.
-- Codex task board generated.
+- implementation task board generated.

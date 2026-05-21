@@ -1,7 +1,7 @@
 /**
  * Lightweight budget check placeholder.
  * This intentionally does not pretend to benchmark the app.
- * It gives Codex a safe starting gate until real profiling is wired.
+ * It gives the project a safe starting gate until real profiling is wired.
  */
 const budgets = {
   maxDashboardTorrentsWithoutVirtualization: 100,

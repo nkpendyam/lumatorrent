@@ -1,6 +1,6 @@
 const scorecard = [
   ["Repo structure", "Strong"],
-  ["Codex execution", "Strong"],
+  ["Execution discipline", "Strong"],
   ["Design system", "Strong scaffold"],
   ["Frontend", "Strong scaffold"],
   ["Backend", "Strong scaffold"],

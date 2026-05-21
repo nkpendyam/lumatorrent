@@ -1,6 +1,6 @@
 # Decisions Log
 
-Use this file for major decisions Codex or a human makes during development.
+Use this file for major decisions made during development.
 
 | Date       | Decision                               | Reason                                           | Revisit?                   |
 | ---------- | -------------------------------------- | ------------------------------------------------ | -------------------------- |

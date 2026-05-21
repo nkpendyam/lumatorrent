@@ -1,206 +1,119 @@
-# LumaTorrent Senior Codex Starter v3
+# LumaTorrent
 
-LumaTorrent is a professional open-source desktop torrent client concept focused on **legal torrents**, premium UI/UX, and smart diagnostics.
+LumaTorrent is an open-source desktop torrent client for legal file distribution. The goal is a calm, polished cross-platform app with strong file-safety defaults, a native libtorrent engine boundary, and diagnostics that explain what is happening instead of leaving users guessing.
 
-This repository is intentionally a **senior-grade project foundation**, not a finished torrent downloader. It is designed so Codex or a developer can build the product safely in phases without vibe-coding fragile networking software.
+## Status
 
-## Product promise
+LumaTorrent is in active development. The desktop shell, mock engine flows, contracts, path-safety rules, and native sidecar scaffold exist. Real production torrent downloading is still being built behind the native engine boundary.
 
-> A beautiful open-source torrent client that explains what is happening, protects user files, and gives power users control without overwhelming beginners.
+Current focus:
 
-## What is included
+- complete native torrent lifecycle behavior
+- harden engine contracts and event flow
+- prove safe delete-to-trash behavior across operating systems
+- replace mock diagnostics with real network and disk signals
+- prepare repeatable desktop packaging
 
-- Tauri 2 desktop shell scaffold
-- React + TypeScript UI scaffold
-- Rust sidecar engine scaffold
-- Localhost API contract and mock implementation
-- Download Doctor concept and diagnostics model
-- Professional UI/UX design system
-- Security model, threat model, path safety rules
-- Accessibility, performance, and QA checklists
-- GitHub Actions CI, security workflows, issue templates, PR template
-- Codex operating instructions and task queue
-- Bootstrap/doctor scripts for Windows/macOS/Linux
-- Release engineering documents
+## Tech Stack
 
-## What is intentionally not included yet
+- Tauri 2 desktop shell
+- React and TypeScript frontend
+- Rust mock/local engine
+- C++ native sidecar scaffold for libtorrent
+- pnpm workspace
+- Vitest, Playwright, Cargo tests, and GitHub Actions
 
-- Production libtorrent binding
-- Signed production installers
-- Real update server
-- Real app icon set
-- Native code signing certificates
-- Finished torrent downloader behavior
+## Repository Layout
 
-This is deliberate. A senior implementation must isolate the torrent engine behind a sidecar/API boundary first, then replace the mock engine with libtorrent behind tests.
+```text
+apps/desktop       Tauri + React desktop app
+apps/engine        Rust local/mock engine
+apps/native-engine C++ native sidecar scaffold
+packages/shared    Shared contracts, types, and safety helpers
+packages/ui        Shared UI primitives and design tokens
+contracts/engine   Engine API and event schemas
+docs               Product, architecture, safety, QA, and release docs
+tests              Fixtures and cross-cutting test data
+tools              Public project automation data
+```
 
-## First commands
+## Getting Started
+
+Requirements:
+
+- Node.js 20+
+- pnpm 9+
+- Rust toolchain
+- platform build tools for Tauri/native engine work
+
+Install and verify:
 
 ```bash
-# 1. Check installed tools only
-pnpm doctor
-
-# 2. Optional: install/check dependencies
-./scripts/bootstrap.sh --install --yes
-# or Windows:
-./scripts/bootstrap.ps1 -Install -Yes
-
-# 3. Install JS dependencies
+corepack enable
 pnpm install
-
-# 4. Run quality checks
 pnpm verify
+```
 
-# 5. Start desktop app
+Run the desktop app:
+
+```bash
 pnpm dev
 ```
 
-## Codex start point
+Useful commands:
 
-Open these files first:
-
-1. `.codex/START_HERE.md`
-2. `.codex/SENIOR_BUILD_PLAYBOOK.md`
-3. `docs/CODEX_TASKS.md`
-4. `docs/DEFINITION_OF_DONE.md`
-5. `docs/ENGINE_API.md`
-6. `docs/UX_SCREEN_SPECS.md`
-
-## Architecture summary
-
-```text
-React premium UI
-  ↓ Tauri commands/events
-Tauri Rust shell
-  ↓ local authenticated IPC/HTTP
-Torrent engine sidecar
-  ↓ libtorrent adapter later
-BitTorrent network / disk
+```bash
+pnpm doctor
+pnpm format:check
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm contracts:validate
+pnpm test:rust
+pnpm repo:hygiene
+pnpm docs:hygiene
 ```
 
-## Safety rules
+Native engine smoke commands:
+
+```bash
+pnpm test:engine:native-health
+pnpm test:engine:native-add-magnet
+pnpm test:engine:native-add-torrent-file
+```
+
+## Safety Principles
 
 - No built-in piracy search.
-- No auto-opening downloaded files.
-- No permanent delete by default.
-- Remote dashboard disabled by default.
-- Local API binds to `127.0.0.1` only.
-- Every file path from a torrent is untrusted.
-- Dangerous actions need previews and confirmations.
+- No automatic opening of downloaded files.
+- Local APIs bind to localhost by default.
+- Torrent-provided paths are always untrusted.
+- Delete actions require explicit confirmation.
+- File deletion must stay manifest-gated and use OS trash where supported.
+- Diagnostics should be honest about confidence and uncertainty.
+
+## Documentation
+
+Start with:
+
+- `docs/PRODUCT_REQUIREMENTS.md`
+- `docs/ARCHITECTURE.md`
+- `docs/PHASE_MASTER_PLAN.md`
+- `docs/ENGINE_IMPLEMENTATION_DAG.md`
+- `docs/THREAT_MODEL.md`
+- `docs/PRODUCTION_GAP_REGISTER.md`
+- `docs/DOCS_INDEX.md`
+
+## Contributing
+
+Keep changes small, tested, and reviewable. For every meaningful change:
+
+- update contracts when APIs change
+- add or update tests
+- document behavior changes
+- run targeted checks first, then `pnpm verify`
+- keep legal torrenting and file safety as product boundaries
 
 ## License
 
 GPL-3.0-or-later.
-
-## v4 production engineering additions
-
-This package includes the production layers needed for a serious torrent client build:
-
-- Native libtorrent sidecar scaffold with CMake and feature-gated source code
-- OS dependency installers/checkers for Windows, macOS, and Linux
-- Packaging and release workflows for Tauri desktop builds
-- Code-signing and notarization documentation with required secret names
-- Local network torrent test lab design for legal/offline QA
-- Release, rollback, crash recovery, and platform QA playbooks
-- Codex milestone plan for replacing mock engine with the native sidecar
-
-Private signing certificates, Apple Developer credentials, Windows signing keys, and production binaries are intentionally not included. They must be generated or provided by the project owner and stored as GitHub Actions secrets or local keychain/cert-store entries.
-
-## v5: Token-efficient Codex build mode
-
-This repository includes a Codex operating layer for fast, cost-conscious development:
-
-```text
-Use the cheapest capable model for each subtask.
-Use gpt-5.4-mini for repo scanning, file discovery, and simple edits.
-Use gpt-5.5 only for architecture, complex implementation, debugging, and final review.
-Do not waste gpt-5.5 on repetitive scanning.
-```
-
-Start with:
-
-```bash
-node scripts/sync-skills-page.mjs
-node scripts/codex-model-router-help.mjs
-pnpm verify:v5
-```
-
-Read:
-
-- `.codex/MODEL_ROUTING_POLICY.md`
-- `.codex/CODEX_COST_FAST_BUILD_PLAYBOOK.md`
-- `.codex/WEB_SKILLS_ACQUISITION_POLICY.md`
-- `.codex/UI_IMAGE_GENERATION_PLAYBOOK.md`
-- `docs/SKILLS.md`
-- `design/image-generation/PREMIUM_UI_PROMPTS.md`
-
-## v7 additions
-
-- Detailed phase-by-phase development docs
-- Apple-style design research pack
-- Safe autonomous Codex guardrails
-- Cross-platform design adaptation guidance
-
-## v8 additions
-
-v8 adds the missing senior-execution layer:
-
-- Phase master plan
-- Codex autonomous task tree
-- Design bible
-- UI component spec library
-- Implementation backlog
-- Real engine milestones
-- Test coverage matrix
-- Backend theory of operation
-- Performance benchmark plan
-- Accessibility automation plan
-- Local legal fixture lab
-- v8 audit and verification scripts
-
-## v9 world-class execution scaffold
-
-v9 adds stronger production execution docs, real contract scaffolding, more frontend screens, stronger native-engine scaffolding, contract validation scripts, and an honest world-class audit.
-
-Run:
-
-```bash
-pnpm verify:v9
-pnpm audit:v9
-pnpm contracts:validate
-pnpm quality:score
-```
-
-## v10 production execution additions
-
-This version adds safer GitHub automation, a Plus-plan Codex execution strategy, a production gap register, readiness scorecard, real libtorrent implementation tasks, and stronger v10 verification scripts.
-
-Start with:
-
-```bash
-pnpm verify:v10
-pnpm audit:v10
-pnpm preflight:prod
-pnpm github:doctor
-```
-
-## v11 additions
-
-- Honest Codex submission audit
-- Milestone acceptance gates
-- Requirements traceability matrix
-- Production Definition of Done
-- Codex autonomous execution manual
-- GitHub automation validation plan
-- Local preflight and safe bootstrap scripts
-
-## v12 additions
-
-- Codex context packs.
-- Plus-plan milestone sharding.
-- Real implementation specs for torrent flows.
-- Safe delete-to-trash spec.
-- Download Doctor algorithm spec.
-- GitHub project board planning.
-- OS QA matrix.
-- Production gap reporting.
