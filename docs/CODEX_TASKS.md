@@ -29,6 +29,7 @@ Work in order. Do not skip safety tasks.
 ## Repo hygiene session rule
 
 - [ ] Start and end cleanup sessions with `pnpm repo:hygiene`.
+- [ ] Use `pnpm docs:hygiene` and `docs/DOCS_INDEX.md` before deleting or archiving Markdown files.
 - [ ] Keep local dependency folders, build outputs, reports, caches, generated Tauri folders, and real `.env` files out of GitHub.
 - [ ] Do not delete tracked files unless `rg` shows no active references and the file is not source, CI, contracts, tests, security docs, lockfiles, fixtures, app icons, design tokens, or current milestone documentation.
 

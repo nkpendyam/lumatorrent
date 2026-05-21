@@ -298,9 +298,13 @@ Implemented hygiene updates:
 - `docs/CODEX_TOOLING_AND_MCP_POLICY.md` now records the GitHub hygiene baseline and required cleanup status checks.
 - `docs/CODEX_TASKS.md` now marks direct merge of `codex/verify-format-sweep` into this branch as unsafe instead of a normal next task.
 - `pnpm repo:hygiene` now prints the recurring repo/GitHub cleanliness status.
+- `pnpm docs:hygiene` now reports Markdown reference counts and conservative review candidates.
+- `docs/DOCS_INDEX.md` now identifies primary source-of-truth docs and cleanup rules.
+- First docs report found 186 tracked Markdown files and 25 conservative review candidates. No Markdown files were deleted because candidates still require content review and final `rg` checks.
 
 Next session checklist:
 
 1. Run `pnpm repo:hygiene`.
-2. For docs cleanup, first build an `rg` reference list, then delete only unreferenced, superseded files.
-3. Run `pnpm verify` after any tracked cleanup.
+2. Run `pnpm docs:hygiene` before deleting or archiving Markdown files.
+3. For docs cleanup, first build an `rg` reference list, then delete only unreferenced, superseded files.
+4. Run `pnpm verify` after any tracked cleanup.

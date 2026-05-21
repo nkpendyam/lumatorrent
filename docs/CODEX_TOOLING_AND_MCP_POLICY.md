@@ -84,3 +84,5 @@ Session cleanup status should record:
 - secret-pattern scan result after config, docs, scripts, or workflow changes
 
 Use `pnpm repo:hygiene` at the start and end of cleanup sessions to print these checks consistently.
+
+For Markdown cleanup, use `pnpm docs:hygiene` and `docs/DOCS_INDEX.md` before proposing deletions.
