@@ -5,7 +5,7 @@
 An area is considered **Strong** only when it has:
 
 1. explicit architecture or design spec
-2. implementation scaffold
+2. implementation foundation
 3. test plan or automated test
 4. owner-ready tasks
 5. failure modes documented
@@ -15,13 +15,13 @@ An area is considered **Strong** only when it has:
 
 - **Weak**: idea only
 - **Light**: doc only
-- **Medium**: doc + partial scaffold
-- **Strong**: doc + scaffold + tests/scripts + backlog + risks
+- **Medium**: doc + partial implementation
+- **Strong**: doc + implementation foundation + tests/scripts + backlog + risks
 - **Production**: implemented, tested on real OS/network/user conditions
 
-## v9 goal
+## Goal
 
-Move every repo area to **Strong** as a scaffold. Do not falsely label unimplemented torrent behavior as production.
+Move every repo area to **Strong** without falsely labeling unimplemented torrent behavior as production.
 
 ## Senior review checklist
 

@@ -9,7 +9,7 @@ Expected development names:
 - `lumatorrent-native-engine-aarch64-apple-darwin`
 - `lumatorrent-native-engine-x86_64-unknown-linux-gnu`
 
-Codex task:
+Sidecar packaging tasks:
 
 1. Build native-engine in CI for each target.
 2. Copy it into `apps/desktop/src-tauri/binaries/` with Tauri-compatible target suffixes.
@@ -21,7 +21,7 @@ Do not commit large generated binaries unless the repository explicitly chooses 
 
 `icons/` contains a generated Tauri icon set based on `design/app-icon-concept.svg` so workspace checks and development packaging can compile on Windows, macOS, and Linux. Replace the generated concept with final product icons in the packaging/branding milestone.
 
-M5 lifecycle scaffold:
+Sidecar lifecycle baseline:
 
 - Frontend default remains mock mode.
 - Local sidecar mode is opt-in through development configuration.

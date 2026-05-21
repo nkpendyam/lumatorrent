@@ -1,6 +1,6 @@
 # Production Gap Register
 
-This register tracks the difference between this scaffold and a shippable production torrent client.
+This register tracks the difference between the current implementation and a shippable production torrent client.
 
 | Gap                                           | Severity | Owner          | Exit criteria                                                      |
 | --------------------------------------------- | -------: | -------------- | ------------------------------------------------------------------ |

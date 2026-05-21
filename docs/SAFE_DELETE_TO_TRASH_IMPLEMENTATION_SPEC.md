@@ -42,4 +42,4 @@ The Rust mock engine now has a manifest-gated safe delete path:
 | ---------- | -------------------------------------------------- | ------------------------------ | ------ |
 | 2026-05-15 | Windows 11 Home Single Language 10.0.26200, 64-bit | `pnpm test:engine:trash-smoke` | Pass   |
 
-Known limitation: this is wired at the engine/client contract level, but the visible remove confirmation UI still needs an exact manifest preview from real torrent metadata before end-user file deletion is production-complete. OS-specific trash QA evidence is still required on macOS and Linux before closing the final v14 safe-delete gap.
+Known limitation: this is wired at the engine/client contract level, but the visible remove confirmation UI still needs an exact manifest preview from real torrent metadata before end-user file deletion is production-complete. OS-specific trash QA evidence is still required on macOS and Linux before closing the remaining safe-delete gap.

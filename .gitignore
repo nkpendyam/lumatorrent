@@ -50,6 +50,7 @@ docs/V*_*.md
 docs/OPENAI_CODEX_CONFIG_V12.md
 docs/AUTONOMOUS_DEVELOPMENT_GUARDRAILS.md
 docs/DEEP_RESEARCH_SOURCE_MAP*.md
+docs/GITHUB*.md
 docs/MILESTONE_SHARDS_FOR_PLUS.md
 docs/PROMPTS/
 docs/SKILLS.md
@@ -58,9 +59,14 @@ docs/SKILLS.md
 .github/workflows/v12-audit.yml
 .github/workflows/v13-audit.yml
 scripts/audit-v*.mjs
+scripts/autonomous-safe-bootstrap.mjs
 scripts/bootstrap-codex.*
 scripts/codex-*.mjs
+scripts/create-github-labels.mjs
 scripts/final-*.mjs
+scripts/github-*.mjs
+scripts/github-create-and-harden.*
+scripts/init-github.*
 scripts/launch-codex.*
 scripts/preflight-for-codex-plus.mjs
 scripts/print-codex-master-plan.mjs
@@ -69,3 +75,9 @@ scripts/sync-skills-page.mjs
 scripts/v12-*.mjs
 scripts/v13-*.mjs
 scripts/verify-v*.mjs
+tools/github-labels.json
+tools/github/
+tools/production/production-gaps-v12.json
+tools/production/quality-gates-v12.json
+tools/production/v13-*.json
+tools/production/v14-*.json

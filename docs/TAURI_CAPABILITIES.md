@@ -1,4 +1,4 @@
-# Tauri Capabilities V12
+# Tauri Capabilities
 
 ## Required principle
 

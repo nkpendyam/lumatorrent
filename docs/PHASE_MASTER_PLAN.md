@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This is the master execution map for contributors. It converts the project vision into a disciplined build plan that avoids speculative rewrites, protects safety, and moves from mock scaffold to a real cross-platform torrent client.
+This is the master execution map for contributors. It converts the project vision into a disciplined build plan that avoids speculative rewrites, protects safety, and moves from mock behavior to a real cross-platform torrent client.
 
 ## Global engineering rule
 

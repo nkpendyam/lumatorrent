@@ -9,7 +9,7 @@
 - performance-budget.yml: budget guardrails
 - package-desktop.yml: package dry run
 - release-dry-run.yml: dry run releases
-- v13-audit.yml: repo scaffold audit
+- native-engine.yml: native sidecar build smoke
 
 ## Gates before merge
 

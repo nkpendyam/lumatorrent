@@ -1,20 +1,20 @@
 {
-  "version": "v11",
+  "version": "public-beta",
   "gates": [
     {
       "id": "M0",
       "name": "Environment/repo boot",
-      "status": "scaffolded"
+      "status": "planned"
     },
     {
       "id": "M1",
       "name": "Premium shell UI",
-      "status": "scaffolded"
+      "status": "planned"
     },
     {
       "id": "M2",
       "name": "Contract mock engine",
-      "status": "scaffolded"
+      "status": "planned"
     },
     {
       "id": "M3",

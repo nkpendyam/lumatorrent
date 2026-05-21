@@ -28,7 +28,6 @@ const required = [
   ".github/workflows/ci.yml",
   ".github/workflows/security.yml",
   ".github/dependabot.yml",
-  "tools/github-labels.json",
   "scripts/bootstrap.sh",
   "scripts/bootstrap.ps1",
   "scripts/doctor.mjs",

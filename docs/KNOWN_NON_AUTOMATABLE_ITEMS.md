@@ -8,5 +8,5 @@ Project automation cannot safely perform these without user-provided credentials
 - Real macOS notarization credentials.
 - Real QA on machines not accessible to the environment.
 - App store/legal review outcomes.
-- Unlimited model usage on Plus.
+- Unlimited third-party service or compute usage.
 - Bypassing permission prompts.
