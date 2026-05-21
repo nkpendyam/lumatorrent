@@ -89,7 +89,8 @@
     "audit:v14": "node scripts/audit-v14-final.mjs",
     "final:readiness": "node scripts/final-readiness-v14.mjs",
     "codex:final": "node scripts/codex-final-command-center.mjs",
-    "gap:final": "node scripts/final-gap-report-v14.mjs"
+    "gap:final": "node scripts/final-gap-report-v14.mjs",
+    "repo:hygiene": "node scripts/repo-hygiene-status.mjs"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.0.0",

@@ -246,3 +246,61 @@ Known remaining native work:
 - CMake 4.3 emits a non-fatal vcpkg/Boost developer warning for CMP0167 during libtorrent configure.
 - Real add-magnet, metadata fetching, progress alerts, resume data, and download lifecycle are still pending.
 - macOS/Linux native libtorrent builds are still unverified.
+
+## 2026-05-21 Compact Handoff
+
+Current checkout:
+
+- Branch `codex/m7-add-torrent-import` at `129ee76 feat(downloads): add mock torrent import flow`.
+- Worktree was clean at session start and remained clean after verification.
+- `origin/main` and local `main` are at `4da9e4e Merge pull request #26 from nkpendyam/codex/repo-hygiene-audit-scripts`.
+
+Important branch note:
+
+- `pnpm codex:next` still reports `Review/merge codex/verify-format-sweep (f714a06)`.
+- Do not directly merge `f714a06` into `codex/m7-add-torrent-import`: `HEAD..f714a06` would remove substantial implementation work and zero many Tauri icon binaries.
+- The format-sweep branch was previously merged into `codex/integration-completion`, but the active branch has newer implementation work.
+
+Verification on 2026-05-21:
+
+- `pnpm preflight:plus` passed.
+- `pnpm verify:v12` passed.
+- `pnpm gap:v12` still reports expected production gaps: real libtorrent lifecycle, real magnet metadata fetch, delete-to-trash production completion, mock diagnostics, signing secrets, and real OS QA.
+- `pnpm codex:context preflight` printed the expected context pack.
+- `pnpm dag:v13` printed the native critical path.
+- Full `pnpm verify` passed: structure, Prettier, lint, typecheck, and all workspace tests.
+
+Current implementation status:
+
+- Add Torrent mock import flow is present on the active branch.
+- Docs already describe native magnet and `.torrent` status in `docs/ADD_TORRENT_IMPLEMENTATION_SPEC.md` and `docs/MAGNET_METADATA_IMPLEMENTATION_SPEC.md`.
+- Remaining next real implementation shard should follow the DAG after M7: native pause/resume/remove or the smallest unfinished native metadata/download lifecycle task, after reading the V13 native-engine planning docs.
+
+## 2026-05-21 Repo Hygiene Implementation
+
+Cleanup policy chosen by the user:
+
+- Conservative cleanup.
+- Index and prune Markdown docs instead of mass-deleting them.
+- Track repo/GitHub size and cleanliness status each session.
+
+Baseline status:
+
+- Branch `codex/m7-add-torrent-import`.
+- Tracked files: 508.
+- Untracked non-ignored files: none.
+- Ignored local artifacts include dependency folders, desktop dist output, and test/build caches.
+- Quick secret-pattern scan found no obvious tracked or unignored secret strings.
+
+Implemented hygiene updates:
+
+- `.gitignore` now has explicit sections for dependencies, build/test output, local OS/editor noise, environment files, and common private key/certificate formats.
+- `docs/CODEX_TOOLING_AND_MCP_POLICY.md` now records the GitHub hygiene baseline and required cleanup status checks.
+- `docs/CODEX_TASKS.md` now marks direct merge of `codex/verify-format-sweep` into this branch as unsafe instead of a normal next task.
+- `pnpm repo:hygiene` now prints the recurring repo/GitHub cleanliness status.
+
+Next session checklist:
+
+1. Run `pnpm repo:hygiene`.
+2. For docs cleanup, first build an `rg` reference list, then delete only unreferenced, superseded files.
+3. Run `pnpm verify` after any tracked cleanup.

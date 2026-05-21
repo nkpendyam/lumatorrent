@@ -64,3 +64,23 @@ Store this in `docs/SKILLS.md` or a dedicated ADR.
 - No secrets in repo files.
 - No unreviewed network automation.
 - No remote dashboard exposure without auth.
+
+## GitHub hygiene baseline
+
+Keep GitHub focused on source, contracts, tests, product documentation, CI, and required product assets. Local dependency folders, build outputs, caches, reports, generated Tauri folders, and real environment files must stay ignored.
+
+Before deleting tracked files, verify all of the following:
+
+- `rg` finds no active references from code, scripts, docs, CI, manifests, or tests.
+- the file is not a source file, lockfile, workflow, security policy, contract, fixture, app icon, design token, or current milestone document.
+- the removal does not break `pnpm verify`.
+
+Session cleanup status should record:
+
+- current branch and `git status --short --branch`
+- tracked file count
+- untracked non-ignored files
+- largest tracked files when repo size is a concern
+- secret-pattern scan result after config, docs, scripts, or workflow changes
+
+Use `pnpm repo:hygiene` at the start and end of cleanup sessions to print these checks consistently.

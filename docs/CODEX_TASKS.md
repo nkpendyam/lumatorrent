@@ -18,12 +18,19 @@ Work in order. Do not skip safety tasks.
 
 ## Active Codex Branches
 
-- [ ] Review/merge `codex/verify-format-sweep` (`f714a06`) — Prettier sweep, full `pnpm verify` reported passing, 196 changed files.
+- [ ] Do not directly merge `codex/verify-format-sweep` (`f714a06`) into `codex/m7-add-torrent-import`.
+  - 2026-05-21 status: this branch is stale relative to active implementation work. `HEAD..f714a06` would remove substantial implementation work and zero many Tauri icon binaries. Treat this as a historical branch unless it is intentionally replayed as a formatting-only change after a fresh diff review.
 - [ ] Review/merge `codex/safe-delete-to-trash` (`1cd4e2b`) — safe delete preview model and desktop trash adapter boundary; real OS trash integration still pending.
   - 2026-05-15 local status: main dirty worktree contains a safe delete-to-trash engine boundary with targeted Rust/shared/desktop tests and contract validation passing. Review the local diff before merging or replaying the branch.
 - [ ] Review/merge `codex/magnet-metadata-state` (`c199ce8`) — magnet metadata state contract and mock-engine transitions; real libtorrent metadata fetch still pending.
 - [ ] Review/merge `codex/native-engine-health` (`0339216`) — native health contract smoke readiness.
   - 2026-05-15 local update: CMake verification is no longer blocked. Stub and libtorrent native builds pass locally on Windows.
+
+## Repo hygiene session rule
+
+- [ ] Start and end cleanup sessions with `pnpm repo:hygiene`.
+- [ ] Keep local dependency folders, build outputs, reports, caches, generated Tauri folders, and real `.env` files out of GitHub.
+- [ ] Do not delete tracked files unless `rg` shows no active references and the file is not source, CI, contracts, tests, security docs, lockfiles, fixtures, app icons, design tokens, or current milestone documentation.
 
 ## Phase 1 — UI foundation
 

@@ -1,12 +1,39 @@
+# Dependencies and package-manager caches
 node_modules/
+.pnpm-store/
+
+# Build and test output
 dist/
 build/
 target/
-.DS_Store
-.env
-.env.local
-.pnpm-store/
+coverage/
+.cache/
+.turbo/
 playwright-report/
 test-results/
 apps/desktop/src-tauri/gen/
 apps/desktop/src-tauri/target/
+
+# Local OS/editor noise
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+.envrc
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
