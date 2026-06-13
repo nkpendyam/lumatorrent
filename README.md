@@ -2,6 +2,15 @@
 
 LumaTorrent is an open-source desktop torrent client for legal file distribution. The goal is a calm, polished cross-platform app with strong file-safety defaults, a native libtorrent engine boundary, and diagnostics that explain what is happening instead of leaving users guessing.
 
+## Features
+
+- Calm, polished cross-platform desktop app built on Tauri 2 with a React/TypeScript frontend
+- Native libtorrent engine isolated behind a C++ sidecar boundary
+- Strong file-safety defaults: no auto-open of downloads, manifest-gated deletes, OS trash support
+- Local APIs bind to localhost by default
+- Honest diagnostics that explain network and disk state instead of leaving users guessing
+- Tested with Vitest, Playwright, and Cargo, enforced via GitHub Actions
+
 ## Status
 
 LumaTorrent is in active development. The desktop shell, mock engine flows, contracts, path-safety rules, and native sidecar boundary exist. Real production torrent downloading is still being built behind the native engine boundary.
@@ -37,22 +46,22 @@ tests              Fixtures and cross-cutting test data
 tools              Public project automation data
 ```
 
-## Getting Started
-
-Requirements:
+## Prerequisites
 
 - Node.js 20+
 - pnpm 9+
 - Rust toolchain
 - platform build tools for Tauri/native engine work
 
-Install and verify:
+## Installation
 
 ```bash
 corepack enable
 pnpm install
 pnpm verify
 ```
+
+## Usage
 
 Run the desktop app:
 
